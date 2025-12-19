@@ -1,10 +1,3 @@
-//
-//  MainTabBarController.swift
-//  film-box-app
-//
-//  Created by Geovane Lima on 18/12/25.
-//
-
 import UIKit
 
 final class MainTabBarController: UITabBarController {
@@ -50,6 +43,7 @@ final class MainTabBarController: UITabBarController {
         let primaryColor = UIColor(named: "primaryColor") ?? UIColor.systemBlue
         let secondaryColor = UIColor(named: "secondaryColor") ?? UIColor.gray
         let appearance = UITabBarAppearance()
+        
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = UIColor.secondarySystemBackground
         

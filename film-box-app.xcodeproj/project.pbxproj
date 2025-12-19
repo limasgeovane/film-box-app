@@ -53,11 +53,6 @@
 			path = "film-box-appTests";
 			sourceTree = "<group>";
 		};
-		FE24306F2EF4BCDC00BCA4CA /* film-box-appUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "film-box-appUITests";
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,7 +85,6 @@
 			children = (
 				FE24304E2EF4BCDA00BCA4CA /* film-box-app */,
 				FE2430652EF4BCDC00BCA4CA /* film-box-appTests */,
-				FE24306F2EF4BCDC00BCA4CA /* film-box-appUITests */,
 				FE24304D2EF4BCDA00BCA4CA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -165,9 +159,6 @@
 			);
 			dependencies = (
 				FE24306E2EF4BCDC00BCA4CA /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				FE24306F2EF4BCDC00BCA4CA /* film-box-appUITests */,
 			);
 			name = "film-box-appUITests";
 			packageProductDependencies = (
