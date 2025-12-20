@@ -1,12 +1,10 @@
 import UIKit
 
 final class MainTabBarController: UITabBarController {
-    // private let moviesViewController = MoviesFactory.make()
-    private let moviesViewController = SearchMoviesFactory.make()
+    private let moviesViewController = MoviesFactory.make()
     private let favoriteMoviesViewController = FavoriteMoviesFactory.make()
     
     private lazy var moviesNavigationController = UINavigationController(rootViewController: moviesViewController)
-    // private lazy var moviesNavigationController = UINavigationController(rootViewController: moviesViewController)
     private lazy var favoriteMoviesNavigationController = UINavigationController(rootViewController: favoriteMoviesViewController)
     
     override func viewDidLoad() {

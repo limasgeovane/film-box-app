@@ -5,7 +5,7 @@ protocol SearchMoviesViewLogic: UIView {
 }
 
 class SearchMoviesView: UIView {
-    private let search: UITextField = {
+    private let searchMovieTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.attributedPlaceholder = NSAttributedString(
@@ -25,7 +25,7 @@ class SearchMoviesView: UIView {
         return textField
     }()
     
-    private let button: UIButton = {
+    private let searchMovieButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(String(localized: "searchMoviesButton"), for: .normal)
@@ -35,8 +35,8 @@ class SearchMoviesView: UIView {
         return button
     }()
     
-    private lazy var searchStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [search, button])
+    private lazy var searchMovieStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [searchMovieTextField, searchMovieButton])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.distribution = .fillProportionally
@@ -46,34 +46,38 @@ class SearchMoviesView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
-        setupUIConstraints()
+        setupViewHierarchy()
+        setupViewAttributes()
+        setupLayout()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupUI() {
-        backgroundColor = .systemBackground
-        addSubview(searchStackView)
+    private func setupViewHierarchy() {
+        addSubview(searchMovieStackView)
     }
     
-    private func setupUIConstraints() {
+    private func setupViewAttributes() {
+        backgroundColor = .systemBackground
+    }
+    
+    private func setupLayout() {
         NSLayoutConstraint.activate([
-            searchStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            searchStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            searchStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            searchStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            searchMovieStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            searchMovieStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            searchMovieStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            searchMovieStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             
-            search.heightAnchor.constraint(equalToConstant: 48),
-            button.heightAnchor.constraint(equalToConstant: 48)
+            searchMovieTextField.heightAnchor.constraint(equalToConstant: 48),
+            searchMovieButton.heightAnchor.constraint(equalToConstant: 48)
         ])
     }
 }
 
 extension SearchMoviesView: SearchMoviesViewLogic {
     func focusSearch() {
-        search.becomeFirstResponder()
+        searchMovieButton.becomeFirstResponder()
     }
 }
