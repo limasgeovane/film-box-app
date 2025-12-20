@@ -65,6 +65,7 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
         containerView.addSubview(ratingLabel)
         containerView.addSubview(overviewLabel)
     }
+    
     private func setupViewAttributes() {
         backgroundColor = .systemBackground
     }

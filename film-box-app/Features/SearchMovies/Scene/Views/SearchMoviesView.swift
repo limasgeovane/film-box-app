@@ -12,7 +12,7 @@ class SearchMoviesView: UIView {
             string: String(localized: "searchMoviesTextField"),
             attributes: [
                 .foregroundColor: UIColor.secondaryLabel,
-                .font: UIFont.secondary,
+                .font: .secondary,
             ]
         )
         textField.backgroundColor = .secondarySystemBackground

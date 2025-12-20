@@ -1,6 +1,6 @@
 import UIKit
 
-protocol FavoriteMoviesViewLogic: UIView, AnyObject {
+protocol FavoriteMoviesViewLogic: UIView {
     var favoriteMovies: [FavoriteMoviesDisplayModel] { get set }
 }
 

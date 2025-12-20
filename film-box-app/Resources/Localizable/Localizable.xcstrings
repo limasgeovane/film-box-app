@@ -18,6 +18,23 @@
         }
       }
     },
+    "movieDetailsTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Details"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detalhes"
+          }
+        }
+      }
+    },
     "movieRating" : {
       "extractionState" : "manual",
       "localizations" : {

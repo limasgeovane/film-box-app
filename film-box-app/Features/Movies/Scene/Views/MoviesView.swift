@@ -1,6 +1,6 @@
 import UIKit
 
-protocol MoviesViewLogic: UIView, AnyObject {
+protocol MoviesViewLogic: UIView {
     var movies: [MovieDisplayModel] { get set }
 }
 

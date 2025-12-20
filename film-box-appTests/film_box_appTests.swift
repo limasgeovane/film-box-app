@@ -1,10 +1,3 @@
-//
-//  film_box_appTests.swift
-//  film-box-appTests
-//
-//  Created by Geovane Lima on 18/12/25.
-//
-
 import XCTest
 @testable import film_box_app
 

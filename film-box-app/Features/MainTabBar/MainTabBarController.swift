@@ -9,7 +9,6 @@ final class MainTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupTitles()
         setupTabBar()
         setupTabBarAppearance()
