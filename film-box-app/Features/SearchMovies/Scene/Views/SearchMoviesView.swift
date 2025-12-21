@@ -1,10 +1,23 @@
 import UIKit
 
+protocol SearchMoviesViewDelegate: AnyObject {
+    func searchPressed(query: String)
+}
+
 protocol SearchMoviesViewLogic: UIView {
+    var delegate: SearchMoviesViewDelegate? { get set }
+    
     func focusSearch()
+    func changeState(state: SearchMoviesView.State)
 }
 
 class SearchMoviesView: UIView {
+    enum State {
+        case content
+        case loading
+        case error
+    }
+    
     private let searchMovieTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -44,7 +57,7 @@ class SearchMoviesView: UIView {
         return stackView
     }()
     
-    private let resultView: UIView = {
+    private let errorView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .secondarySystemBackground
@@ -64,7 +77,7 @@ class SearchMoviesView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .secondary
-        label.text = "Sucesso ao buscar filmes"
+        label.text = "Erro ao buscar filmes"
         return label
     }()
     
@@ -90,8 +103,8 @@ class SearchMoviesView: UIView {
     
     private func setupViewHierarchy() {
         addSubview(searchMovieStackView)
-        addSubview(resultView)
-        resultView.addSubview(resultStackView)
+        addSubview(errorView)
+        errorView.addSubview(resultStackView)
     }
     
     private func setupViewAttributes() {
@@ -107,13 +120,13 @@ class SearchMoviesView: UIView {
             searchMovieTextField.heightAnchor.constraint(equalToConstant: 48),
             searchMovieButton.heightAnchor.constraint(equalToConstant: 48),
             
-            resultView.topAnchor.constraint(equalTo: searchMovieStackView.bottomAnchor, constant: 16),
-            resultView.centerXAnchor.constraint(equalTo: searchMovieStackView.centerXAnchor),
-            resultView.widthAnchor.constraint(equalTo: searchMovieStackView.widthAnchor),
-            resultView.heightAnchor.constraint(equalToConstant: 48),
+            errorView.topAnchor.constraint(equalTo: searchMovieStackView.bottomAnchor, constant: 16),
+            errorView.centerXAnchor.constraint(equalTo: searchMovieStackView.centerXAnchor),
+            errorView.widthAnchor.constraint(equalTo: searchMovieStackView.widthAnchor),
+            errorView.heightAnchor.constraint(equalToConstant: 48),
             
-            resultStackView.centerXAnchor.constraint(equalTo: resultView.centerXAnchor),
-            resultStackView.centerYAnchor.constraint(equalTo: resultView.centerYAnchor),
+            resultStackView.centerXAnchor.constraint(equalTo: errorView.centerXAnchor),
+            resultStackView.centerYAnchor.constraint(equalTo: errorView.centerYAnchor),
             
             resultImage.widthAnchor.constraint(equalToConstant: 24),
             resultImage.heightAnchor.constraint(equalToConstant: 24)
@@ -122,6 +135,19 @@ class SearchMoviesView: UIView {
 }
 
 extension SearchMoviesView: SearchMoviesViewLogic {
+    var delegate: (any SearchMoviesViewDelegate)? {
+        get {
+            <#code#>
+        }
+        set {
+            <#code#>
+        }
+    }
+    
+    func changeState(state: State) {
+        <#code#>
+    }
+    
     func focusSearch() {
         searchMovieTextField.becomeFirstResponder()
     }
