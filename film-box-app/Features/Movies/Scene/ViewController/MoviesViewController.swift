@@ -18,7 +18,23 @@ class MoviesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavigation()
         contentView.movies = makeDisplayModels()
+    }
+        
+    private func setupNavigation() {
+        let image = UIImage(systemName: "magnifyingglass")
+        let searchButton = UIBarButtonItem(
+            image: image,
+            style: .plain,
+            target: self,
+            action: #selector(searchButtonPressed)
+        )
+        navigationItem.rightBarButtonItem = searchButton
+    }
+    
+    @objc private func searchButtonPressed() {
+        print("Clicou na lupa")
     }
     
     private func makeMoviesMock() -> [Movie] {

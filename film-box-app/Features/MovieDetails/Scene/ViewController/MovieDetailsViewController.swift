@@ -19,9 +19,34 @@ class MovieDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = String(localized: "movieDetailsTitle")
+        setupNavigation()
         makeMovieDetailsMock()
     }
     
+    private func setupNavigation() {
+        let favoriteButton = UIBarButtonItem(
+            image: UIImage(systemName: "star"),
+            style: .plain,
+            target: self,
+            action: #selector(favoriteButtonPressed)
+        )
+        navigationItem.rightBarButtonItem = favoriteButton
+    }
+        
+    @objc private func favoriteButtonPressed() {
+        guard let button = navigationItem.rightBarButtonItem else { return }
+
+        if button.image == UIImage(systemName: "star") {
+            button.image = UIImage(systemName: "star.fill")
+            button.tintColor = UIColor(named: "primaryColor") ?? .systemBlue
+            // interactor.requestFavoriteMovie()
+        } else {
+            button.image = UIImage(systemName: "star")
+            button.tintColor = UIColor.label
+            // interactor.requestUnfavoriteMovie()
+        }
+    }
+
     private func makeMovieDetailsMock() {
         let displayModel = MovieDetailsDisplayModel(
             backdropPath: "backdrop_path",
