@@ -24,7 +24,7 @@ class FavoriteMoviesViewController: UIViewController {
     private func makeMoviesMock() -> [FavoriteMovies] {
         return (1...4).map { index in
             FavoriteMovies(
-                posterImageName: "image-filme-mock",
+                posterImageName: "no-image",
                 originalTitle: "Movie Title \(index)",
                 voteAverage: Double(index),
                 overview: "This is a mock overview for movie number \(index). It exists only to test scrolling, line wrapping and cell height behavior in the Movies screen"

@@ -1,6 +1,23 @@
 {
   "sourceLanguage" : "pt-BR",
   "strings" : {
+    "emptyFieldError" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Movie name is missing"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nome do filme não informado"
+          }
+        }
+      }
+    },
     "favorites" : {
       "extractionState" : "manual",
       "localizations" : {

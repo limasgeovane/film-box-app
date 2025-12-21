@@ -3,10 +3,16 @@ import UIKit
 class MoviesViewController: UIViewController {
     private let contentView: MoviesViewLogic
     private let router: MoviesRouterLogic
+    private var movies: [MovieDisplayModel]
     
-    init(contentView: MoviesViewLogic, router: MoviesRouterLogic) {
+    init(
+        contentView: MoviesViewLogic,
+        router: MoviesRouterLogic,
+        movies: [MovieDisplayModel]
+    ) {
         self.contentView = contentView
         self.router = router
+        self.movies = movies
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -16,12 +22,12 @@ class MoviesViewController: UIViewController {
     
     override func loadView() {
         view = contentView
+        contentView.movies = movies
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigation()
-        contentView.movies = makeDisplayModels()
     }
         
     private func setupNavigation() {
@@ -37,20 +43,5 @@ class MoviesViewController: UIViewController {
     
     @objc private func searchButtonPressed() {
         router.openSearchMovies()
-    }
-    
-    private func makeMoviesMock() -> [Movies] {
-        return (1...15).map { index in
-            Movies(
-                posterImageName: "image-filme-mock",
-                originalTitle: "Movie Title \(index)",
-                voteAverage: Double(index),
-                overview: "This is a mock overview for movie number \(index). It exists only to test scrolling, line wrapping and cell height behavior in the Movies screen"
-            )
-        }
-    }
-    
-    private func makeDisplayModels() -> [MovieDisplayModel] {
-        makeMoviesMock().map { MovieDisplayModel(movie: $0) }
     }
 }

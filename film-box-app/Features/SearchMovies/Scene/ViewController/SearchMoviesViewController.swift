@@ -1,10 +1,21 @@
 import UIKit
 
+protocol SearchMoviesViewControllerLogic: AnyObject {
+    func displayLoading()
+    func displayMovies(movies: [MovieDisplayModel])
+    func displayError()
+}
+
 class SearchMoviesViewController: UIViewController {
+    private let interactor: SearchMoviesInteractorLogic
     private let contentView: SearchMoviesViewLogic
     
-    init(contentView: SearchMoviesViewLogic) {
+    init(
+        interactor: SearchMoviesInteractorLogic,
+        contentView: SearchMoviesViewLogic
+    ) {
         self.contentView = contentView
+        self.interactor = interactor
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -19,7 +30,9 @@ class SearchMoviesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = String(localized: "searchMoviesTitle")
+        contentView.delegate = self
         setupDismissKeyboard()
+        contentView.changeState(state: .content)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -35,5 +48,27 @@ class SearchMoviesViewController: UIViewController {
     
     @objc private func dismissKeyboard() {
         view.endEditing(true)
+    }
+}
+
+extension SearchMoviesViewController: SearchMoviesViewControllerLogic {
+    func displayLoading() {
+        contentView.changeState(state: .loading)
+    }
+    
+    func displayMovies(movies: [MovieDisplayModel]) {
+        contentView.changeState(state: .content)
+        let moviesViewController = MoviesFactory.make(movies: movies)
+        navigationController?.pushViewController(moviesViewController, animated: true)
+    }
+    
+    func displayError() {
+        contentView.changeState(state: .error)
+    }
+}
+
+extension SearchMoviesViewController: SearchMoviesViewDelegate {
+    func searchPressed(query: String) {
+        interactor.requestSearchMovies(query: query)
     }
 }

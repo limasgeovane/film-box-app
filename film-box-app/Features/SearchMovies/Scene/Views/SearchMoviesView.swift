@@ -38,13 +38,14 @@ class SearchMoviesView: UIView {
         return textField
     }()
     
-    private let searchMovieButton: UIButton = {
+    private lazy var searchMovieButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(String(localized: "searchMoviesButton"), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .primary
         button.layer.cornerRadius = 8
+        button.addTarget(nil, action: #selector(searchButtonPressed), for: .touchUpInside)
         return button
     }()
     
@@ -57,6 +58,12 @@ class SearchMoviesView: UIView {
         return stackView
     }()
     
+    private let loadingView: LoadingView = {
+        let view = LoadingView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private let errorView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -65,30 +72,34 @@ class SearchMoviesView: UIView {
         return view
     }()
     
-    private let resultImage: UIImageView = {
+    private let errorImage: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.contentMode = .scaleAspectFit
-        image.image = UIImage(systemName: "checkmark.circle.fill")
+        image.image = UIImage(systemName: "xmark.circle.fill")
+        image.tintColor = .systemRed
         return image
     }()
     
-    private let resultLabel: UILabel = {
+    private let errorLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .secondary
+        label.font = .primary
         label.text = "Erro ao buscar filmes"
+        label.textColor = .systemRed
         return label
     }()
     
     private lazy var resultStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [resultImage, resultLabel])
+        let stackView = UIStackView(arrangedSubviews: [errorImage, errorLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.spacing = 8
         return stackView
     }()
+    
+    weak var delegate: SearchMoviesViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -128,24 +139,36 @@ class SearchMoviesView: UIView {
             resultStackView.centerXAnchor.constraint(equalTo: errorView.centerXAnchor),
             resultStackView.centerYAnchor.constraint(equalTo: errorView.centerYAnchor),
             
-            resultImage.widthAnchor.constraint(equalToConstant: 24),
-            resultImage.heightAnchor.constraint(equalToConstant: 24)
+            errorImage.widthAnchor.constraint(equalToConstant: 24),
+            errorImage.heightAnchor.constraint(equalToConstant: 24)
         ])
+    }
+    
+    @objc private func searchButtonPressed() {
+        guard let query = searchMovieTextField.text, !query.isEmpty else {
+            errorView.isHidden = false
+            errorLabel.text = String(localized: "emptyFieldError")
+            return
+        }
+        
+        errorView.isHidden = true
+        delegate?.searchPressed(query: query)
     }
 }
 
 extension SearchMoviesView: SearchMoviesViewLogic {
-    var delegate: (any SearchMoviesViewDelegate)? {
-        get {
-            <#code#>
-        }
-        set {
-            <#code#>
-        }
-    }
-    
     func changeState(state: State) {
-        <#code#>
+        switch state {
+        case .content:
+            loadingView.isHidden = true
+            errorView.isHidden = true
+        case .loading:
+            loadingView.isHidden = false
+            errorView.isHidden = true
+        case .error:
+            loadingView.isHidden = true
+            errorView.isHidden = false
+        }
     }
     
     func focusSearch() {
