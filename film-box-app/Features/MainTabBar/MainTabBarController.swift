@@ -2,8 +2,7 @@ import UIKit
 
 final class MainTabBarController: UITabBarController {
     private let moviesViewController = MoviesFactory.make()
-    // private let favoriteMoviesViewController = FavoriteMoviesFactory.make()
-    private let favoriteMoviesViewController = MoviesDetailsFactory.make()
+    private let favoriteMoviesViewController = FavoriteMoviesFactory.make()
     
     private lazy var moviesNavigationController = UINavigationController(rootViewController: moviesViewController)
     private lazy var favoriteMoviesNavigationController = UINavigationController(rootViewController: favoriteMoviesViewController)

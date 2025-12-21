@@ -37,9 +37,9 @@ class MoviesViewController: UIViewController {
         print("Clicou na lupa")
     }
     
-    private func makeMoviesMock() -> [Movie] {
+    private func makeMoviesMock() -> [Movies] {
         return (1...15).map { index in
-            Movie(
+            Movies(
                 posterImageName: "image-filme-mock",
                 originalTitle: "Movie Title \(index)",
                 voteAverage: Double(index),

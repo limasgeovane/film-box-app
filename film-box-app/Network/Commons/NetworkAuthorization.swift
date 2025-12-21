@@ -1,0 +1,3 @@
+enum NetworkAuthorization {
+    static let bearerToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4NGI1YzAwNTMwNjVkM2IzNjViNTA1OWE2NjU3YTUwNSIsIm5iZiI6MTc2NjI5MTg4My42NTY5OTk4LCJzdWIiOiI2OTQ3NzlhYjNhYzExM2ZhODMwNzJkNzAiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.p35drlUBChugsh2hGT46B0Rekt6uHcCph6z_N1CO7bA"
+}

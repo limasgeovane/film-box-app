@@ -6,7 +6,7 @@ struct MovieDisplayModel {
     let ratingText: String
     let overview: String
     
-    init(movie: Movie) {
+    init(movie: Movies) {
         self.posterImageName = movie.posterImageName
         self.title = movie.originalTitle
         self.ratingText = "\(String(localized: "movieRating")): \(movie.voteAverage)"
