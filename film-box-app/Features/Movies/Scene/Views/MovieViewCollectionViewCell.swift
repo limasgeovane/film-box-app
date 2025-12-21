@@ -75,12 +75,13 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
             contentView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32),
             
             movieCardView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            movieCardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            movieCardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            movieCardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            movieCardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             movieCardView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             
             posterImageView.topAnchor.constraint(equalTo: movieCardView.topAnchor, constant: 8),
             posterImageView.leadingAnchor.constraint(equalTo: movieCardView.leadingAnchor, constant: 16),
+            posterImageView.bottomAnchor.constraint(lessThanOrEqualTo: movieCardView.bottomAnchor, constant: -8),
             posterImageView.widthAnchor.constraint(equalToConstant: 90),
             posterImageView.heightAnchor.constraint(equalToConstant: 130),
             

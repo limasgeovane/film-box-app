@@ -74,12 +74,13 @@ class FavoriteMoviesViewCollectionViewCell: UICollectionViewCell {
             contentView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32),
             
             favoriteMovieCardView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            favoriteMovieCardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            favoriteMovieCardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            favoriteMovieCardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            favoriteMovieCardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             favoriteMovieCardView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             
             posterImageView.topAnchor.constraint(equalTo: favoriteMovieCardView.topAnchor, constant: 8),
             posterImageView.leadingAnchor.constraint(equalTo: favoriteMovieCardView.leadingAnchor, constant: 16),
+            posterImageView.bottomAnchor.constraint(lessThanOrEqualTo: favoriteMovieCardView.bottomAnchor, constant: -8),
             posterImageView.widthAnchor.constraint(equalToConstant: 90),
             posterImageView.heightAnchor.constraint(equalToConstant: 130),
             

@@ -14,9 +14,9 @@ class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDeleg
     private lazy var favoriteMoviesCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
+        layout.sectionInset = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
         layout.minimumLineSpacing = 8
-        layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-        layout.estimatedItemSize = CGSize(width: UIScreen.main.bounds.width - 32, height: 200)
+        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
