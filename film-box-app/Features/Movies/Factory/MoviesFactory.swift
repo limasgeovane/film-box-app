@@ -2,7 +2,14 @@ import UIKit
 
 enum MoviesFactory {
     static func make() -> UIViewController {
-        let viewControler = MoviesViewController(contentView: MoviesView())
-        return viewControler
+        let router = MoviesRouter()
+        let viewController = MoviesViewController(
+            contentView: MoviesView(),
+            router: router
+        )
+        
+        router.viewController = viewController
+    
+        return viewController
     }
 }

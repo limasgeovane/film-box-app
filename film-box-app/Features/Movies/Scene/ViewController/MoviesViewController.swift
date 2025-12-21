@@ -2,9 +2,11 @@ import UIKit
 
 class MoviesViewController: UIViewController {
     private let contentView: MoviesViewLogic
+    private let router: MoviesRouterLogic
     
-    init(contentView: MoviesViewLogic) {
+    init(contentView: MoviesViewLogic, router: MoviesRouterLogic) {
         self.contentView = contentView
+        self.router = router
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -34,7 +36,7 @@ class MoviesViewController: UIViewController {
     }
     
     @objc private func searchButtonPressed() {
-        print("Clicou na lupa")
+        router.openSearchMovies()
     }
     
     private func makeMoviesMock() -> [Movies] {

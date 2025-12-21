@@ -3,7 +3,7 @@ import UIKit
 class FavoriteMoviesViewCollectionViewCell: UICollectionViewCell {
     static let identifier: String = "FavoriteMoviesViewCollectionViewCell"
     
-    private let containerView: UIView = {
+    private let favoriteMovieCardView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .secondarySystemBackground
@@ -59,11 +59,11 @@ class FavoriteMoviesViewCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupViewHierarchy() {
-        contentView.addSubview(containerView)
-        containerView.addSubview(posterImageView)
-        containerView.addSubview(titleLabel)
-        containerView.addSubview(ratingLabel)
-        containerView.addSubview(overviewLabel)
+        contentView.addSubview(favoriteMovieCardView)
+        favoriteMovieCardView.addSubview(posterImageView)
+        favoriteMovieCardView.addSubview(titleLabel)
+        favoriteMovieCardView.addSubview(ratingLabel)
+        favoriteMovieCardView.addSubview(overviewLabel)
     }
     private func setupViewAttributes() {
         backgroundColor = .systemBackground
@@ -73,19 +73,19 @@ class FavoriteMoviesViewCollectionViewCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             contentView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32),
             
-            containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            favoriteMovieCardView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            favoriteMovieCardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            favoriteMovieCardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            favoriteMovieCardView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             
-            posterImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
-            posterImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+            posterImageView.topAnchor.constraint(equalTo: favoriteMovieCardView.topAnchor, constant: 8),
+            posterImageView.leadingAnchor.constraint(equalTo: favoriteMovieCardView.leadingAnchor, constant: 16),
             posterImageView.widthAnchor.constraint(equalToConstant: 90),
             posterImageView.heightAnchor.constraint(equalToConstant: 130),
             
-            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
+            titleLabel.topAnchor.constraint(equalTo: favoriteMovieCardView.topAnchor, constant: 8),
             titleLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 8),
-            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
+            titleLabel.trailingAnchor.constraint(equalTo: favoriteMovieCardView.trailingAnchor, constant: -16),
             
             ratingLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             ratingLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
@@ -96,7 +96,7 @@ class FavoriteMoviesViewCollectionViewCell: UICollectionViewCell {
             overviewLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
         ])
         
-        let bottomConstraint = overviewLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8)
+        let bottomConstraint = overviewLabel.bottomAnchor.constraint(equalTo: favoriteMovieCardView.bottomAnchor, constant: -8)
         bottomConstraint.priority = .defaultHigh
         bottomConstraint.isActive = true
     }

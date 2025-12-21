@@ -5,7 +5,7 @@ protocol MovieDetailsViewLogic: UIView {
 }
 
 class MovieDetailsView: UIView, MovieDetailsViewLogic {
-    private let containerView: UIView = {
+    private let movieDetailsCardView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .secondarySystemBackground
@@ -109,8 +109,8 @@ class MovieDetailsView: UIView, MovieDetailsViewLogic {
     }
     
     private func setupViewHierarchy() {
-        addSubview(containerView)
-        containerView.addSubview(mainStackView)
+        addSubview(movieDetailsCardView)
+        movieDetailsCardView.addSubview(mainStackView)
     }
     
     private func setupViewAttributes() {
@@ -119,14 +119,14 @@ class MovieDetailsView: UIView, MovieDetailsViewLogic {
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            containerView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            containerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            containerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            movieDetailsCardView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            movieDetailsCardView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            movieDetailsCardView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             
-            mainStackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16),
-            mainStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-            mainStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-            mainStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16),
+            mainStackView.topAnchor.constraint(equalTo: movieDetailsCardView.topAnchor, constant: 16),
+            mainStackView.leadingAnchor.constraint(equalTo: movieDetailsCardView.leadingAnchor, constant: 16),
+            mainStackView.trailingAnchor.constraint(equalTo: movieDetailsCardView.trailingAnchor, constant: -16),
+            mainStackView.bottomAnchor.constraint(equalTo: movieDetailsCardView.bottomAnchor, constant: -16),
             
             backdropPathImageView.heightAnchor.constraint(equalToConstant: 200)
         ])
