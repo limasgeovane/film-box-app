@@ -1,38 +1,38 @@
 import UIKit
 
+protocol FavoriteMoviesViewControllerLogic: AnyObject {
+    func displayFavoriteMovies(viewModel: [FavoriteMoviesDisplayModel])
+    func displayEmptyState()
+}
+
 class FavoriteMoviesViewController: UIViewController {
+    private let interactor: FavoriteMoviesInteractorLogic
     private let contentView: FavoriteMoviesViewLogic
     
-    init(contentView: FavoriteMoviesViewLogic) {
+    init(interactor: FavoriteMoviesInteractorLogic, contentView: FavoriteMoviesViewLogic) {
+        self.interactor = interactor
         self.contentView = contentView
         super.init(nibName: nil, bundle: nil)
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
     override func loadView() {
         view = contentView
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        contentView.favoriteMovies = makeDisplayModels()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        interactor.requestFavoriteMovies()
+    }
+}
+
+extension FavoriteMoviesViewController: FavoriteMoviesViewControllerLogic {
+    func displayFavoriteMovies(viewModel: [FavoriteMoviesDisplayModel]) {
+        contentView.favoriteMovies = viewModel
     }
     
-    private func makeMoviesMock() -> [FavoriteMovies] {
-        return (1...4).map { index in
-            FavoriteMovies(
-                posterImageName: "no-image",
-                originalTitle: "Movie Title \(index)",
-                voteAverage: Double(index),
-                overview: "This is a mock overview for movie number \(index). It exists only to test scrolling, line wrapping and cell height behavior in the Movies screen"
-            )
-        }
-    }
-    
-    private func makeDisplayModels() -> [FavoriteMoviesDisplayModel] {
-        makeMoviesMock().map { FavoriteMoviesDisplayModel(favoriteMovies: $0) }
+    func displayEmptyState() {
+        contentView.favoriteMovies = []
     }
 }

@@ -1,15 +1,18 @@
 import UIKit
 
 class MoviesViewController: UIViewController {
+    private let interactor: MoviesInteractorLogic
     private let contentView: MoviesViewLogic
     private let router: MoviesRouterLogic
     private var movies: [MovieDisplayModel]
     
     init(
+        interactor: MoviesInteractorLogic,
         contentView: MoviesViewLogic,
         router: MoviesRouterLogic,
         movies: [MovieDisplayModel]
     ) {
+        self.interactor = interactor
         self.contentView = contentView
         self.router = router
         self.movies = movies
@@ -58,16 +61,13 @@ extension MoviesViewController: MoviesViewDelegate {
 extension MoviesViewController: MovieViewCollectionViewCellDelegate {
     func didTapFavorite(movieId: Int) {
         guard let index = movies.firstIndex(where: { $0.id == movieId }) else { return }
+        
         movies[index].isFavorite.toggle()
         
-        if let moviesView = contentView as? MoviesView {
-            moviesView.reloadMovieCell(index: index)
-        }
-        
         if movies[index].isFavorite {
-            // interactor.favoriteMovie(movieId: movieId)
+            interactor.favoriteMovie(movieId: movieId)
         } else {
-            // interactor.unfavoriteMovie(movieId: movieId)
+            interactor.unfavoriteMovie(movieId: movieId)
         }
     }
 }

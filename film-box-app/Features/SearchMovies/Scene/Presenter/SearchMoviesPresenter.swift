@@ -10,8 +10,12 @@ final class SearchMoviesPresenter: SearchMoviesPresenterLogic {
     weak var display: SearchMoviesViewControllerLogic?
     
     func responseMovies(movies: [Movie]) {
-        let displayModels = movies.map { movie in
-            MovieDisplayModel(
+        let favoritesRepository = FavoriteMoviesRepository()
+        
+        let displayModels: [MovieDisplayModel] = movies.map { movie in
+            let isFavorite = favoritesRepository.isMovieFavorite(id: movie.id)
+            
+            return MovieDisplayModel(
                 id: movie.id,
                 posterImageName: movie.posterPath,
                 title: movie.title,
@@ -26,10 +30,10 @@ final class SearchMoviesPresenter: SearchMoviesPresenterLogic {
                     if let overview = movie.overview, !overview.isEmpty {
                         return overview
                     } else {
-                        return (String(localized: "noOverviewAvailable"))
+                        return String(localized: "noOverviewAvailable")
                     }
                 }(),
-                isFavorite: true
+                isFavorite: isFavorite
             )
         }
         

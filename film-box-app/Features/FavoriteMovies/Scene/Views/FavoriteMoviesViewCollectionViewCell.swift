@@ -3,6 +3,8 @@ import UIKit
 class FavoriteMoviesViewCollectionViewCell: UICollectionViewCell {
     static let identifier: String = "FavoriteMoviesViewCollectionViewCell"
     
+    private var movieId: Int?
+    
     private let favoriteMovieCardView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -103,7 +105,8 @@ class FavoriteMoviesViewCollectionViewCell: UICollectionViewCell {
     }
     
     func configureCell(displayModel: FavoriteMoviesDisplayModel) {
-        posterImageView.image = UIImage(named: displayModel.posterImageName)
+        movieId = displayModel.id
+        posterImageView.loadTMDBImage(path: displayModel.posterImageName)
         titleLabel.text = displayModel.title
         ratingLabel.text = displayModel.ratingText
         overviewLabel.text = displayModel.overview
