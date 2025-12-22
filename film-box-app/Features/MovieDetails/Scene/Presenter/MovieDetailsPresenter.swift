@@ -14,7 +14,13 @@ final class MovieDetailsPresenter: MovieDetailsPresenterLogic {
             backdropPath: movieDetails.backdropPath,
             originalTitle: movieDetails.originalTitle,
             title: movieDetails.title,
-            overview: movieDetails.overview,
+            overview: {
+                if let overview = movieDetails.overview, !overview.isEmpty {
+                    return overview
+                } else {
+                    return (String(localized: "noOverviewAvailable"))
+                }
+            }(),
             releaseDate: "\(movieDetails.releaseDate.usLongDate)",
             budget: {
                 if let budget = movieDetails.budget, budget > 0 {

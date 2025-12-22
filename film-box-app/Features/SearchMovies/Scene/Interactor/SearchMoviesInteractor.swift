@@ -20,8 +20,8 @@ final class SearchMoviesInteractor {
         repository.fetchMovies(query: query) { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .success(let response):
-                self.presenter.responseMovies(movies: response.results)
+            case .success(let movies):
+                self.presenter.responseMovies(movies: movies.results)
             case .failure:
                 self.presenter.responseError()
             }

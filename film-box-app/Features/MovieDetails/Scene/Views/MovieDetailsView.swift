@@ -38,7 +38,6 @@ class MovieDetailsView: UIView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 8
-        imageView.backgroundColor = .systemGray5
         return imageView
     }()
     
@@ -197,9 +196,11 @@ extension MovieDetailsView: MovieDetailsViewLogic {
         if displayModel.backdropPath == nil {
             backdropPathImageView.image = UIImage(named: "no-image")
             backdropPathImageView.contentMode = .scaleAspectFit
+            backdropPathImageView.backgroundColor = .clear
         } else {
             backdropPathImageView.loadTMDBImage(path: displayModel.backdropPath)
             backdropPathImageView.contentMode = .scaleAspectFill
+            backdropPathImageView.backgroundColor = .systemGray5
         }
         originalTitleLabel.text = displayModel.originalTitle
         titleLabel.text = displayModel.title

@@ -77,6 +77,7 @@ class SearchMoviesView: UIView {
         setupViewHierarchy()
         setupViewAttributes()
         setupLayout()
+        searchMovieTextField.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -144,5 +145,13 @@ extension SearchMoviesView: SearchMoviesViewLogic {
     
     func focusSearch() {
         searchMovieTextField.becomeFirstResponder()
+    }
+}
+
+extension SearchMoviesView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        searchButtonPressed()
+        textField.resignFirstResponder()
+        return true
     }
 }

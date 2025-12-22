@@ -2,7 +2,7 @@ struct MovieDetails: Decodable {
     let backdropPath: String?
     let originalTitle: String
     let title: String
-    let overview: String
+    let overview: String?
     let releaseDate: String
     let budget: Int?
     let revenue: Int?
