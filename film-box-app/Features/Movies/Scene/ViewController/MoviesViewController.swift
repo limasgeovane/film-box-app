@@ -1,18 +1,25 @@
 import UIKit
 
+protocol MoviesViewControllerLogic: AnyObject {
+    func displayMovies(movies: [MovieDisplayModel])
+}
+
 class MoviesViewController: UIViewController {
     private let interactor: MoviesInteractorLogic
+    private let presenter: MoviesPresenter
     private let contentView: MoviesViewLogic
     private let router: MoviesRouterLogic
     private var movies: [MovieDisplayModel]
     
     init(
         interactor: MoviesInteractorLogic,
+        presenter: MoviesPresenter,
         contentView: MoviesViewLogic,
         router: MoviesRouterLogic,
         movies: [MovieDisplayModel]
     ) {
         self.interactor = interactor
+        self.presenter = presenter
         self.contentView = contentView
         self.router = router
         self.movies = movies
@@ -64,10 +71,19 @@ extension MoviesViewController: MovieViewCollectionViewCellDelegate {
         
         movies[index].isFavorite.toggle()
         
-        if movies[index].isFavorite {
-            interactor.favoriteMovie(movieId: movieId)
+        let movie = movies[index]
+        
+        if movie.isFavorite {
+            interactor.favoriteMovie(movie: movie)
         } else {
-            interactor.unfavoriteMovie(movieId: movieId)
+            interactor.unfavoriteMovie(movieId: movie.id)
         }
+    }
+}
+
+extension MoviesViewController: MoviesViewControllerLogic {
+    func displayMovies(movies: [MovieDisplayModel]) {
+        self.movies = movies
+        contentView.movies = movies
     }
 }

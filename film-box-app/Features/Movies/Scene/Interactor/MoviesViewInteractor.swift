@@ -1,22 +1,16 @@
 protocol MoviesInteractorLogic {
-    func favoriteMovie(movieId: Int)
+    func favoriteMovie(movie: MovieDisplayModel)
     func unfavoriteMovie(movieId: Int)
 }
 
 final class MoviesInteractor: MoviesInteractorLogic {
-    private var movies: [MovieDisplayModel]
     private let favoriteMoviesRepository: FavoriteMoviesRepositoryLogic
     
-    init(
-        movies: [MovieDisplayModel],
-        favoriteMoviesRepository: FavoriteMoviesRepositoryLogic
-    ) {
-        self.movies = movies
+    init(favoriteMoviesRepository: FavoriteMoviesRepositoryLogic) {
         self.favoriteMoviesRepository = favoriteMoviesRepository
     }
     
-    func favoriteMovie(movieId: Int) {
-        guard let movie = movies.first(where: { $0.id == movieId }) else { return }
+    func favoriteMovie(movie: MovieDisplayModel) {
         let favoriteMovie = FavoriteMoviesDisplayModel(
             id: movie.id,
             title: movie.title,
@@ -28,14 +22,6 @@ final class MoviesInteractor: MoviesInteractorLogic {
     }
     
     func unfavoriteMovie(movieId: Int) {
-        guard let movie = movies.first(where: { $0.id == movieId }) else { return }
-        let favoriteMovie = FavoriteMoviesDisplayModel(
-            id: movie.id,
-            title: movie.title,
-            posterImageName: movie.posterImageName ?? "",
-            ratingText: movie.ratingText,
-            overview: movie.overview
-        )
-        favoriteMoviesRepository.unfavorite(favoriteMovie: favoriteMovie)
+        favoriteMoviesRepository.unfavorite(movieId: movieId)
     }
 }

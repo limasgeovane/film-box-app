@@ -2,7 +2,7 @@ import Foundation
 
 protocol FavoriteMoviesRepositoryLogic {
     func favorite(favoriteMovie: FavoriteMoviesDisplayModel)
-    func unfavorite(favoriteMovie: FavoriteMoviesDisplayModel)
+    func unfavorite(movieId: Int)
     func getFavorites() -> [FavoriteMoviesDisplayModel]
     func isMovieFavorite(id: Int) -> Bool
 }
@@ -18,9 +18,9 @@ class FavoriteMoviesRepository: FavoriteMoviesRepositoryLogic {
         }
     }
     
-    func unfavorite(favoriteMovie: FavoriteMoviesDisplayModel) {
+    func unfavorite(movieId: Int) {
         var favorites = getFavorites()
-        favorites.removeAll { $0.id == favoriteMovie.id }
+        favorites.removeAll { $0.id == movieId }
         saveFavorites(favorites)
     }
     
