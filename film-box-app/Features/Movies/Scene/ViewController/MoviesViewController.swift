@@ -22,6 +22,7 @@ class MoviesViewController: UIViewController {
     
     override func loadView() {
         view = contentView
+        contentView.delegate = self
         contentView.movies = movies
     }
     
@@ -43,5 +44,11 @@ class MoviesViewController: UIViewController {
     
     @objc private func searchButtonPressed() {
         router.openSearchMovies()
+    }
+}
+
+extension MoviesViewController: MoviesViewDelegate {
+    func didSelectMovie(movieId: Int) {
+        router.openMovieDetails(movieId: movieId)
     }
 }

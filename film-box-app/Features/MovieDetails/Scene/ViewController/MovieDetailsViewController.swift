@@ -1,9 +1,23 @@
 import UIKit
 
+protocol MovieDetailsViewControllerLogic: AnyObject {
+    func displayLoading()
+    func displayMovieDetails(displayModel: MovieDetailsDisplayModel)
+    func displayError()
+}
+
 class MovieDetailsViewController: UIViewController {
+    private let movieId: Int
+    private let interactor: MovieDetailsInteractorLogic
     private let contentView: MovieDetailsViewLogic
     
-    init(contentView: MovieDetailsViewLogic) {
+    init(
+        movieId: Int,
+        interactor: MovieDetailsInteractorLogic,
+        contentView: MovieDetailsViewLogic
+    ) {
+        self.movieId = movieId
+        self.interactor = interactor
         self.contentView = contentView
         super.init(nibName: nil, bundle: nil)
     }
@@ -20,7 +34,7 @@ class MovieDetailsViewController: UIViewController {
         super.viewDidLoad()
         title = String(localized: "movieDetailsTitle")
         setupNavigation()
-        makeMovieDetailsMock()
+        interactor.requestMovieDetails(movieId: movieId)
     }
     
     private func setupNavigation() {
@@ -32,10 +46,10 @@ class MovieDetailsViewController: UIViewController {
         )
         navigationItem.rightBarButtonItem = favoriteButton
     }
-        
+    
     @objc private func favoriteButtonPressed() {
         guard let button = navigationItem.rightBarButtonItem else { return }
-
+        
         if button.image == UIImage(systemName: "star") {
             button.image = UIImage(systemName: "star.fill")
             button.tintColor = UIColor(named: "primaryColor") ?? .systemBlue
@@ -46,19 +60,19 @@ class MovieDetailsViewController: UIViewController {
             // interactor.requestUnfavoriteMovie()
         }
     }
+}
 
-    private func makeMovieDetailsMock() {
-        let displayModel = MovieDetailsDisplayModel(
-            backdropPath: "backdrop_path",
-            originalTitle: "The Shawshank Redemption",
-            title: "Um Sonho de Liberdade",
-            overview: "Dois homens presos desenvolvem uma forte amizade ao longo dos anos, encontrando consolo e redenção através de atos de decência comum.",
-            releaseDate: "1994-09-23",
-            budget: "$25,000,000",
-            revenue: "$58,500,000",
-            ratingText: "9.3 / 10"
-        )
-        
-        contentView.configureView(displayModel: displayModel)
+extension MovieDetailsViewController: MovieDetailsViewControllerLogic {
+    func displayLoading() {
+        contentView.changeState(state: .loading)
+    }
+    
+    func displayMovieDetails(displayModel: MovieDetailsDisplayModel) {
+        contentView.setupContent(displayModel: displayModel)
+        contentView.changeState(state: .content)
+    }
+    
+    func displayError() {
+        contentView.changeState(state: .error)
     }
 }

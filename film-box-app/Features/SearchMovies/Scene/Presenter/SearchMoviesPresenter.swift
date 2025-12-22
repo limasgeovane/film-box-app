@@ -12,6 +12,7 @@ final class SearchMoviesPresenter: SearchMoviesPresenterLogic {
     func responseMovies(movies: [Movie]) {
         let displayModels = movies.map { movie in
             MovieDisplayModel(
+                id: movie.id,
                 posterImageName: movie.posterPath,
                 title: movie.title,
                 ratingText: {

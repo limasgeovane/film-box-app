@@ -1,6 +1,23 @@
 {
   "sourceLanguage" : "pt-BR",
   "strings" : {
+    "budget" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Budget"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orçamento"
+          }
+        }
+      }
+    },
     "emptyFieldError" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -103,6 +120,23 @@
         }
       }
     },
+    "requestMovieDetailsError" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error fetching movie details"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro ao consultar detalhes do filme"
+          }
+        }
+      }
+    },
     "requestMoviesError" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -116,6 +150,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erro ao consultar filmes. Tente novamente!"
+          }
+        }
+      }
+    },
+    "revenue" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revenue"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Receita"
           }
         }
       }

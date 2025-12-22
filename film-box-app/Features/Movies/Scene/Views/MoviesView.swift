@@ -1,10 +1,15 @@
 import UIKit
 
+protocol MoviesViewDelegate: AnyObject {
+    func didSelectMovie(movieId: Int)
+}
+
 protocol MoviesViewLogic: UIView {
+    var delegate: MoviesViewDelegate? { get set }
     var movies: [MovieDisplayModel] { get set }
 }
 
-class MoviesView: UIView, MoviesViewLogic, UICollectionViewDelegate {
+class MoviesView: UIView, MoviesViewLogic {
     var movies: [MovieDisplayModel] = [] {
         didSet {
             moviesCollectionView.reloadData()
@@ -17,7 +22,7 @@ class MoviesView: UIView, MoviesViewLogic, UICollectionViewDelegate {
         layout.sectionInset = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
         layout.minimumLineSpacing = 8
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-
+        
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.showsVerticalScrollIndicator = false
@@ -27,6 +32,8 @@ class MoviesView: UIView, MoviesViewLogic, UICollectionViewDelegate {
         collection.dataSource = self
         return collection
     }()
+    
+    weak var delegate: MoviesViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -71,5 +78,12 @@ extension MoviesView: UICollectionViewDataSource {
         cell.configureCell(displayModel: movie)
         
         return cell
+    }
+}
+
+extension MoviesView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movie = movies[indexPath.item]
+        delegate?.didSelectMovie(movieId: movie.id)
     }
 }

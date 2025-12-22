@@ -28,7 +28,7 @@ class Network: NetworkLogic {
             method: configuration.method,
             parameters: configuration.parameters,
             encoding: configuration.enconding,
-            headers: configuration.hearders
+            headers: configuration.headers
         ) { [weak self] result in
             guard let self else { return }
             switch result {

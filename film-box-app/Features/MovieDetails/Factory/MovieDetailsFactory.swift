@@ -1,8 +1,20 @@
 import UIKit
 
-enum MoviesDetailsFactory {
-    static func make() -> UIViewController {
-        let viewController = MovieDetailsViewController(contentView: MovieDetailsView())
+enum MovieDetailsFactory {
+    static func make(movieId: Int) -> UIViewController {
+        let presenter = MovieDetailsPresenter()
+        let interactor = MovieDetailsInteractor(
+            repository: MovieDetailsRepository(),
+            presenter: presenter
+        )
+        let viewController = MovieDetailsViewController(
+            movieId: movieId,
+            interactor: interactor,
+            contentView: MovieDetailsView()
+        )
+        
+        presenter.display = viewController
+        
         return viewController
     }
 }

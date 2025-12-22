@@ -15,7 +15,7 @@ struct SearchMoviesRequestConfiguration: NetworkRequestConfigurator {
         ]
     }
     
-    var hearders: [String: String] {
+    var headers: [String: String] {
         [
             "Authorization": "Bearer \(NetworkAuthorization.bearerToken)"
         ]

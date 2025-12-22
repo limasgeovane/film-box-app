@@ -4,7 +4,7 @@ protocol NetworkRequestConfigurator {
     var method: NetworkMethod { get }
     var parameters: [String: Any] { get }
     var enconding: NetworkParameterEncoding { get }
-    var hearders: [String: String] { get }
+    var headers: [String: String] { get }
 }
 
 extension NetworkRequestConfigurator {
@@ -28,7 +28,7 @@ extension NetworkRequestConfigurator {
         .default
     }
     
-    var hearders: [String: String] {
+    var headers: [String: String] {
         [:]
     }
 }

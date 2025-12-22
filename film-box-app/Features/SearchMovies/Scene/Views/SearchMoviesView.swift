@@ -64,40 +64,10 @@ class SearchMoviesView: UIView {
         return view
     }()
     
-    private let errorView: UIView = {
-        let view = UIView()
+    private let errorView: ErrorView = {
+        let view = ErrorView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .secondarySystemBackground
-        view.layer.cornerRadius = 8
         return view
-    }()
-    
-    private let errorImage: UIImageView = {
-        let image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.contentMode = .scaleAspectFit
-        image.image = UIImage(systemName: "xmark.circle.fill")
-        image.tintColor = .systemRed
-        return image
-    }()
-    
-    private let errorLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .primary
-        label.textColor = .systemRed
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    private lazy var errorStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [errorImage, errorLabel])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.spacing = 8
-        stackView.distribution = .fill
-        return stackView
     }()
     
     weak var delegate: SearchMoviesViewDelegate?
@@ -116,7 +86,6 @@ class SearchMoviesView: UIView {
     private func setupViewHierarchy() {
         addSubview(searchMovieStackView)
         addSubview(errorView)
-        errorView.addSubview(errorStackView)
     }
     
     private func setupViewAttributes() {
@@ -129,28 +98,20 @@ class SearchMoviesView: UIView {
             searchMovieStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             searchMovieStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             
-            searchMovieTextField.heightAnchor.constraint(equalToConstant: 48),
-            searchMovieButton.heightAnchor.constraint(equalToConstant: 48),
-            
             errorView.topAnchor.constraint(equalTo: searchMovieStackView.bottomAnchor, constant: 16),
             errorView.centerXAnchor.constraint(equalTo: searchMovieStackView.centerXAnchor),
             errorView.widthAnchor.constraint(equalTo: searchMovieStackView.widthAnchor),
             errorView.heightAnchor.constraint(equalToConstant: 64),
             
-            errorLabel.widthAnchor.constraint(lessThanOrEqualTo: errorView.widthAnchor, constant: -40), // -40 para considerar padding e o ícone
-
-            errorStackView.centerXAnchor.constraint(equalTo: errorView.centerXAnchor),
-            errorStackView.centerYAnchor.constraint(equalTo: errorView.centerYAnchor),
-            
-            errorImage.widthAnchor.constraint(equalToConstant: 24),
-            errorImage.heightAnchor.constraint(equalToConstant: 24)
+            searchMovieTextField.heightAnchor.constraint(equalToConstant: 48),
+            searchMovieButton.heightAnchor.constraint(equalToConstant: 48),
         ])
     }
     
     @objc private func searchButtonPressed() {
         guard let query = searchMovieTextField.text, !query.isEmpty else {
             errorView.isHidden = false
-            errorLabel.text = String(localized: "emptyFieldError")
+            errorView.setupMessage(message: String(localized: "emptyFieldError"))
             return
         }
         
@@ -171,7 +132,7 @@ extension SearchMoviesView: SearchMoviesViewLogic {
         case .error:
             loadingView.isHidden = true
             errorView.isHidden = false
-            errorLabel.text = String(localized: "requestMoviesError")
+            errorView.setupMessage(message: String(localized: "requestMoviesError"))
         }
     }
     
