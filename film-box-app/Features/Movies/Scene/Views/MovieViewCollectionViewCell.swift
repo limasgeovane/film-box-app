@@ -1,7 +1,16 @@
 import UIKit
 
+protocol MovieViewCollectionViewCellDelegate: AnyObject {
+    func didTapFavorite(movieId: Int)
+}
+
 class MovieViewCollectionViewCell: UICollectionViewCell {
     static let identifier: String = "MovieViewCollectionViewCell"
+    
+    weak var delegate: MovieViewCollectionViewCellDelegate?
+    
+    private var movieId: Int?
+    private var isFavorite: Bool = false
     
     private let movieCardView: UIView = {
         let view = UIView()
@@ -30,11 +39,12 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let favoriteButton: UIButton = {
+    private lazy var favoriteButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "star"), for: .normal)
         button.tintColor = .systemGray
+        button.addTarget(self, action: #selector(favoriteButtonPressed), for: .touchUpInside)
         return button
     }()
     
@@ -93,7 +103,7 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
             posterImageView.bottomAnchor.constraint(lessThanOrEqualTo: movieCardView.bottomAnchor, constant: -8),
             posterImageView.widthAnchor.constraint(equalToConstant: 90),
             posterImageView.heightAnchor.constraint(equalToConstant: 130),
-
+            
             favoriteButton.topAnchor.constraint(equalTo: movieCardView.topAnchor, constant: 8),
             favoriteButton.trailingAnchor.constraint(equalTo: movieCardView.trailingAnchor, constant: -16),
             favoriteButton.widthAnchor.constraint(equalToConstant: 24),
@@ -118,9 +128,25 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
     }
     
     func configureCell(displayModel: MovieDisplayModel) {
+        movieId = displayModel.id
+        isFavorite = displayModel.isFavorite
         posterImageView.loadTMDBImage(path: displayModel.posterImageName)
         titleLabel.text = displayModel.title
         ratingLabel.text = displayModel.ratingText
         overviewLabel.text = displayModel.overview
+        updateFavoriteButtonAppearance()
+    }
+    
+    @objc private func favoriteButtonPressed() {
+        guard let movieId else { return }
+        isFavorite.toggle()
+        updateFavoriteButtonAppearance()
+        delegate?.didTapFavorite(movieId: movieId)
+    }
+    
+    private func updateFavoriteButtonAppearance() {
+        let imageName = isFavorite ? "star.fill" : "star"
+        favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
+        favoriteButton.tintColor = isFavorite ? UIColor(named: "primaryColor") ?? .systemBlue : .systemGray
     }
 }

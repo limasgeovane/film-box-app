@@ -7,6 +7,7 @@ protocol MoviesViewDelegate: AnyObject {
 protocol MoviesViewLogic: UIView {
     var delegate: MoviesViewDelegate? { get set }
     var movies: [MovieDisplayModel] { get set }
+    func reloadMovieCell(index: Int)
 }
 
 class MoviesView: UIView, MoviesViewLogic {
@@ -76,6 +77,11 @@ class MoviesView: UIView, MoviesViewLogic {
             emptyStateView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
         ])
     }
+    
+    func reloadMovieCell(index: Int) {
+        let indexPath = IndexPath(item: index, section: 0)
+        moviesCollectionView.reloadItems(at: [indexPath])
+    }
 }
 
 extension MoviesView: UICollectionViewDataSource {
@@ -90,6 +96,8 @@ extension MoviesView: UICollectionViewDataSource {
         
         let movie = movies[indexPath.item]
         cell.configureCell(displayModel: movie)
+        
+        cell.delegate = delegate as? MovieViewCollectionViewCellDelegate
         
         return cell
     }

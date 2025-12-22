@@ -4,5 +4,5 @@ struct MovieDisplayModel {
     let title: String
     let ratingText: String
     let overview: String
-    let isFavorite: Bool
+    var isFavorite: Bool
 }

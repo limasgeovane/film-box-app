@@ -30,7 +30,7 @@ class MoviesViewController: UIViewController {
         super.viewDidLoad()
         setupNavigation()
     }
-        
+    
     private func setupNavigation() {
         self.navigationItem.hidesBackButton = true
         
@@ -52,5 +52,22 @@ class MoviesViewController: UIViewController {
 extension MoviesViewController: MoviesViewDelegate {
     func didSelectMovie(movieId: Int) {
         router.openMovieDetails(movieId: movieId)
+    }
+}
+
+extension MoviesViewController: MovieViewCollectionViewCellDelegate {
+    func didTapFavorite(movieId: Int) {
+        guard let index = movies.firstIndex(where: { $0.id == movieId }) else { return }
+        movies[index].isFavorite.toggle()
+        
+        if let moviesView = contentView as? MoviesView {
+            moviesView.reloadMovieCell(index: index)
+        }
+        
+        if movies[index].isFavorite {
+            // interactor.favoriteMovie(movieId: movieId)
+        } else {
+            // interactor.unfavoriteMovie(movieId: movieId)
+        }
     }
 }
