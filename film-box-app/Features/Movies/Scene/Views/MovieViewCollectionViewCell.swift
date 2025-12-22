@@ -30,6 +30,14 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    private let favoriteButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "star"), for: .normal)
+        button.tintColor = .systemGray
+        return button
+    }()
+    
     private let ratingLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -62,6 +70,7 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(movieCardView)
         movieCardView.addSubview(posterImageView)
         movieCardView.addSubview(titleLabel)
+        movieCardView.addSubview(favoriteButton)
         movieCardView.addSubview(ratingLabel)
         movieCardView.addSubview(overviewLabel)
     }
@@ -84,18 +93,23 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
             posterImageView.bottomAnchor.constraint(lessThanOrEqualTo: movieCardView.bottomAnchor, constant: -8),
             posterImageView.widthAnchor.constraint(equalToConstant: 90),
             posterImageView.heightAnchor.constraint(equalToConstant: 130),
+
+            favoriteButton.topAnchor.constraint(equalTo: movieCardView.topAnchor, constant: 8),
+            favoriteButton.trailingAnchor.constraint(equalTo: movieCardView.trailingAnchor, constant: -16),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 24),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 24),
             
             titleLabel.topAnchor.constraint(equalTo: movieCardView.topAnchor, constant: 8),
             titleLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 8),
-            titleLabel.trailingAnchor.constraint(equalTo: movieCardView.trailingAnchor, constant: -16),
+            titleLabel.trailingAnchor.constraint(equalTo: favoriteButton.leadingAnchor, constant: -8),
             
             ratingLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             ratingLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            ratingLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
+            ratingLabel.trailingAnchor.constraint(equalTo: movieCardView.trailingAnchor, constant: -16),
             
             overviewLabel.topAnchor.constraint(equalTo: ratingLabel.bottomAnchor, constant: 8),
             overviewLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            overviewLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
+            overviewLabel.trailingAnchor.constraint(equalTo: movieCardView.trailingAnchor, constant: -16),
         ])
         
         let bottomConstraint = overviewLabel.bottomAnchor.constraint(equalTo: movieCardView.bottomAnchor, constant: -8)

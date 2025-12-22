@@ -28,7 +28,8 @@ final class SearchMoviesPresenter: SearchMoviesPresenterLogic {
                     } else {
                         return (String(localized: "noOverviewAvailable"))
                     }
-                }()
+                }(),
+                isFavorite: false
             )
         }
         

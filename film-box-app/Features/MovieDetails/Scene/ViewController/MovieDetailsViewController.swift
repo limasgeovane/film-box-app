@@ -35,33 +35,7 @@ class MovieDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = String(localized: "movieDetailsTitle")
-        setupNavigation()
         interactor.requestMovieDetails(movieId: movieId)
-    }
-    
-    private func setupNavigation() {
-        let button = UIBarButtonItem(
-            image: UIImage(systemName: "star"),
-            style: .plain,
-            target: self,
-            action: #selector(favoriteButtonPressed)
-        )
-        favoriteButton = button
-        navigationItem.rightBarButtonItem = button
-    }
-    
-    @objc private func favoriteButtonPressed() {
-        guard let button = navigationItem.rightBarButtonItem else { return }
-        
-        if button.image == UIImage(systemName: "star") {
-            button.image = UIImage(systemName: "star.fill")
-            button.tintColor = UIColor(named: "primaryColor") ?? .systemBlue
-            // interactor.requestFavoriteMovie()
-        } else {
-            button.image = UIImage(systemName: "star")
-            button.tintColor = UIColor.label
-            // interactor.requestUnfavoriteMovie()
-        }
     }
 }
 
@@ -81,5 +55,4 @@ extension MovieDetailsViewController: MovieDetailsViewControllerLogic {
         navigationItem.rightBarButtonItem = nil
         contentView.changeState(state: .error)
     }
-    
 }
