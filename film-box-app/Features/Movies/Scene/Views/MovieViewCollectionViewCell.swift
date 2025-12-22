@@ -1,7 +1,7 @@
 import UIKit
 
 protocol MovieViewCollectionViewCellDelegate: AnyObject {
-    func didTapFavorite(movieId: Int)
+    func didTapFavorite(movieId: Int, isFavorite: Bool)
 }
 
 class MovieViewCollectionViewCell: UICollectionViewCell {
@@ -139,9 +139,11 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
     
     @objc private func favoriteButtonPressed() {
         guard let movieId else { return }
-        isFavorite.toggle()
+        
+        isFavorite = !isFavorite
         updateFavoriteButtonAppearance()
-        delegate?.didTapFavorite(movieId: movieId)
+        
+        delegate?.didTapFavorite(movieId: movieId, isFavorite: isFavorite)
     }
     
     private func updateFavoriteButtonAppearance() {

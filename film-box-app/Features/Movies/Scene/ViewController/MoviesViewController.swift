@@ -66,13 +66,12 @@ extension MoviesViewController: MoviesViewDelegate {
 }
 
 extension MoviesViewController: MovieViewCollectionViewCellDelegate {
-    func didTapFavorite(movieId: Int) {
+    func didTapFavorite(movieId: Int, isFavorite: Bool) {
         guard let index = movies.firstIndex(where: { $0.id == movieId }) else { return }
         
-        movies[index].isFavorite.toggle()
+        movies[index].isFavorite = isFavorite
         
         let movie = movies[index]
-        
         if movie.isFavorite {
             interactor.favoriteMovie(movie: movie)
         } else {
