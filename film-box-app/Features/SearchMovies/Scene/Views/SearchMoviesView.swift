@@ -85,17 +85,18 @@ class SearchMoviesView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .primary
-        label.text = "Erro ao buscar filmes"
         label.textColor = .systemRed
+        label.numberOfLines = 0
         return label
     }()
     
-    private lazy var resultStackView: UIStackView = {
+    private lazy var errorStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [errorImage, errorLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.spacing = 8
+        stackView.distribution = .fill
         return stackView
     }()
     
@@ -115,7 +116,7 @@ class SearchMoviesView: UIView {
     private func setupViewHierarchy() {
         addSubview(searchMovieStackView)
         addSubview(errorView)
-        errorView.addSubview(resultStackView)
+        errorView.addSubview(errorStackView)
     }
     
     private func setupViewAttributes() {
@@ -134,10 +135,12 @@ class SearchMoviesView: UIView {
             errorView.topAnchor.constraint(equalTo: searchMovieStackView.bottomAnchor, constant: 16),
             errorView.centerXAnchor.constraint(equalTo: searchMovieStackView.centerXAnchor),
             errorView.widthAnchor.constraint(equalTo: searchMovieStackView.widthAnchor),
-            errorView.heightAnchor.constraint(equalToConstant: 48),
+            errorView.heightAnchor.constraint(equalToConstant: 64),
             
-            resultStackView.centerXAnchor.constraint(equalTo: errorView.centerXAnchor),
-            resultStackView.centerYAnchor.constraint(equalTo: errorView.centerYAnchor),
+            errorLabel.widthAnchor.constraint(lessThanOrEqualTo: errorView.widthAnchor, constant: -40), // -40 para considerar padding e o ícone
+
+            errorStackView.centerXAnchor.constraint(equalTo: errorView.centerXAnchor),
+            errorStackView.centerYAnchor.constraint(equalTo: errorView.centerYAnchor),
             
             errorImage.widthAnchor.constraint(equalToConstant: 24),
             errorImage.heightAnchor.constraint(equalToConstant: 24)
@@ -168,6 +171,7 @@ extension SearchMoviesView: SearchMoviesViewLogic {
         case .error:
             loadingView.isHidden = true
             errorView.isHidden = false
+            errorLabel.text = String(localized: "requestMoviesError")
         }
     }
     

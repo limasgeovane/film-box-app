@@ -12,10 +12,22 @@ final class SearchMoviesPresenter: SearchMoviesPresenterLogic {
     func responseMovies(movies: [Movie]) {
         let displayModels = movies.map { movie in
             MovieDisplayModel(
-                posterImageName: movie.posterPath ?? "",
+                posterImageName: movie.posterPath,
                 title: movie.title,
-                ratingText: "\(String(localized: "movieRating")): \(movie.voteAverage)",
-                overview: movie.overview
+                ratingText: {
+                    if let rating = movie.voteAverage, rating > 0 {
+                        return "\(String(localized: "movieRating")): \(String(format: "%.1f", rating))"
+                    } else {
+                        return String(localized: "unrated")
+                    }
+                }(),
+                overview: {
+                    if let overview = movie.overview, !overview.isEmpty {
+                        return overview
+                    } else {
+                        return (String(localized: "noOverviewAvailable"))
+                    }
+                }()
             )
         }
         

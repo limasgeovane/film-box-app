@@ -86,6 +86,40 @@
         }
       }
     },
+    "noOverviewAvailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "No overview available"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sinopse indisponível"
+          }
+        }
+      }
+    },
+    "requestMoviesError" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error fetching movies. Please try again!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro ao consultar filmes. Tente novamente!"
+          }
+        }
+      }
+    },
     "searchMoviesButton" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -133,6 +167,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Buscar Filmes"
+          }
+        }
+      }
+    },
+    "unrated" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unrated"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sem classificação"
           }
         }
       }

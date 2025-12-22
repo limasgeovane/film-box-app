@@ -8,13 +8,16 @@ protocol SearchMoviesViewControllerLogic: AnyObject {
 
 class SearchMoviesViewController: UIViewController {
     private let interactor: SearchMoviesInteractorLogic
+    private let router: SearchMoviesRouterLogic
     private let contentView: SearchMoviesViewLogic
     
     init(
         interactor: SearchMoviesInteractorLogic,
+        router: SearchMoviesRouterLogic,
         contentView: SearchMoviesViewLogic
     ) {
         self.contentView = contentView
+        self.router = router
         self.interactor = interactor
         super.init(nibName: nil, bundle: nil)
     }
@@ -58,8 +61,7 @@ extension SearchMoviesViewController: SearchMoviesViewControllerLogic {
     
     func displayMovies(movies: [MovieDisplayModel]) {
         contentView.changeState(state: .content)
-        let moviesViewController = MoviesFactory.make(movies: movies)
-        navigationController?.pushViewController(moviesViewController, animated: true)
+        router.openMovies(movies: movies)
     }
     
     func displayError() {

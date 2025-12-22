@@ -104,7 +104,8 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
     }
     
     func configureCell(displayModel: MovieDisplayModel) {
-        if let url = URL(string: "https://image.tmdb.org/t/p/w500\(displayModel.posterImageName)") {
+        if let posterImageName = displayModel.posterImageName,
+            let url = URL(string: "https://image.tmdb.org/t/p/w500\(posterImageName)") {
             URLSession.shared.dataTask(with: url) { data, _, _ in
                 guard let data = data else { return }
                 DispatchQueue.main.async {
@@ -115,7 +116,6 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
             posterImageView.image = UIImage(named: "no-image")
         }
         
-        posterImageView.image = UIImage(named: displayModel.posterImageName)
         titleLabel.text = displayModel.title
         ratingLabel.text = displayModel.ratingText
         overviewLabel.text = displayModel.overview

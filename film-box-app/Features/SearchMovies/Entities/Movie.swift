@@ -1,8 +1,8 @@
 struct Movie: Decodable {
     let id: Int
     let title: String
-    let overview: String
-    let voteAverage: Double
+    let overview: String?
+    let voteAverage: Double?
     let posterPath: String?
     let releaseDate: String?
     
