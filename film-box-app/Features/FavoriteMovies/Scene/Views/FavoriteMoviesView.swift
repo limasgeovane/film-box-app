@@ -8,6 +8,7 @@ class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDeleg
     var favoriteMovies: [FavoriteMoviesDisplayModel] = [] {
         didSet {
             favoriteMoviesCollectionView.reloadData()
+            emptyStateView.isHidden = !favoriteMovies.isEmpty
         }
     }
     
@@ -28,6 +29,13 @@ class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDeleg
         return collection
     }()
     
+    private let emptyStateView: EmptyStateView = {
+        let view = EmptyStateView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.setupMessage(message: String(localized: "emptyFavoritesMovies"))
+        return view
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViewHierarchy()
@@ -41,6 +49,7 @@ class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDeleg
     
     private func setupViewHierarchy() {
         addSubview(favoriteMoviesCollectionView)
+        addSubview(emptyStateView)
     }
     
     private func setupViewAttributes() {
@@ -52,7 +61,12 @@ class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDeleg
             favoriteMoviesCollectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             favoriteMoviesCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             favoriteMoviesCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            favoriteMoviesCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            favoriteMoviesCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
+            emptyStateView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
+            emptyStateView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            emptyStateView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            emptyStateView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
         ])
     }
 }

@@ -13,6 +13,7 @@ class MoviesView: UIView, MoviesViewLogic {
     var movies: [MovieDisplayModel] = [] {
         didSet {
             moviesCollectionView.reloadData()
+            emptyStateView.isHidden = !movies.isEmpty
         }
     }
     
@@ -33,6 +34,13 @@ class MoviesView: UIView, MoviesViewLogic {
         return collection
     }()
     
+    private let emptyStateView: EmptyStateView = {
+        let view = EmptyStateView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.setupMessage(message: String(localized: "emptyMovies"))
+        return view
+    }()
+    
     weak var delegate: MoviesViewDelegate?
     
     override init(frame: CGRect) {
@@ -48,6 +56,7 @@ class MoviesView: UIView, MoviesViewLogic {
     
     private func setupViewHierarchy() {
         addSubview(moviesCollectionView)
+        addSubview(emptyStateView)
     }
     
     private func setupViewAttributes() {
@@ -59,7 +68,12 @@ class MoviesView: UIView, MoviesViewLogic {
             moviesCollectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             moviesCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             moviesCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            moviesCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            moviesCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
+            emptyStateView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
+            emptyStateView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            emptyStateView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            emptyStateView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
         ])
     }
 }

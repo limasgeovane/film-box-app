@@ -32,6 +32,8 @@ class MoviesViewController: UIViewController {
     }
         
     private func setupNavigation() {
+        self.navigationItem.hidesBackButton = true
+        
         let image = UIImage(systemName: "magnifyingglass")
         let searchButton = UIBarButtonItem(
             image: image,

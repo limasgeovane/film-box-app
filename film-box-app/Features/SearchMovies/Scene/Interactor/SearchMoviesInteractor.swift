@@ -27,7 +27,6 @@ final class SearchMoviesInteractor {
             }
         }
     }
-
 }
 
 extension SearchMoviesInteractor: SearchMoviesInteractorLogic {
