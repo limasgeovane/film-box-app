@@ -11,6 +11,8 @@ class MovieDetailsViewController: UIViewController {
     private let interactor: MovieDetailsInteractorLogic
     private let contentView: MovieDetailsViewLogic
     
+    private var favoriteButton: UIBarButtonItem?
+    
     init(
         movieId: Int,
         interactor: MovieDetailsInteractorLogic,
@@ -38,13 +40,14 @@ class MovieDetailsViewController: UIViewController {
     }
     
     private func setupNavigation() {
-        let favoriteButton = UIBarButtonItem(
+        let button = UIBarButtonItem(
             image: UIImage(systemName: "star"),
             style: .plain,
             target: self,
             action: #selector(favoriteButtonPressed)
         )
-        navigationItem.rightBarButtonItem = favoriteButton
+        favoriteButton = button
+        navigationItem.rightBarButtonItem = button
     }
     
     @objc private func favoriteButtonPressed() {
@@ -64,15 +67,19 @@ class MovieDetailsViewController: UIViewController {
 
 extension MovieDetailsViewController: MovieDetailsViewControllerLogic {
     func displayLoading() {
+        navigationItem.rightBarButtonItem = nil
         contentView.changeState(state: .loading)
     }
     
     func displayMovieDetails(displayModel: MovieDetailsDisplayModel) {
+        navigationItem.rightBarButtonItem = favoriteButton
         contentView.setupContent(displayModel: displayModel)
         contentView.changeState(state: .content)
     }
     
     func displayError() {
+        navigationItem.rightBarButtonItem = nil
         contentView.changeState(state: .error)
     }
+    
 }

@@ -85,6 +85,7 @@ class SearchMoviesView: UIView {
     
     private func setupViewHierarchy() {
         addSubview(searchMovieStackView)
+        addSubview(loadingView)
         addSubview(errorView)
     }
     
@@ -94,6 +95,11 @@ class SearchMoviesView: UIView {
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
             searchMovieStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 32),
             searchMovieStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             searchMovieStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),

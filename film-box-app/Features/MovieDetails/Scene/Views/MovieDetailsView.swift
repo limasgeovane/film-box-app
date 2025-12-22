@@ -12,6 +12,19 @@ class MovieDetailsView: UIView {
         case error
     }
     
+    private let scrollView: UIScrollView = {
+        let scroll = UIScrollView()
+        scroll.translatesAutoresizingMaskIntoConstraints = false
+        scroll.alwaysBounceVertical = true
+        return scroll
+    }()
+    
+    private let contentView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private let movieDetailsCardView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -130,9 +143,12 @@ class MovieDetailsView: UIView {
     }
     
     private func setupViewHierarchy() {
-        addSubview(movieDetailsCardView)
+        addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(movieDetailsCardView)
         movieDetailsCardView.addSubview(movieStackView)
-        movieDetailsCardView.addSubview(errorView)
+        addSubview(loadingView)
+        addSubview(errorView)
     }
     
     private func setupViewAttributes() {
@@ -141,20 +157,36 @@ class MovieDetailsView: UIView {
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            movieDetailsCardView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            movieDetailsCardView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            movieDetailsCardView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            loadingView.topAnchor.constraint(equalTo: topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
+            scrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
+            contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
+            
+            movieDetailsCardView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            movieDetailsCardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            movieDetailsCardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            movieDetailsCardView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
             
             movieStackView.topAnchor.constraint(equalTo: movieDetailsCardView.topAnchor, constant: 16),
             movieStackView.leadingAnchor.constraint(equalTo: movieDetailsCardView.leadingAnchor, constant: 16),
             movieStackView.trailingAnchor.constraint(equalTo: movieDetailsCardView.trailingAnchor, constant: -16),
             movieStackView.bottomAnchor.constraint(equalTo: movieDetailsCardView.bottomAnchor, constant: -16),
             
-            errorView.centerXAnchor.constraint(equalTo: movieDetailsCardView.centerXAnchor),
-            errorView.centerYAnchor.constraint(equalTo: movieDetailsCardView.centerYAnchor),
-            errorView.leadingAnchor.constraint(equalTo: movieDetailsCardView.leadingAnchor, constant: 16),
-            errorView.trailingAnchor.constraint(equalTo: movieDetailsCardView.trailingAnchor, constant: -16),
-            errorView.heightAnchor.constraint(equalToConstant: 64),
+            errorView.topAnchor.constraint(equalTo: topAnchor),
+            errorView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            errorView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            errorView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             backdropPathImageView.heightAnchor.constraint(equalToConstant: 200)
         ])
