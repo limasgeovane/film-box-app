@@ -2,9 +2,17 @@ import UIKit
 
 protocol FavoriteMoviesViewLogic: UIView {
     var favoriteMovies: [FavoriteMoviesDisplayModel] { get set }
+    func changeState(state: FavoriteMoviesView.State)
 }
 
 class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDelegate {
+    enum State {
+        case content
+        case loading
+        case empty
+        case error
+    }
+    
     var favoriteMovies: [FavoriteMoviesDisplayModel] = [] {
         didSet {
             favoriteMoviesCollectionView.reloadData()
@@ -29,10 +37,22 @@ class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDeleg
         return collection
     }()
     
+    private let loadingView: LoadingView = {
+        let view = LoadingView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private let emptyStateView: EmptyStateView = {
         let view = EmptyStateView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.setupMessage(message: String(localized: "emptyFavoritesMovies"))
+        return view
+    }()
+    
+    private let errorView: ErrorView = {
+        let view = ErrorView()
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -49,7 +69,9 @@ class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDeleg
     
     private func setupViewHierarchy() {
         addSubview(favoriteMoviesCollectionView)
+        addSubview(loadingView)
         addSubview(emptyStateView)
+        addSubview(errorView)
     }
     
     private func setupViewAttributes() {
@@ -58,6 +80,11 @@ class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDeleg
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
             favoriteMoviesCollectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             favoriteMoviesCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             favoriteMoviesCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -66,8 +93,38 @@ class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDeleg
             emptyStateView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
             emptyStateView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             emptyStateView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            emptyStateView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
+            emptyStateView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
+            
+            errorView.topAnchor.constraint(equalTo: topAnchor),
+            errorView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            errorView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            errorView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+    }
+    
+    func changeState(state: State) {
+        switch state {
+        case .content:
+            favoriteMoviesCollectionView.isHidden = false
+            loadingView.isHidden = true
+            emptyStateView.isHidden = true
+            errorView.isHidden = true
+        case .loading:
+            favoriteMoviesCollectionView.isHidden = true
+            loadingView.isHidden = false
+            emptyStateView.isHidden = true
+            errorView.isHidden = true
+        case .empty:
+            favoriteMoviesCollectionView.isHidden = true
+            loadingView.isHidden = true
+            emptyStateView.isHidden = false
+            errorView.isHidden = true
+        case .error:
+            favoriteMoviesCollectionView.isHidden = true
+            loadingView.isHidden = true
+            emptyStateView.isHidden = true
+            errorView.isHidden = false
+        }
     }
 }
 

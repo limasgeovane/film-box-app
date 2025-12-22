@@ -15,6 +15,8 @@ final class FavoriteMoviesInteractor: FavoriteMoviesInteractorLogic {
     }
     
     func requestFavoriteMovies() {
+        presenter.responseLoading()
+        
         let favorites = repository.getFavorites()
         if favorites.isEmpty {
             presenter.responseEmptyState()
