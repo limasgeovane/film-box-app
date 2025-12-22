@@ -1,7 +1,7 @@
 import Foundation
 
 struct MovieDetailsDisplayModel {
-    let backdropPath: String
+    let backdropPath: String?
     let originalTitle : String
     let title: String
     let overview: String

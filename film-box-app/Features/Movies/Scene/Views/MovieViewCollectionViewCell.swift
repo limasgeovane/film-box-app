@@ -104,18 +104,7 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
     }
     
     func configureCell(displayModel: MovieDisplayModel) {
-        if let posterImageName = displayModel.posterImageName,
-            let url = URL(string: "https://image.tmdb.org/t/p/w500\(posterImageName)") {
-            URLSession.shared.dataTask(with: url) { data, _, _ in
-                guard let data = data else { return }
-                DispatchQueue.main.async {
-                    self.posterImageView.image = UIImage(data: data)
-                }
-            }.resume()
-        } else {
-            posterImageView.image = UIImage(named: "no-image")
-        }
-        
+        posterImageView.loadTMDBImage(path: displayModel.posterImageName)
         titleLabel.text = displayModel.title
         ratingLabel.text = displayModel.ratingText
         overviewLabel.text = displayModel.overview

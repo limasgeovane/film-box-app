@@ -36,7 +36,6 @@ class MovieDetailsView: UIView {
     private let backdropPathImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 8
         imageView.backgroundColor = .systemGray5
@@ -191,28 +190,17 @@ class MovieDetailsView: UIView {
             backdropPathImageView.heightAnchor.constraint(equalToConstant: 200)
         ])
     }
-    
-    private func loadBackdropImage(path: String?) {
-        guard
-            let path,
-            let url = URL(string: "https://image.tmdb.org/t/p/w780\(path)")
-        else {
-            backdropPathImageView.image = UIImage(named: "no-image")
-            return
-        }
-        
-        URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
-            guard let self, let data else { return }
-            DispatchQueue.main.async {
-                self.backdropPathImageView.image = UIImage(data: data)
-            }
-        }.resume()
-    }
 }
 
 extension MovieDetailsView: MovieDetailsViewLogic {
     func setupContent(displayModel: MovieDetailsDisplayModel) {
-        loadBackdropImage(path: displayModel.backdropPath)
+        if displayModel.backdropPath == nil {
+            backdropPathImageView.image = UIImage(named: "no-image")
+            backdropPathImageView.contentMode = .scaleAspectFit
+        } else {
+            backdropPathImageView.loadTMDBImage(path: displayModel.backdropPath)
+            backdropPathImageView.contentMode = .scaleAspectFill
+        }
         originalTitleLabel.text = displayModel.originalTitle
         titleLabel.text = displayModel.title
         overviewLabel.text = displayModel.overview

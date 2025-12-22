@@ -1,7 +1,5 @@
-import Foundation
-
 struct MovieDetails: Decodable {
-    let backdropPath: String
+    let backdropPath: String?
     let originalTitle: String
     let title: String
     let overview: String
@@ -9,7 +7,7 @@ struct MovieDetails: Decodable {
     let budget: Int?
     let revenue: Int?
     let voteAverage: Double?
-    
+
     enum CodingKeys: String, CodingKey {
         case backdropPath = "backdrop_path"
         case originalTitle = "original_title"
