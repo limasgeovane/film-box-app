@@ -10,7 +10,6 @@ class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDeleg
         case content
         case loading
         case empty
-        case error
     }
     
     var favoriteMovies: [FavoriteMoviesDisplayModel] = [] {
@@ -119,11 +118,6 @@ class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDeleg
             loadingView.isHidden = true
             emptyStateView.isHidden = false
             errorView.isHidden = true
-        case .error:
-            favoriteMoviesCollectionView.isHidden = true
-            loadingView.isHidden = true
-            emptyStateView.isHidden = true
-            errorView.isHidden = false
         }
     }
 }
