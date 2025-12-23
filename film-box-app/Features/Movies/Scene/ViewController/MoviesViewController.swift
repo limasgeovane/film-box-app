@@ -8,7 +8,7 @@ final class MoviesViewController: UIViewController {
     private let presenter: MoviesPresenterLogic
     private let contentView: MoviesViewLogic
     
-    private var moviesDisplayModel: [MovieDisplayModel] = []
+    private var displayModel: [MovieDisplayModel] = []
     
     init(
         presenter: MoviesPresenterLogic,
@@ -26,7 +26,7 @@ final class MoviesViewController: UIViewController {
     override func loadView() {
         view = contentView
         contentView.delegate = self
-        contentView.movies = moviesDisplayModel
+        contentView.movies = displayModel
     }
     
     override func viewDidLoad() {
@@ -66,7 +66,7 @@ extension MoviesViewController: MovieViewCollectionViewCellDelegate {
 
 extension MoviesViewController: MoviesViewControllerLogic {
     func displayMovies(movies: [MovieDisplayModel]) {
-        moviesDisplayModel = movies
+        displayModel = movies
         contentView.movies = movies
     }
 }

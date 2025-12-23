@@ -13,7 +13,7 @@ final class MoviesPresenter: MoviesPresenterLogic {
     private let interactor: MoviesInteractorLogic
     private let router: MoviesRouterLogic
 
-    private var moviesDisplayModel: [MovieDisplayModel] = []
+    private var displayModel: [MovieDisplayModel] = []
 
     init(
         interactor: MoviesInteractorLogic,
@@ -26,7 +26,7 @@ final class MoviesPresenter: MoviesPresenterLogic {
     func presentMovies(movies: [MovieEntity]) {
         let favoritesRepository = FavoriteMoviesRepository()
 
-        moviesDisplayModel = movies.map { movie in
+        displayModel = movies.map { movie in
             let isFavorite = favoritesRepository.isMovieFavorite(id: movie.id)
 
             return MovieDisplayModel(
@@ -54,7 +54,7 @@ final class MoviesPresenter: MoviesPresenterLogic {
             )
         }
 
-        display?.displayMovies(movies: moviesDisplayModel)
+        display?.displayMovies(movies: displayModel)
     }
 
     func didTapSearch() {
@@ -66,7 +66,7 @@ final class MoviesPresenter: MoviesPresenterLogic {
     }
 
     func didTapFavorite(movieId: Int, isFavorite: Bool) {
-        guard let movie = moviesDisplayModel.first(where: { $0.id == movieId }) else { return }
+        guard let movie = displayModel.first(where: { $0.id == movieId }) else { return }
 
         if isFavorite {
             interactor.favoriteMovie(movie: movie)
