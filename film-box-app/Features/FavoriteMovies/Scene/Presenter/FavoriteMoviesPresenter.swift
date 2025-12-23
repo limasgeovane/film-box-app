@@ -6,7 +6,6 @@ protocol FavoriteMoviesPresenterInputLogic {
 
 protocol FavoriteMoviesPresenterOutputLogic: AnyObject {
     func didRequestFavoriteMovies(favoriteMovies: [FavoriteMoviesDisplayModel])
-    func didRequestFavoriteMoviesError()
     func didRequestFavoriteMoviesEmpty()
 }
 
@@ -30,10 +29,6 @@ extension FavoriteMoviesPresenter: FavoriteMoviesPresenterInputLogic {
 extension FavoriteMoviesPresenter: FavoriteMoviesPresenterOutputLogic {
     func didRequestFavoriteMovies(favoriteMovies: [FavoriteMoviesDisplayModel]) {
         viewController?.displayContent(viewModel: favoriteMovies)
-    }
-    
-    func didRequestFavoriteMoviesError() {
-        viewController?.displayError()
     }
     
     func didRequestFavoriteMoviesEmpty() {

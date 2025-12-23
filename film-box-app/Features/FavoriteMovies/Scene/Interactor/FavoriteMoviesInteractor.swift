@@ -12,21 +12,14 @@ final class FavoriteMoviesInteractor {
     }
     
     private func fetchFavoriteMovies() {
-        let result = repository.getFavorites()
+        let favoritesMovies = repository.getFavorites()
         
-        switch result {
-        case .success(let favorites):
-            if favorites.isEmpty {
-                presenter?.didRequestFavoriteMoviesEmpty()
-            } else {
-                presenter?.didRequestFavoriteMovies(favoriteMovies: favorites)
-            }
-            
-        case .failure:
-            presenter?.didRequestFavoriteMoviesError()
+        if favoritesMovies.isEmpty {
+            presenter?.didRequestFavoriteMoviesEmpty()
+        } else {
+            presenter?.didRequestFavoriteMovies(favoriteMovies: favoritesMovies)
         }
     }
-
 }
 
 extension FavoriteMoviesInteractor: FavoriteMoviesInteractorLogic {

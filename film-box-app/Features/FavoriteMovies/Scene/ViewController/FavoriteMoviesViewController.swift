@@ -3,7 +3,6 @@ import UIKit
 protocol FavoriteMoviesViewControllerLogic: AnyObject {
     func displayLoading()
     func displayContent(viewModel: [FavoriteMoviesDisplayModel])
-    func displayError()
     func displayEmptyState()
 }
 
@@ -44,12 +43,7 @@ extension FavoriteMoviesViewController: FavoriteMoviesViewControllerLogic {
         contentView.favoriteMovies = viewModel
         contentView.changeState(state: .content)
     }
-    
-    func displayError() {
-        contentView.favoriteMovies = []
-        contentView.changeState(state: .error)
-    }
-    
+
     func displayEmptyState() {
         contentView.favoriteMovies = []
         contentView.changeState(state: .empty)

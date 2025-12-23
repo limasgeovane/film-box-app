@@ -9,7 +9,6 @@ class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDeleg
     enum State {
         case content
         case loading
-        case error
         case empty
     }
     
@@ -50,12 +49,6 @@ class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDeleg
         return view
     }()
     
-    private let errorView: ErrorView = {
-        let view = ErrorView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViewHierarchy()
@@ -71,7 +64,6 @@ class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDeleg
         addSubview(favoriteMoviesCollectionView)
         addSubview(loadingView)
         addSubview(emptyStateView)
-        addSubview(errorView)
     }
     
     private func setupViewAttributes() {
@@ -93,12 +85,7 @@ class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDeleg
             emptyStateView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
             emptyStateView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             emptyStateView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            emptyStateView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
-            
-            errorView.topAnchor.constraint(equalTo: topAnchor),
-            errorView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            errorView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            errorView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            emptyStateView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
         ])
     }
     
@@ -108,22 +95,14 @@ class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDeleg
             favoriteMoviesCollectionView.isHidden = false
             loadingView.isHidden = true
             emptyStateView.isHidden = true
-            errorView.isHidden = true
         case .loading:
             favoriteMoviesCollectionView.isHidden = true
             loadingView.isHidden = false
             emptyStateView.isHidden = true
-            errorView.isHidden = true
-        case .error:
-            favoriteMoviesCollectionView.isHidden = true
-            loadingView.isHidden = true
-            emptyStateView.isHidden = true
-            errorView.isHidden = false
         case .empty:
             favoriteMoviesCollectionView.isHidden = true
             loadingView.isHidden = true
             emptyStateView.isHidden = false
-            errorView.isHidden = true
         }
     }
 }

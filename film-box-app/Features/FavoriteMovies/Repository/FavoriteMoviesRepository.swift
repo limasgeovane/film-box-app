@@ -3,65 +3,57 @@ import Foundation
 protocol FavoriteMoviesRepositoryLogic {
     func favorite(favoriteMovie: FavoriteMoviesDisplayModel)
     func unfavorite(movieId: Int)
-    func getFavorites() -> Result<[FavoriteMoviesDisplayModel], Error>
+    func getFavorites() -> [FavoriteMoviesDisplayModel]
     func isMovieFavorite(id: Int) -> Bool
 }
 final class FavoriteMoviesRepository: FavoriteMoviesRepositoryLogic {
     private let favoritesKey = "FavoriteMovies"
     
     func favorite(favoriteMovie: FavoriteMoviesDisplayModel) {
-        let result = getFavorites()
+        var favorites = getFavorites()
         
-        guard case .success(var favorites) = result else {
-            return
-        }
+        favorites.append(favoriteMovie)
         
-        if !favorites.contains(where: { $0.id == favoriteMovie.id }) {
-            favorites.append(favoriteMovie)
-            saveFavorites(favorites)
+        let encoder = JSONEncoder()
+        do {
+            let data = try encoder.encode(favorites)
+            UserDefaults.standard.set(data, forKey: favoritesKey)
+        } catch {
+            print("Erro ao codificar FavoriteMovies: \(error)")
         }
     }
     
     func unfavorite(movieId: Int) {
-        let result = getFavorites()
-        
-        guard case .success(var favorites) = result else {
-            return
-        }
-        
+        var favorites = getFavorites()
         favorites.removeAll { $0.id == movieId }
-        saveFavorites(favorites)
+        
+        let encoder = JSONEncoder()
+        do {
+            let data = try encoder.encode(favorites)
+            UserDefaults.standard.set(data, forKey: favoritesKey)
+        } catch {
+            print("Erro ao codificar FavoriteMovies após remoção: \(error)")
+        }
     }
     
-    func getFavorites() -> Result<[FavoriteMoviesDisplayModel], Error> {
+    func getFavorites() -> [FavoriteMoviesDisplayModel] {
         guard let data = UserDefaults.standard.data(forKey: favoritesKey) else {
-            return .success([])
+            return []
         }
         
+        let decoder = JSONDecoder()
         do {
-            let favorites = try JSONDecoder().decode([FavoriteMoviesDisplayModel].self, from: data)
-            return .success(favorites)
+            let favorites = try decoder.decode([FavoriteMoviesDisplayModel].self, from: data)
+            
+            return favorites.sorted { $0.id > $1.id }
         } catch {
-            return .failure(error)
+            return []
         }
     }
     
     func isMovieFavorite(id: Int) -> Bool {
-        let result = getFavorites()
-        
-        guard case .success(let favorites) = result else {
-            return false
-        }
-        
-        return favorites.contains { $0.id == id }
-    }
-    
-    private func saveFavorites(_ favorites: [FavoriteMoviesDisplayModel]) {
-        do {
-            let data = try JSONEncoder().encode(favorites)
-            UserDefaults.standard.set(data, forKey: favoritesKey)
-        } catch {
-            print("Erro ao codificar FavoriteMovies: \(error)")
+        return getFavorites().contains {
+            $0.id == id
         }
     }
 }
