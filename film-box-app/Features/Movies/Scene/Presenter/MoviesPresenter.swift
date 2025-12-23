@@ -1,20 +1,20 @@
 import Foundation
 
-protocol MoviesPresenterLogic: AnyObject {
-    func presentMovies(movies: [MovieEntity])
+protocol MoviesPresenterInputLogic {
+    func presentContent(movies: [MovieEntity])
     func didTapSearch()
     func didSelectMovie(movieId: Int)
     func didTapFavorite(movieId: Int, isFavorite: Bool)
 }
 
-final class MoviesPresenter: MoviesPresenterLogic {
-    weak var display: MoviesViewControllerLogic?
-
+final class MoviesPresenter {
+    weak var viewController: MoviesViewControllerLogic?
+    
     private let interactor: MoviesInteractorLogic
     private let router: MoviesRouterLogic
-
+    
     private var displayModel: [MovieDisplayModel] = []
-
+    
     init(
         interactor: MoviesInteractorLogic,
         router: MoviesRouterLogic
@@ -22,13 +22,15 @@ final class MoviesPresenter: MoviesPresenterLogic {
         self.interactor = interactor
         self.router = router
     }
+}
 
-    func presentMovies(movies: [MovieEntity]) {
+extension MoviesPresenter: MoviesPresenterInputLogic {
+    func presentContent(movies: [MovieEntity]) {
         let favoritesRepository = FavoriteMoviesRepository()
-
+        
         displayModel = movies.map { movie in
             let isFavorite = favoritesRepository.isMovieFavorite(id: movie.id)
-
+            
             return MovieDisplayModel(
                 id: movie.id,
                 posterImagePath: {
@@ -53,21 +55,21 @@ final class MoviesPresenter: MoviesPresenterLogic {
                 isFavorite: isFavorite
             )
         }
-
-        display?.displayMovies(movies: displayModel)
+        
+        viewController?.displayContent(movies: displayModel)
     }
-
+    
     func didTapSearch() {
         router.openSearchMovies()
     }
-
+    
     func didSelectMovie(movieId: Int) {
         router.openMovieDetails(movieId: movieId)
     }
-
+    
     func didTapFavorite(movieId: Int, isFavorite: Bool) {
         guard let movie = displayModel.first(where: { $0.id == movieId }) else { return }
-
+        
         if isFavorite {
             interactor.favoriteMovie(movie: movie)
         } else {

@@ -1,17 +1,17 @@
 import UIKit
 
 protocol MoviesViewControllerLogic: AnyObject {
-    func displayMovies(movies: [MovieDisplayModel])
+    func displayContent(movies: [MovieDisplayModel])
 }
 
 final class MoviesViewController: UIViewController {
-    private let presenter: MoviesPresenterLogic
+    private let presenter: MoviesPresenterInputLogic
     private let contentView: MoviesViewLogic
     
     private var displayModel: [MovieDisplayModel] = []
     
     init(
-        presenter: MoviesPresenterLogic,
+        presenter: MoviesPresenterInputLogic,
         contentView: MoviesViewLogic
     ) {
         self.presenter = presenter
@@ -65,7 +65,7 @@ extension MoviesViewController: MovieViewCollectionViewCellDelegate {
 }
 
 extension MoviesViewController: MoviesViewControllerLogic {
-    func displayMovies(movies: [MovieDisplayModel]) {
+    func displayContent(movies: [MovieDisplayModel]) {
         displayModel = movies
         contentView.movies = movies
     }

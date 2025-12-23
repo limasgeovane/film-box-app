@@ -1,11 +1,16 @@
 import Foundation
 
-protocol SearchMoviesPresenterLogic: AnyObject {
-    func didFetchMovies(result: Result<[MovieEntity], Error>)
+protocol SearchMoviesPresenterInputLogic {
+    func searchMovies(query: String)
 }
 
-final class SearchMoviesPresenter: SearchMoviesPresenterLogic {
-    weak var display: SearchMoviesViewControllerLogic?
+protocol SearchMoviesPresenterOutputLogic: AnyObject {
+    func didSearchMovies(movies: [MovieEntity])
+    func didSearchMoviesError()
+}
+
+final class SearchMoviesPresenter {
+    weak var viewController: SearchMoviesViewControllerLogic?
     
     var interactor: SearchMoviesInteractorLogic
     var router: SearchMoviesRouterLogic
@@ -17,20 +22,22 @@ final class SearchMoviesPresenter: SearchMoviesPresenterLogic {
         self.interactor = interactor
         self.router = router
     }
-    
+}
+
+extension SearchMoviesPresenter: SearchMoviesPresenterInputLogic {
     func searchMovies(query: String) {
-        display?.displayLoading()
+        viewController?.displayLoading()
         interactor.requestSearchMovies(query: query)
-    }
-    
-    func didFetchMovies(result: Result<[MovieEntity], Error>) {
-        switch result {
-        case .success(let movies):
-            display?.displayMovies(movies: movies)
-            router.openMovies(movies: movies)
-        case .failure:
-            display?.displayError()
-        }
     }
 }
 
+extension SearchMoviesPresenter: SearchMoviesPresenterOutputLogic {
+    func didSearchMovies(movies: [MovieEntity]) {
+        viewController?.displayContent()
+        router.openMovies(movies: movies)
+    }
+    
+    func didSearchMoviesError() {
+        viewController?.displayError()
+    }
+}

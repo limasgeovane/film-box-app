@@ -1,22 +1,38 @@
-protocol SearchMoviesInteractorLogic: AnyObject {
+protocol SearchMoviesInteractorLogic {
     func requestSearchMovies(query: String)
 }
 
-final class SearchMoviesInteractor: SearchMoviesInteractorLogic {
+final class SearchMoviesInteractor {
     private let repository: SearchMoviesRepositoryLogic
-    weak var presenter: SearchMoviesPresenterLogic?
+    weak var presenter: SearchMoviesPresenterOutputLogic?
     
     init(repository: SearchMoviesRepositoryLogic) {
         self.repository = repository
     }
     
-    func requestSearchMovies(query: String) {
+    private func fetchSearchMovies(query: String) {
         repository.fetchMovies(query: query) { [weak self] result in
-            guard let self = self else { return }
+            guard let self else { return }
             
-            let mapResult = result.map { $0.results }
-            
-            self.presenter?.didFetchMovies(result: mapResult)
+            switch result {
+            case .success(let response):
+                let movies = response.results
+                
+                guard !movies.isEmpty else {
+                    presenter?.didSearchMoviesError()
+                    return
+                }
+                
+                presenter?.didSearchMovies(movies: movies)
+            case .failure:
+                presenter?.didSearchMoviesError()
+            }
         }
+    }
+}
+
+extension SearchMoviesInteractor: SearchMoviesInteractorLogic {
+    func requestSearchMovies(query: String) {
+        fetchSearchMovies(query: query)
     }
 }

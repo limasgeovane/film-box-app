@@ -2,25 +2,24 @@ import UIKit
 
 protocol MovieDetailsViewControllerLogic: AnyObject {
     func displayLoading()
-    func displayMovieDetails(displayModel: MovieDetailsDisplayModel)
+    func displayContent(displayModel: MovieDetailsDisplayModel)
     func displayError()
 }
 
 class MovieDetailsViewController: UIViewController {
-    private let movieId: Int
-    private let interactor: MovieDetailsInteractorLogic
+    private let presenter: MovieDetailsPresenterInputLogic
     private let contentView: MovieDetailsViewLogic
-    
+    private let movieId: Int
     private var favoriteButton: UIBarButtonItem?
     
     init(
-        movieId: Int,
-        interactor: MovieDetailsInteractorLogic,
-        contentView: MovieDetailsViewLogic
+        presenter: MovieDetailsPresenterInputLogic,
+        contentView: MovieDetailsViewLogic,
+        movieId: Int
     ) {
-        self.movieId = movieId
-        self.interactor = interactor
+        self.presenter = presenter
         self.contentView = contentView
+        self.movieId = movieId
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -35,7 +34,7 @@ class MovieDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = String(localized: "movieDetailsTitle")
-        interactor.requestMovieDetails(movieId: movieId)
+        presenter.requestMovieDetails(movieId: movieId)
     }
 }
 
@@ -45,7 +44,7 @@ extension MovieDetailsViewController: MovieDetailsViewControllerLogic {
         contentView.changeState(state: .loading)
     }
     
-    func displayMovieDetails(displayModel: MovieDetailsDisplayModel) {
+    func displayContent(displayModel: MovieDetailsDisplayModel) {
         navigationItem.rightBarButtonItem = favoriteButton
         contentView.setupContent(displayModel: displayModel)
         contentView.changeState(state: .content)

@@ -2,16 +2,16 @@ import UIKit
 
 protocol SearchMoviesViewControllerLogic: AnyObject {
     func displayLoading()
-    func displayMovies(movies: [MovieEntity])
+    func displayContent()
     func displayError()
 }
 
 class SearchMoviesViewController: UIViewController {
-    private let presenter: SearchMoviesPresenter
+    private let presenter: SearchMoviesPresenterInputLogic
     private let contentView: SearchMoviesViewLogic
     
     init(
-        presenter: SearchMoviesPresenter,
+        presenter: SearchMoviesPresenterInputLogic,
         contentView: SearchMoviesViewLogic
     ) {
         self.presenter = presenter
@@ -56,7 +56,7 @@ extension SearchMoviesViewController: SearchMoviesViewControllerLogic {
         contentView.changeState(state: .loading)
     }
     
-    func displayMovies(movies: [MovieEntity]) {
+    func displayContent() {
         contentView.changeState(state: .content)
     }
     

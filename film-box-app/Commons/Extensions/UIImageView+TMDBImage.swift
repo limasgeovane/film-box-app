@@ -4,8 +4,8 @@ private let imageCache = NSCache<NSString, UIImage>()
 
 extension UIImageView {
     func loadTMDBImage(path: String?) {
-        let placeholder = UIImage(named: "no-image")
-        image = placeholder
+        let defaultImage = UIImage(named: "no-image")
+        image = defaultImage
         
         guard let path, let url = URL(string: path) else { return }
         
@@ -23,7 +23,7 @@ extension UIImageView {
             }
             
             DispatchQueue.main.async {
-                self.image = downloadedImage ?? placeholder
+                self.image = downloadedImage ?? defaultImage
             }
         }
     }

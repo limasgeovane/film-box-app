@@ -1,15 +1,33 @@
 import Foundation
 
-protocol MovieDetailsPresenterLogic {
-    func responseMovieDetails(movieDetails: MovieDetailsEntity)
-    func responseLoading()
-    func responseError()
+protocol MovieDetailsPresenterInputLogic {
+    func requestMovieDetails(movieId: Int)
 }
 
-final class MovieDetailsPresenter: MovieDetailsPresenterLogic {
-    weak var display: MovieDetailsViewControllerLogic?
+protocol MovieDetailsPresenterOutputLogic: AnyObject {
+    func didRequestMovieDetails(movieDetails: MovieDetailsEntity)
+    func didRequestMovieDetailsError()
+}
+
+final class MovieDetailsPresenter {
+    weak var viewController: MovieDetailsViewControllerLogic?
     
-    func responseMovieDetails(movieDetails: MovieDetailsEntity) {
+    var interactor: MovieDetailsInteractorLogic
+    
+    init(interactor: MovieDetailsInteractorLogic) {
+        self.interactor = interactor
+    }
+}
+
+extension MovieDetailsPresenter: MovieDetailsPresenterInputLogic {
+    func requestMovieDetails(movieId: Int) {
+        viewController?.displayLoading()
+        interactor.requestMovieDetails(movieId: movieId)
+    }
+}
+
+extension MovieDetailsPresenter: MovieDetailsPresenterOutputLogic {
+    func didRequestMovieDetails(movieDetails: MovieDetailsEntity) {
         let displayModel = MovieDetailsDisplayModel(
             backdropPath: {
                 if let backdropPath = movieDetails.backdropPath, !backdropPath.isEmpty {
@@ -51,14 +69,10 @@ final class MovieDetailsPresenter: MovieDetailsPresenterLogic {
             }()
         )
         
-        display?.displayMovieDetails(displayModel: displayModel)
+        viewController?.displayContent(displayModel: displayModel)
     }
     
-    func responseLoading() {
-        display?.displayLoading()
-    }
-    
-    func responseError() {
-        display?.displayError()
+    func didRequestMovieDetailsError() {
+        viewController?.displayError()
     }
 }

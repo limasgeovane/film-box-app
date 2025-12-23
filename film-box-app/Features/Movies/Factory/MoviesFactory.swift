@@ -14,9 +14,9 @@ enum MoviesFactory {
             contentView: MoviesView()
         )
         
-        presenter.display = viewController
+        presenter.viewController = viewController
         router.viewController = viewController
-        presenter.presentMovies(movies: movies)
+        presenter.presentContent(movies: movies)
         
         return viewController
     }

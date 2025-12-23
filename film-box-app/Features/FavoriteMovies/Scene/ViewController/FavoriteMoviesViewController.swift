@@ -2,21 +2,27 @@ import UIKit
 
 protocol FavoriteMoviesViewControllerLogic: AnyObject {
     func displayLoading()
-    func displayFavoriteMovies(viewModel: [FavoriteMoviesDisplayModel])
+    func displayContent(viewModel: [FavoriteMoviesDisplayModel])
+    func displayError()
     func displayEmptyState()
 }
 
 class FavoriteMoviesViewController: UIViewController {
-    private let interactor: FavoriteMoviesInteractorLogic
+    private let presenter: FavoriteMoviesPresenterInputLogic
     private let contentView: FavoriteMoviesViewLogic
     
-    init(interactor: FavoriteMoviesInteractorLogic, contentView: FavoriteMoviesViewLogic) {
-        self.interactor = interactor
+    init(
+        presenter: FavoriteMoviesPresenterInputLogic,
+        contentView: FavoriteMoviesViewLogic
+    ) {
+        self.presenter = presenter
         self.contentView = contentView
         super.init(nibName: nil, bundle: nil)
     }
     
-    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         view = contentView
@@ -24,7 +30,7 @@ class FavoriteMoviesViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        interactor.requestFavoriteMovies()
+        presenter.requestFavoriteMovies()
     }
 }
 
@@ -34,9 +40,14 @@ extension FavoriteMoviesViewController: FavoriteMoviesViewControllerLogic {
         contentView.changeState(state: .loading)
     }
     
-    func displayFavoriteMovies(viewModel: [FavoriteMoviesDisplayModel]) {
+    func displayContent(viewModel: [FavoriteMoviesDisplayModel]) {
         contentView.favoriteMovies = viewModel
         contentView.changeState(state: .content)
+    }
+    
+    func displayError() {
+        contentView.favoriteMovies = []
+        contentView.changeState(state: .error)
     }
     
     func displayEmptyState() {

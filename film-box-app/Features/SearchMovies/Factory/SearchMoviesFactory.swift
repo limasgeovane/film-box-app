@@ -13,7 +13,7 @@ enum SearchMoviesFactory {
         
         router.viewController = viewController
         interactor.presenter = presenter
-        presenter.display = viewController
+        presenter.viewController = viewController
         
         return viewController
     }

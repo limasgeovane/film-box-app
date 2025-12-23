@@ -1,23 +1,42 @@
 import Foundation
 
-protocol FavoriteMoviesPresenterLogic {
-    func responseFavoriteMovies(favoriteMovies: [FavoriteMoviesDisplayModel])
-    func responseLoading()
-    func responseEmptyState()
+protocol FavoriteMoviesPresenterInputLogic {
+    func requestFavoriteMovies()
 }
 
-final class FavoriteMoviesPresenter: FavoriteMoviesPresenterLogic {
-    weak var display: FavoriteMoviesViewControllerLogic?
+protocol FavoriteMoviesPresenterOutputLogic: AnyObject {
+    func didRequestFavoriteMovies(favoriteMovies: [FavoriteMoviesDisplayModel])
+    func didRequestFavoriteMoviesError()
+    func didRequestFavoriteMoviesEmpty()
+}
+
+final class FavoriteMoviesPresenter {
+    weak var viewController: FavoriteMoviesViewControllerLogic?
     
-    func responseFavoriteMovies(favoriteMovies: [FavoriteMoviesDisplayModel]) {
-        display?.displayFavoriteMovies(viewModel: favoriteMovies)
+    var interactor: FavoriteMoviesInteractorLogic
+    
+    init(interactor: FavoriteMoviesInteractorLogic) {
+        self.interactor = interactor
+    }
+}
+
+extension FavoriteMoviesPresenter: FavoriteMoviesPresenterInputLogic {
+    func requestFavoriteMovies() {
+        viewController?.displayLoading()
+        interactor.requestFavoriteMovies()
+    }
+}
+
+extension FavoriteMoviesPresenter: FavoriteMoviesPresenterOutputLogic {
+    func didRequestFavoriteMovies(favoriteMovies: [FavoriteMoviesDisplayModel]) {
+        viewController?.displayContent(viewModel: favoriteMovies)
     }
     
-    func responseLoading() {
-        display?.displayLoading()
+    func didRequestFavoriteMoviesError() {
+        viewController?.displayError()
     }
     
-    func responseEmptyState() {
-        display?.displayEmptyState()
+    func didRequestFavoriteMoviesEmpty() {
+        viewController?.displayEmptyState()
     }
 }

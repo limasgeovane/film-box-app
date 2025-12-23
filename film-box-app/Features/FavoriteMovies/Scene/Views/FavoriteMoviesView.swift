@@ -9,6 +9,7 @@ class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDeleg
     enum State {
         case content
         case loading
+        case error
         case empty
     }
     
@@ -113,6 +114,11 @@ class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDeleg
             loadingView.isHidden = false
             emptyStateView.isHidden = true
             errorView.isHidden = true
+        case .error:
+            favoriteMoviesCollectionView.isHidden = true
+            loadingView.isHidden = true
+            emptyStateView.isHidden = true
+            errorView.isHidden = false
         case .empty:
             favoriteMoviesCollectionView.isHidden = true
             loadingView.isHidden = true

@@ -13,8 +13,8 @@ protocol SearchMoviesViewLogic: UIView {
 
 class SearchMoviesView: UIView {
     enum State {
-        case content
         case loading
+        case content
         case error
     }
     
@@ -130,11 +130,11 @@ class SearchMoviesView: UIView {
 extension SearchMoviesView: SearchMoviesViewLogic {
     func changeState(state: State) {
         switch state {
-        case .content:
-            loadingView.isHidden = true
-            errorView.isHidden = true
         case .loading:
             loadingView.isHidden = false
+            errorView.isHidden = true
+        case .content:
+            loadingView.isHidden = true
             errorView.isHidden = true
         case .error:
             loadingView.isHidden = true

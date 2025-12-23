@@ -6,30 +6,25 @@ protocol MovieDetailsInteractorLogic {
 
 final class MovieDetailsInteractor {
     private let repository: MovieDetailsRepositoryLogic
-    private let presenter: MovieDetailsPresenterLogic
+    weak var presenter: MovieDetailsPresenterOutputLogic?
     
-    init(
-        repository: MovieDetailsRepositoryLogic,
-        presenter: MovieDetailsPresenterLogic,
-    ) {
+    init(repository: MovieDetailsRepositoryLogic) {
         self.repository = repository
-        self.presenter = presenter
     }
     
     private func fetchMovieDetails(movieId: Int) {
-        presenter.responseLoading()
-        
         repository.fetchMovieDetails(
             movieId: movieId
         ) { [weak self] result in
             guard let self else { return }
+            
             switch result {
             case .success(let movieDetails):
-                self.presenter.responseMovieDetails(
+                self.presenter?.didRequestMovieDetails(
                     movieDetails: movieDetails
                 )
             case .failure:
-                self.presenter.responseError()
+                self.presenter?.didRequestMovieDetailsError()
             }
         }
     }
