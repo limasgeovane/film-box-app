@@ -1,14 +1,15 @@
 import UIKit
 
 protocol MoviesViewControllerLogic: AnyObject {
+    func displayLoading()
+    func displayEmptyView()
     func displayContent(movies: [MovieDisplayModel])
+    func displayError()
 }
 
 final class MoviesViewController: UIViewController {
     private let presenter: MoviesPresenterInputLogic
     private let contentView: MoviesViewLogic
-    
-    private var displayModel: [MovieDisplayModel] = []
     
     init(
         presenter: MoviesPresenterInputLogic,
@@ -26,12 +27,12 @@ final class MoviesViewController: UIViewController {
     override func loadView() {
         view = contentView
         contentView.delegate = self
-        contentView.movies = displayModel
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigation()
+        presenter.searchMovies()
     }
     
     private func setupNavigation() {
@@ -65,8 +66,20 @@ extension MoviesViewController: MovieViewCollectionViewCellDelegate {
 }
 
 extension MoviesViewController: MoviesViewControllerLogic {
+    func displayLoading() {
+        contentView.changeState(state: .loading)
+    }
+    
+    func displayEmptyView() {
+        contentView.changeState(state: .Empty)
+    }
+    
     func displayContent(movies: [MovieDisplayModel]) {
-        displayModel = movies
         contentView.movies = movies
+        contentView.changeState(state: .content)
+    }
+    
+    func displayError() {
+        contentView.changeState(state: .error)
     }
 }

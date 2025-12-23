@@ -3,6 +3,7 @@ import UIKit
 enum MoviesFactory {
     static func make(movies: [MovieEntity] = []) -> UIViewController {
         let interactor = MoviesInteractor(
+            repository: MoviesRepository(),
             favoriteMoviesRepository: FavoriteMoviesRepository()
         )
         
@@ -14,9 +15,9 @@ enum MoviesFactory {
             contentView: MoviesView()
         )
         
+        interactor.presenter = presenter
         presenter.viewController = viewController
         router.viewController = viewController
-        presenter.presentContent(movies: movies)
         
         return viewController
     }

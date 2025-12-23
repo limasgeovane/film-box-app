@@ -1,4 +1,4 @@
-struct SearchMoviesResponseEntity: Decodable {
+struct MoviesResponseEntity: Decodable {
     let page: Int
     let results: [MovieEntity]
     let totalPages: Int

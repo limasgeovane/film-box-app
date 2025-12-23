@@ -1,10 +1,16 @@
 import Foundation
 
 protocol MoviesPresenterInputLogic {
-    func presentContent(movies: [MovieEntity])
+    func searchMovies()
     func didTapSearch()
     func didSelectMovie(movieId: Int)
     func didTapFavorite(movieId: Int, isFavorite: Bool)
+}
+
+protocol MoviesPresenterOutputLogic: AnyObject {
+    func didSearchMovies(movies: [MovieEntity])
+    func didSearchMoviesEmpty()
+    func didSearchMoviesError()
 }
 
 final class MoviesPresenter {
@@ -25,8 +31,33 @@ final class MoviesPresenter {
 }
 
 extension MoviesPresenter: MoviesPresenterInputLogic {
-    func presentContent(movies: [MovieEntity]) {
-        let favoritesRepository = FavoriteMoviesRepository()
+    func searchMovies() {
+        viewController?.displayLoading()
+        interactor.requestSearchMovies()
+    }
+    
+    func didTapSearch() {
+        router.openSearchMovies()
+    }
+    
+    func didSelectMovie(movieId: Int) {
+        router.openMovieDetails(movieId: movieId)
+    }
+    
+    func didTapFavorite(movieId: Int, isFavorite: Bool) {
+        guard let movie = displayModel.first(where: { $0.id == movieId }) else { return }
+        
+        if isFavorite {
+            interactor.favoriteMovie(movie: movie)
+        } else {
+            interactor.unfavoriteMovie(movieId: movieId)
+        }
+    }
+}
+
+extension MoviesPresenter: MoviesPresenterOutputLogic {
+    func didSearchMovies(movies: [MovieEntity]) {
+        let favoritesRepository = FavoriteMoviesRepository() // verificar
         
         displayModel = movies.map { movie in
             let isFavorite = favoritesRepository.isMovieFavorite(id: movie.id)
@@ -59,21 +90,11 @@ extension MoviesPresenter: MoviesPresenterInputLogic {
         viewController?.displayContent(movies: displayModel)
     }
     
-    func didTapSearch() {
-        router.openSearchMovies()
+    func didSearchMoviesEmpty() {
+        viewController?.displayEmptyView()
     }
     
-    func didSelectMovie(movieId: Int) {
-        router.openMovieDetails(movieId: movieId)
-    }
-    
-    func didTapFavorite(movieId: Int, isFavorite: Bool) {
-        guard let movie = displayModel.first(where: { $0.id == movieId }) else { return }
-        
-        if isFavorite {
-            interactor.favoriteMovie(movie: movie)
-        } else {
-            interactor.unfavoriteMovie(movieId: movieId)
-        }
+    func didSearchMoviesError() {
+        viewController?.displayError()
     }
 }

@@ -7,14 +7,23 @@ protocol MoviesViewDelegate: AnyObject {
 protocol MoviesViewLogic: UIView {
     var delegate: MoviesViewDelegate? { get set }
     var movies: [MovieDisplayModel] { get set }
+    
     func reloadMovieCell(index: Int)
+    func changeState(state: MoviesView.State)
 }
 
 class MoviesView: UIView, MoviesViewLogic {
+    enum State {
+        case loading
+        case Empty
+        case content
+        case error
+    }
+    
     var movies: [MovieDisplayModel] = [] {
         didSet {
             moviesCollectionView.reloadData()
-            emptyStateView.isHidden = !movies.isEmpty
+            emptyStateView.isHidden = !movies.isEmpty // verificar
         }
     }
     
@@ -42,6 +51,18 @@ class MoviesView: UIView, MoviesViewLogic {
         return view
     }()
     
+    private let loadingView: LoadingView = {
+        let view = LoadingView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private let errorView: ErrorView = {
+        let view = ErrorView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     weak var delegate: MoviesViewDelegate?
     
     override init(frame: CGRect) {
@@ -58,6 +79,8 @@ class MoviesView: UIView, MoviesViewLogic {
     private func setupViewHierarchy() {
         addSubview(moviesCollectionView)
         addSubview(emptyStateView)
+        addSubview(loadingView)
+        addSubview(errorView)
     }
     
     private func setupViewAttributes() {
@@ -66,6 +89,11 @@ class MoviesView: UIView, MoviesViewLogic {
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
             moviesCollectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             moviesCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             moviesCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -74,13 +102,44 @@ class MoviesView: UIView, MoviesViewLogic {
             emptyStateView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
             emptyStateView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             emptyStateView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            emptyStateView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
+            emptyStateView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
+            
+            errorView.topAnchor.constraint(equalTo: topAnchor),
+            errorView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            errorView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            errorView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
     
     func reloadMovieCell(index: Int) {
         let indexPath = IndexPath(item: index, section: 0)
         moviesCollectionView.reloadItems(at: [indexPath])
+    }
+    
+    func changeState(state: State) {
+        switch state {
+        case .loading:
+            loadingView.isHidden = false
+            moviesCollectionView.isHidden = false
+            emptyStateView.isHidden = true
+            errorView.isHidden = true
+        case .content:
+            loadingView.isHidden = true
+            moviesCollectionView.isHidden = false
+            emptyStateView.isHidden = true
+            errorView.isHidden = true
+        case .Empty:
+            loadingView.isHidden = true
+            moviesCollectionView.isHidden = true
+            emptyStateView.isHidden = false
+            errorView.isHidden = true
+        case .error:
+            loadingView.isHidden = true
+            moviesCollectionView.isHidden = true
+            emptyStateView.isHidden = true
+            errorView.isHidden = false
+            errorView.setupMessage(message: String(localized: "requestMoviesError"))
+        }
     }
 }
 
