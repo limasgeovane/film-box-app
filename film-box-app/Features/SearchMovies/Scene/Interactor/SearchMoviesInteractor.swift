@@ -6,9 +6,8 @@ final class SearchMoviesInteractor: SearchMoviesInteractorLogic {
     private let repository: SearchMoviesRepositoryLogic
     weak var presenter: SearchMoviesPresenterLogic?
     
-    init(repository: SearchMoviesRepositoryLogic, presenter: SearchMoviesPresenterLogic) {
+    init(repository: SearchMoviesRepositoryLogic) {
         self.repository = repository
-        self.presenter = presenter
     }
     
     func requestSearchMovies(query: String) {

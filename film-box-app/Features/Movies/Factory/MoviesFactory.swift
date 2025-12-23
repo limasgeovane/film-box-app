@@ -2,15 +2,16 @@ import UIKit
 
 enum MoviesFactory {
     static func make(movies: [MovieEntity] = []) -> UIViewController {
-        let presenter = MoviesPresenter()
-        let interactor = MoviesInteractor(favoriteMoviesRepository: FavoriteMoviesRepository())
+        let interactor = MoviesInteractor(
+            favoriteMoviesRepository: FavoriteMoviesRepository()
+        )
+        
         let router = MoviesRouter()
+        let presenter = MoviesPresenter(interactor: interactor, router: router)
+        
         let viewController = MoviesViewController(
-            interactor: interactor,
             presenter: presenter,
-            contentView: MoviesView(),
-            router: router,
-            movies: []
+            contentView: MoviesView()
         )
         
         presenter.display = viewController

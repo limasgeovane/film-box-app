@@ -3,21 +3,17 @@ import UIKit
 enum SearchMoviesFactory {
     static func make() -> UIViewController {
         let router = SearchMoviesRouter()
-        let presenter = SearchMoviesPresenter()
-        let interactor = SearchMoviesInteractor(
-            repository: SearchMoviesRepository(),
-            presenter: presenter
-        )
-        let contentView = SearchMoviesView()
+        let interactor = SearchMoviesInteractor(repository: SearchMoviesRepository())
+        let presenter = SearchMoviesPresenter(interactor: interactor, router: router)
+        
         let viewController = SearchMoviesViewController(
             presenter: presenter,
-            contentView: contentView
+            contentView: SearchMoviesView()
         )
-
-        presenter.viewController = viewController
-        presenter.interactor = interactor
-        presenter.router = router
+        
         router.viewController = viewController
+        interactor.presenter = presenter
+        presenter.display = viewController
         
         return viewController
     }

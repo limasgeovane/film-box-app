@@ -4,25 +4,18 @@ protocol MoviesViewControllerLogic: AnyObject {
     func displayMovies(movies: [MovieDisplayModel])
 }
 
-class MoviesViewController: UIViewController {
-    private let interactor: MoviesInteractorLogic
-    private let presenter: MoviesPresenter
+final class MoviesViewController: UIViewController {
+    private let presenter: MoviesPresenterLogic
     private let contentView: MoviesViewLogic
-    private let router: MoviesRouterLogic
-    private var movies: [MovieDisplayModel]
+    
+    private var moviesDisplayModel: [MovieDisplayModel] = []
     
     init(
-        interactor: MoviesInteractorLogic,
-        presenter: MoviesPresenter,
-        contentView: MoviesViewLogic,
-        router: MoviesRouterLogic,
-        movies: [MovieDisplayModel]
+        presenter: MoviesPresenterLogic,
+        contentView: MoviesViewLogic
     ) {
-        self.interactor = interactor
         self.presenter = presenter
         self.contentView = contentView
-        self.router = router
-        self.movies = movies
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -33,7 +26,7 @@ class MoviesViewController: UIViewController {
     override func loadView() {
         view = contentView
         contentView.delegate = self
-        contentView.movies = movies
+        contentView.movies = moviesDisplayModel
     }
     
     override func viewDidLoad() {
@@ -42,47 +35,38 @@ class MoviesViewController: UIViewController {
     }
     
     private func setupNavigation() {
-        self.navigationItem.hidesBackButton = true
+        navigationItem.hidesBackButton = true
         
-        let image = UIImage(systemName: "magnifyingglass")
         let searchButton = UIBarButtonItem(
-            image: image,
+            image: UIImage(systemName: "magnifyingglass"),
             style: .plain,
             target: self,
             action: #selector(searchButtonPressed)
         )
+        
         navigationItem.rightBarButtonItem = searchButton
     }
     
     @objc private func searchButtonPressed() {
-        router.openSearchMovies()
+        presenter.didTapSearch()
     }
 }
 
 extension MoviesViewController: MoviesViewDelegate {
     func didSelectMovie(movieId: Int) {
-        router.openMovieDetails(movieId: movieId)
+        presenter.didSelectMovie(movieId: movieId)
     }
 }
 
 extension MoviesViewController: MovieViewCollectionViewCellDelegate {
     func didTapFavorite(movieId: Int, isFavorite: Bool) {
-        guard let index = movies.firstIndex(where: { $0.id == movieId }) else { return }
-        
-        movies[index].isFavorite = isFavorite
-        
-        let movie = movies[index]
-        if movie.isFavorite {
-            interactor.favoriteMovie(movie: movie)
-        } else {
-            interactor.unfavoriteMovie(movieId: movie.id)
-        }
+        presenter.didTapFavorite(movieId: movieId, isFavorite: isFavorite)
     }
 }
 
 extension MoviesViewController: MoviesViewControllerLogic {
     func displayMovies(movies: [MovieDisplayModel]) {
-        self.movies = movies
+        moviesDisplayModel = movies
         contentView.movies = movies
     }
 }

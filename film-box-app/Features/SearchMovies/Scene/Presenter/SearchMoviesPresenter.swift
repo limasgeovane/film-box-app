@@ -5,22 +5,31 @@ protocol SearchMoviesPresenterLogic: AnyObject {
 }
 
 final class SearchMoviesPresenter: SearchMoviesPresenterLogic {
-    weak var viewController: SearchMoviesViewControllerLogic?
-    var interactor: SearchMoviesInteractorLogic?
-    var router: SearchMoviesRouterLogic?
+    weak var display: SearchMoviesViewControllerLogic?
+    
+    var interactor: SearchMoviesInteractorLogic
+    var router: SearchMoviesRouterLogic
+    
+    init(
+        interactor: SearchMoviesInteractorLogic,
+        router: SearchMoviesRouterLogic
+    ) {
+        self.interactor = interactor
+        self.router = router
+    }
     
     func searchMovies(query: String) {
-        viewController?.displayLoading()
-        interactor?.requestSearchMovies(query: query)
+        display?.displayLoading()
+        interactor.requestSearchMovies(query: query)
     }
     
     func didFetchMovies(result: Result<[MovieEntity], Error>) {
         switch result {
         case .success(let movies):
-            viewController?.displayMovies(movies: movies)
-            router?.openMovies(movies: movies)
+            display?.displayMovies(movies: movies)
+            router.openMovies(movies: movies)
         case .failure:
-            viewController?.displayError()
+            display?.displayError()
         }
     }
 }
