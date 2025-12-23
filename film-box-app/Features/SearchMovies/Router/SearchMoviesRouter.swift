@@ -9,6 +9,6 @@ final class SearchMoviesRouter: SearchMoviesRouterLogic {
     
     func openMovies(movies: [Movie]) {
         let moviesViewController = MoviesFactory.make(movies: movies)
-        viewController?.navigationController?.pushViewController(moviesViewController, animated: true)
+        viewController?.navigationController?.popViewController(animated: true)
     }
 }

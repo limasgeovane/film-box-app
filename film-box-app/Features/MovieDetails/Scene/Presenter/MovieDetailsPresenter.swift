@@ -24,14 +24,14 @@ final class MovieDetailsPresenter: MovieDetailsPresenterLogic {
             releaseDate: "\(movieDetails.releaseDate.usLongDate)",
             budget: {
                 if let budget = movieDetails.budget, budget > 0 {
-                    return "\(String(localized: "budget")): \(budget.usdformatter)"
+                    return "\(String(localized: "budget")): \(budget.usdFormatter)"
                 } else {
                     return ""
                 }
             }(),
             revenue: {
                 if let revenue = movieDetails.budget, revenue > 0 {
-                    return "\(String(localized: "revenue")): \(revenue.usdformatter)"
+                    return "\(String(localized: "revenue")): \(revenue.usdFormatter)"
                 } else {
                     return ""
                 }

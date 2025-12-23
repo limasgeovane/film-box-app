@@ -1,7 +1,7 @@
 import Foundation
 
 extension Int {
-    var usdformatter: String {
+    var usdFormatter: String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         formatter.currencyCode = "USD"

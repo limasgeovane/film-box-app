@@ -12,7 +12,7 @@ class Network: NetworkLogic {
     private let networkDeserialization: NetworkDeserialization
     
     init(
-        networkRequest: NetworkRequester = AlamofireNetworkRequest(),
+        networkRequest: NetworkRequester = URLSessionNetworkRequest(),
         networkDeserialization: NetworkDeserialization = NetworkDeserialization()
     ) {
         self.networkRequest = networkRequest
