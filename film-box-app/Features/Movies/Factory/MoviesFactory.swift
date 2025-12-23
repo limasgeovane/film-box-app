@@ -4,7 +4,8 @@ enum MoviesFactory {
     static func make(movies: [MovieEntity] = []) -> UIViewController {
         let interactor = MoviesInteractor(
             repository: MoviesRepository(),
-            favoriteMoviesRepository: FavoriteMoviesRepository()
+            favoriteMoviesRepository: FavoriteMoviesRepository(),
+            searchMoviesRepository: SearchMoviesRepository()
         )
         
         let router = MoviesRouter()

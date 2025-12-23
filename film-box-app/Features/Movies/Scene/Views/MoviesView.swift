@@ -70,6 +70,7 @@ class MoviesView: UIView, MoviesViewLogic {
         setupViewHierarchy()
         setupViewAttributes()
         setupLayout()
+        changeState(state: .loading)
     }
     
     required init?(coder: NSCoder) {
@@ -120,7 +121,7 @@ class MoviesView: UIView, MoviesViewLogic {
         switch state {
         case .loading:
             loadingView.isHidden = false
-            moviesCollectionView.isHidden = false
+            moviesCollectionView.isHidden = true
             emptyStateView.isHidden = true
             errorView.isHidden = true
         case .content:

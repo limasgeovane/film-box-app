@@ -8,7 +8,7 @@ protocol MoviesPresenterInputLogic {
 }
 
 protocol MoviesPresenterOutputLogic: AnyObject {
-    func didSearchMovies(movies: [MovieEntity])
+    func didSearchMovies(movies: [MovieEntity], favoriteMovies: Set<Int>)
     func didSearchMoviesEmpty()
     func didSearchMoviesError()
 }
@@ -56,12 +56,9 @@ extension MoviesPresenter: MoviesPresenterInputLogic {
 }
 
 extension MoviesPresenter: MoviesPresenterOutputLogic {
-    func didSearchMovies(movies: [MovieEntity]) {
-        let favoritesRepository = FavoriteMoviesRepository() // verificar
-        
+    func didSearchMovies(movies: [MovieEntity], favoriteMovies: Set<Int>) {
+       
         displayModel = movies.map { movie in
-            let isFavorite = favoritesRepository.isMovieFavorite(id: movie.id)
-            
             return MovieDisplayModel(
                 id: movie.id,
                 posterImagePath: {
@@ -83,7 +80,7 @@ extension MoviesPresenter: MoviesPresenterOutputLogic {
                     }
                     return String(localized: "noOverviewAvailable")
                 }(),
-                isFavorite: isFavorite
+                isFavorite: favoriteMovies.contains(movie.id)
             )
         }
         
