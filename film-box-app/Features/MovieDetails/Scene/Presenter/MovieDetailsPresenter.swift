@@ -1,7 +1,7 @@
 import Foundation
 
 protocol MovieDetailsPresenterLogic {
-    func responseMovieDetails(movieDetails: MovieDetails)
+    func responseMovieDetails(movieDetails: MovieDetailsEntity)
     func responseLoading()
     func responseError()
 }
@@ -9,7 +9,7 @@ protocol MovieDetailsPresenterLogic {
 final class MovieDetailsPresenter: MovieDetailsPresenterLogic {
     weak var display: MovieDetailsViewControllerLogic?
     
-    func responseMovieDetails(movieDetails: MovieDetails) {
+    func responseMovieDetails(movieDetails: MovieDetailsEntity) {
         let displayModel = MovieDetailsDisplayModel(
             backdropPath: movieDetails.backdropPath,
             originalTitle: movieDetails.originalTitle,

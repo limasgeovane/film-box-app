@@ -1,13 +1,13 @@
 import Foundation
 
 protocol MoviesPresenterLogic {
-    func presentMovies(movies: [Movie])
+    func presentMovies(movies: [MovieEntity])
 }
 
 final class MoviesPresenter: MoviesPresenterLogic {
     weak var display: MoviesViewControllerLogic?
     
-    func presentMovies(movies: [Movie]) {
+    func presentMovies(movies: [MovieEntity]) {
         let favoritesRepository = FavoriteMoviesRepository()
         
         let displayModels: [MovieDisplayModel] = movies.map { movie in

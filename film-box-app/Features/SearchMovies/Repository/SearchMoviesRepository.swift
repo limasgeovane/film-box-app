@@ -1,7 +1,7 @@
 import Foundation
 
 protocol SearchMoviesRepositoryLogic {
-    func fetchMovies(query: String, completion: @escaping (Result<SearchMoviesResponse, Error>) -> Void)
+    func fetchMovies(query: String, completion: @escaping (Result<SearchMoviesResponseEntity, Error>) -> Void)
 }
 
 struct SearchMoviesRepository: SearchMoviesRepositoryLogic {
@@ -11,7 +11,7 @@ struct SearchMoviesRepository: SearchMoviesRepositoryLogic {
         self.network = network
     }
     
-    func fetchMovies(query: String, completion: @escaping (Result<SearchMoviesResponse, Error>) -> Void) {
+    func fetchMovies(query: String, completion: @escaping (Result<SearchMoviesResponseEntity, Error>) -> Void) {
         network.request(configuration: SearchMoviesRequestConfiguration(query: query), completion: completion)
     }
 }

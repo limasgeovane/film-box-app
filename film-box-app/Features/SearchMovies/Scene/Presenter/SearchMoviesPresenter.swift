@@ -1,7 +1,7 @@
 import Foundation
 
 protocol SearchMoviesPresenterLogic {
-    func responseMovies(movies: [Movie])
+    func responseMovies(movies: [MovieEntity])
     func responseLoading()
     func responseError()
 }
@@ -9,7 +9,7 @@ protocol SearchMoviesPresenterLogic {
 final class SearchMoviesPresenter: SearchMoviesPresenterLogic {
     weak var display: SearchMoviesViewControllerLogic?
     
-    func responseMovies(movies: [Movie]) {
+    func responseMovies(movies: [MovieEntity]) {
         display?.displayMovies(movies: movies)
     }
     

@@ -2,7 +2,7 @@ import UIKit
 
 protocol SearchMoviesViewControllerLogic: AnyObject {
     func displayLoading()
-    func displayMovies(movies: [Movie])
+    func displayMovies(movies: [MovieEntity])
     func displayError()
 }
 
@@ -59,7 +59,7 @@ extension SearchMoviesViewController: SearchMoviesViewControllerLogic {
         contentView.changeState(state: .loading)
     }
     
-    func displayMovies(movies: [Movie]) {
+    func displayMovies(movies: [MovieEntity]) {
         contentView.changeState(state: .content)
         router.openMovies(movies: movies)
     }

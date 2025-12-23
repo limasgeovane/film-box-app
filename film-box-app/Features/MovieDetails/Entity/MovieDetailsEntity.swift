@@ -1,4 +1,4 @@
-struct MovieDetails: Decodable {
+struct MovieDetailsEntity: Decodable {
     let backdropPath: String?
     let originalTitle: String
     let title: String

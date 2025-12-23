@@ -1,4 +1,4 @@
-struct Movie: Decodable {
+struct MovieEntity: Decodable {
     let id: Int
     let title: String
     let overview: String?

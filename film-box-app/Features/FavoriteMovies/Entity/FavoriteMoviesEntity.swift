@@ -1,4 +1,4 @@
-struct FavoriteMovies {
+struct FavoriteMoviesEntity {
     let posterImageName: String
     let originalTitle: String
     let voteAverage: Double

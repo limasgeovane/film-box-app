@@ -1,6 +1,6 @@
-struct SearchMoviesResponse: Decodable {
+struct SearchMoviesResponseEntity: Decodable {
     let page: Int
-    let results: [Movie]
+    let results: [MovieEntity]
     let totalPages: Int
     let totalResults: Int
     

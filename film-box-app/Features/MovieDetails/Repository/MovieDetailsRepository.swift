@@ -1,7 +1,7 @@
 import Foundation
 
 protocol MovieDetailsRepositoryLogic {
-    func fetchMovieDetails(movieId: Int, completion: @escaping (Result<MovieDetails, Error>) -> Void)
+    func fetchMovieDetails(movieId: Int, completion: @escaping (Result<MovieDetailsEntity, Error>) -> Void)
 }
 
 struct MovieDetailsRepository: MovieDetailsRepositoryLogic {
@@ -11,7 +11,7 @@ struct MovieDetailsRepository: MovieDetailsRepositoryLogic {
         self.network = network
     }
     
-    func fetchMovieDetails(movieId: Int, completion: @escaping (Result<MovieDetails, Error>) -> Void) {
+    func fetchMovieDetails(movieId: Int, completion: @escaping (Result<MovieDetailsEntity, Error>) -> Void) {
         network.request(configuration: MovieDetailsRequestConfiguration(movieId: movieId), completion: completion)
     }
 }

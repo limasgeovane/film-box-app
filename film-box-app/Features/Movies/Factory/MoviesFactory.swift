@@ -1,7 +1,7 @@
 import UIKit
 
 enum MoviesFactory {
-    static func make(movies: [Movie] = []) -> UIViewController {
+    static func make(movies: [MovieEntity] = []) -> UIViewController {
         let presenter = MoviesPresenter()
         let interactor = MoviesInteractor(favoriteMoviesRepository: FavoriteMoviesRepository())
         let router = MoviesRouter()
