@@ -13,18 +13,18 @@ final class MovieDetailsInteractor {
     }
     
     private func fetchMovieDetails(movieId: Int) {
-        repository.fetchMovieDetails(
-            movieId: movieId
-        ) { [weak self] result in
+        repository.fetchMovieDetails(movieId: movieId) { [weak self] result in
             guard let self else { return }
             
-            switch result {
-            case .success(let movieDetails):
-                self.presenter?.didRequestMovieDetails(
-                    movieDetails: movieDetails
-                )
-            case .failure:
-                self.presenter?.didRequestMovieDetailsError()
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let movieDetails):
+                    self.presenter?.didRequestMovieDetails(
+                        movieDetails: movieDetails
+                    )
+                case .failure:
+                    self.presenter?.didRequestMovieDetailsError()
+                }
             }
         }
     }

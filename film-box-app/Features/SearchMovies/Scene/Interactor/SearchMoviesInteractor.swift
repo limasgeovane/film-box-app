@@ -1,3 +1,5 @@
+import Foundation
+
 protocol SearchMoviesInteractorLogic {
     func requestSearchMovies(query: String)
 }
@@ -14,18 +16,20 @@ final class SearchMoviesInteractor {
         repository.fetchMovies(query: query) { [weak self] result in
             guard let self else { return }
             
-            switch result {
-            case .success(let response):
-                let movies = response.results
-                
-                guard !movies.isEmpty else {
-                    presenter?.didSearchMoviesError()
-                    return
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    let movies = response.results
+                    
+                    guard !movies.isEmpty else {
+                        self.presenter?.didSearchMoviesError()
+                        return
+                    }
+                    
+                    self.presenter?.didSearchMovies(movies: movies)
+                case .failure:
+                    self.presenter?.didSearchMoviesError()
                 }
-                
-                presenter?.didSearchMovies(movies: movies)
-            case .failure:
-                presenter?.didSearchMoviesError()
             }
         }
     }
