@@ -1,22 +1,20 @@
 import Foundation
 
 protocol FavoriteMoviesRepositoryLogic {
-    func favorite(favoriteMovie: FavoriteMoviesDisplayModel)
+    func favorite(movie: MovieEntity)
     func unfavorite(movieId: Int)
-    func getFavorites() -> [FavoriteMoviesDisplayModel]
+    func getFavorites() -> [MovieEntity]
     func isMovieFavorite(id: Int) -> Bool
 }
 final class FavoriteMoviesRepository: FavoriteMoviesRepositoryLogic {
     private let favoritesKey = "FavoriteMovies"
     
-    func favorite(favoriteMovie: FavoriteMoviesDisplayModel) {
+    func favorite(movie: MovieEntity) {
         var favorites = getFavorites()
+        favorites.append(movie)
         
-        favorites.append(favoriteMovie)
-        
-        let encoder = JSONEncoder()
         do {
-            let data = try encoder.encode(favorites)
+            let data = try JSONEncoder().encode(favorites)
             UserDefaults.standard.set(data, forKey: favoritesKey)
         } catch {
             print("Erro ao codificar FavoriteMovies: \(error)")
@@ -27,24 +25,21 @@ final class FavoriteMoviesRepository: FavoriteMoviesRepositoryLogic {
         var favorites = getFavorites()
         favorites.removeAll { $0.id == movieId }
         
-        let encoder = JSONEncoder()
         do {
-            let data = try encoder.encode(favorites)
+            let data = try JSONEncoder().encode(favorites)
             UserDefaults.standard.set(data, forKey: favoritesKey)
         } catch {
             print("Erro ao codificar FavoriteMovies após remoção: \(error)")
         }
     }
     
-    func getFavorites() -> [FavoriteMoviesDisplayModel] {
+    func getFavorites() -> [MovieEntity] {
         guard let data = UserDefaults.standard.data(forKey: favoritesKey) else {
             return []
         }
         
-        let decoder = JSONDecoder()
         do {
-            let favorites = try decoder.decode([FavoriteMoviesDisplayModel].self, from: data)
-            
+            let favorites = try JSONDecoder().decode([MovieEntity].self, from: data)
             return favorites.sorted { $0.id > $1.id }
         } catch {
             return []

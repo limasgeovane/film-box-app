@@ -16,11 +16,11 @@ protocol MoviesPresenterOutputLogic: AnyObject {
 final class MoviesPresenter {
     weak var viewController: MoviesViewControllerLogic?
     
-    private let interactor: MoviesInteractorLogic
-    private let router: MoviesRouterLogic
-    
     private var displayModel: [MovieDisplayModel] = []
     
+    private let interactor: MoviesInteractorLogic
+    private let router: MoviesRouterLogic
+
     init(
         interactor: MoviesInteractorLogic,
         router: MoviesRouterLogic
@@ -64,21 +64,24 @@ extension MoviesPresenter: MoviesPresenterOutputLogic {
                 posterImagePath: {
                     if let posterPath = movie.posterPath, !posterPath.isEmpty {
                         return "https://image.tmdb.org/t/p/w780\(posterPath)"
+                    } else {
+                        return ""
                     }
-                    return ""
                 }(),
                 title: movie.title,
                 ratingText: {
                     if let rating = movie.voteAverage, rating > 0 {
                         return "\(String(localized: "movieRating")): \(String(format: "%.1f", rating))"
+                    } else {
+                        return String(localized: "unrated")
                     }
-                    return String(localized: "unrated")
                 }(),
                 overview: {
                     if let overview = movie.overview, !overview.isEmpty {
                         return overview
+                    } else {
+                        return String(localized: "noOverviewAvailable")
                     }
-                    return String(localized: "noOverviewAvailable")
                 }(),
                 isFavorite: favoriteMovies.contains(movie.id)
             )

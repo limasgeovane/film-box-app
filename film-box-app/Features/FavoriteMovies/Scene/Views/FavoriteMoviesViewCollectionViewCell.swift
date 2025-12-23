@@ -106,7 +106,7 @@ class FavoriteMoviesViewCollectionViewCell: UICollectionViewCell {
     
     func configureCell(displayModel: FavoriteMoviesDisplayModel) {
         movieId = displayModel.id
-        posterImageView.loadTMDBImage(path: displayModel.posterImageName)
+        posterImageView.loadTMDBImage(path: displayModel.posterImagePath)
         titleLabel.text = displayModel.title
         ratingLabel.text = displayModel.ratingText
         overviewLabel.text = displayModel.overview

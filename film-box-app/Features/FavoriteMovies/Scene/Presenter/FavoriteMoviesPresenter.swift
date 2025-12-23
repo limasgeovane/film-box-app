@@ -5,12 +5,14 @@ protocol FavoriteMoviesPresenterInputLogic {
 }
 
 protocol FavoriteMoviesPresenterOutputLogic: AnyObject {
-    func didRequestFavoriteMovies(favoriteMovies: [FavoriteMoviesDisplayModel])
+    func didRequestFavoriteMovies(favoriteMovies: [MovieEntity])
     func didRequestFavoriteMoviesEmpty()
 }
 
 final class FavoriteMoviesPresenter {
     weak var viewController: FavoriteMoviesViewControllerLogic?
+    
+    private var displayModel: [FavoriteMoviesDisplayModel] = []
     
     var interactor: FavoriteMoviesInteractorLogic
     
@@ -27,8 +29,36 @@ extension FavoriteMoviesPresenter: FavoriteMoviesPresenterInputLogic {
 }
 
 extension FavoriteMoviesPresenter: FavoriteMoviesPresenterOutputLogic {
-    func didRequestFavoriteMovies(favoriteMovies: [FavoriteMoviesDisplayModel]) {
-        viewController?.displayContent(viewModel: favoriteMovies)
+    func didRequestFavoriteMovies(favoriteMovies: [MovieEntity]) {
+        displayModel = favoriteMovies.map { movie in
+            return FavoriteMoviesDisplayModel(
+                id: movie.id,
+                posterImagePath: {
+                    if let posterPath = movie.posterPath, !posterPath.isEmpty {
+                        return "https://image.tmdb.org/t/p/w780\(posterPath)"
+                    } else {
+                        return ""
+                    }
+                }(),
+                title: movie.title,
+                ratingText: {
+                    if let rating = movie.voteAverage, rating > 0 {
+                        return "\(String(localized: "movieRating")): \(String(format: "%.1f", rating))"
+                    } else {
+                        return String(localized: "unrated")
+                    }
+                }(),
+                overview: {
+                    if let overview = movie.overview, !overview.isEmpty {
+                        return overview
+                    } else {
+                        return String(localized: "noOverviewAvailable")
+                    }
+                }()
+            )
+        }
+        
+        viewController?.displayContent(displayModel: displayModel)
     }
     
     func didRequestFavoriteMoviesEmpty() {

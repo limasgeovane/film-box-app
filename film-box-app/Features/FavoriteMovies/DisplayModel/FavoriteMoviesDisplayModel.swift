@@ -1,7 +1,7 @@
-struct FavoriteMoviesDisplayModel: Codable, Equatable {
+struct FavoriteMoviesDisplayModel: Equatable {
     let id: Int
+    let posterImagePath: String?
     let title: String
-    let posterImageName: String?
     let ratingText: String
     let overview: String
 }

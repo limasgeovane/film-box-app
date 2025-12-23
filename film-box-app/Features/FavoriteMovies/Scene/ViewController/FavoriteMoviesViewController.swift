@@ -2,7 +2,7 @@ import UIKit
 
 protocol FavoriteMoviesViewControllerLogic: AnyObject {
     func displayLoading()
-    func displayContent(viewModel: [FavoriteMoviesDisplayModel])
+    func displayContent(displayModel: [FavoriteMoviesDisplayModel])
     func displayEmptyState()
 }
 
@@ -39,8 +39,8 @@ extension FavoriteMoviesViewController: FavoriteMoviesViewControllerLogic {
         contentView.changeState(state: .loading)
     }
     
-    func displayContent(viewModel: [FavoriteMoviesDisplayModel]) {
-        contentView.favoriteMovies = viewModel
+    func displayContent(displayModel: [FavoriteMoviesDisplayModel]) {
+        contentView.favoriteMovies = displayModel
         contentView.changeState(state: .content)
     }
 

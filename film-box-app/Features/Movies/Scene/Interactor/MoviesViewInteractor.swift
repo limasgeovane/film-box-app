@@ -64,14 +64,27 @@ final class MoviesInteractor: MoviesInteractorLogic {
     }
     
     func favoriteMovie(movie: MovieDisplayModel) {
-        let favoriteMovie = FavoriteMoviesDisplayModel(
+        let overview: String? = {
+            let trimmedOverview = movie.overview.trimmingCharacters(in: .whitespacesAndNewlines)
+            return (trimmedOverview.isEmpty || trimmedOverview == String(localized: "noOverviewAvailable")) ? nil : trimmedOverview
+        }()
+
+        let posterPath: String? = movie.posterImagePath.isEmpty
+        ? nil
+        : movie.posterImagePath.replacingOccurrences(
+            of: "https://image.tmdb.org/t/p/w780",
+            with: ""
+        )
+        
+        let movieEntity = MovieEntity(
             id: movie.id,
             title: movie.title,
-            posterImageName: movie.posterImagePath,
-            ratingText: movie.ratingText,
-            overview: movie.overview
+            overview: overview,
+            voteAverage: Double(movie.ratingText.filter("0123456789.".contains)) ?? 0,
+            posterPath: posterPath,
         )
-        favoriteMoviesRepository.favorite(favoriteMovie: favoriteMovie)
+        
+        favoriteMoviesRepository.favorite(movie: movieEntity)
     }
     
     func unfavoriteMovie(movieId: Int) {
