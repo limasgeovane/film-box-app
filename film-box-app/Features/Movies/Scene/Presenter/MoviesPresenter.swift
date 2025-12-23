@@ -15,7 +15,13 @@ final class MoviesPresenter: MoviesPresenterLogic {
             
             return MovieDisplayModel(
                 id: movie.id,
-                posterImageName: movie.posterPath,
+                posterImagePath: {
+                    if let posterPath = movie.posterPath, !posterPath.isEmpty {
+                        return "https://image.tmdb.org/t/p/w780\(posterPath)"
+                    } else {
+                        return ""
+                    }
+                }(),
                 title: movie.title,
                 ratingText: {
                     if let rating = movie.voteAverage, rating > 0 {

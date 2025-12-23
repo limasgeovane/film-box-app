@@ -130,7 +130,7 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
     func configureCell(displayModel: MovieDisplayModel) {
         movieId = displayModel.id
         isFavorite = displayModel.isFavorite
-        posterImageView.loadTMDBImage(path: displayModel.posterImageName)
+        posterImageView.loadTMDBImage(path: displayModel.posterImagePath)
         titleLabel.text = displayModel.title
         ratingLabel.text = displayModel.ratingText
         overviewLabel.text = displayModel.overview

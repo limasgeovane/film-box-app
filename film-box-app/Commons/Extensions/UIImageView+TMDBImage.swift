@@ -1,21 +1,27 @@
 import UIKit
 
-extension UIImageView {
-    func loadTMDBImage(
-        path: String?,
-        size: String = "w780",
-        placeholder: UIImage? = UIImage(named: "no-image")
-    ) {
-        image = placeholder
+private let imageCache = NSCache<NSString, UIImage>()
 
-        guard let path, let url = URL(string: "https://image.tmdb.org/t/p/\(size)\(path)") else {
+extension UIImageView {
+    func loadTMDBImage(path: String?) {
+        let placeholder = UIImage(named: "no-image")
+        image = placeholder
+        
+        guard let path, let url = URL(string: path) else { return }
+        
+        if let cachedImage = imageCache.object(forKey: path as NSString) {
+            image = cachedImage
             return
         }
-
+        
         DispatchQueue.global(qos: .userInitiated).async {
             let data = try? Data(contentsOf: url)
             let downloadedImage = data.flatMap { UIImage(data: $0) }
-
+            
+            if let downloadedImage {
+                imageCache.setObject(downloadedImage, forKey: path as NSString)
+            }
+            
             DispatchQueue.main.async {
                 self.image = downloadedImage ?? placeholder
             }

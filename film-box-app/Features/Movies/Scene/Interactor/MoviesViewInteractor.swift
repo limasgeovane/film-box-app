@@ -14,7 +14,7 @@ final class MoviesInteractor: MoviesInteractorLogic {
         let favoriteMovie = FavoriteMoviesDisplayModel(
             id: movie.id,
             title: movie.title,
-            posterImageName: movie.posterImageName ?? "",
+            posterImageName: movie.posterImagePath,
             ratingText: movie.ratingText,
             overview: movie.overview
         )

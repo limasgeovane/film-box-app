@@ -11,7 +11,13 @@ final class MovieDetailsPresenter: MovieDetailsPresenterLogic {
     
     func responseMovieDetails(movieDetails: MovieDetailsEntity) {
         let displayModel = MovieDetailsDisplayModel(
-            backdropPath: movieDetails.backdropPath,
+            backdropPath: {
+                if let backdropPath = movieDetails.backdropPath, !backdropPath.isEmpty {
+                    return "https://image.tmdb.org/t/p/w780\(backdropPath)"
+                } else {
+                    return ""
+                }
+            }(),
             originalTitle: movieDetails.originalTitle,
             title: movieDetails.title,
             overview: {
