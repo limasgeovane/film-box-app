@@ -1,14 +1,13 @@
 import UIKit
 
 protocol SearchMoviesRouterLogic {
-    func openMovies(movies: [MovieEntity])
+    func popMovies()
 }
 
 final class SearchMoviesRouter: SearchMoviesRouterLogic {
     weak var viewController: UIViewController?
     
-    func openMovies(movies: [MovieEntity]) {
-        let moviesViewController = MoviesFactory.make(movies: movies)
-        viewController?.navigationController?.pushViewController(moviesViewController, animated: true)
+    func popMovies() {
+        viewController?.navigationController?.popViewController(animated: false)
     }
 }

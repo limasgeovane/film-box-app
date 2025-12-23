@@ -1,17 +1,10 @@
 import Foundation
 
 protocol SearchMoviesPresenterInputLogic {
-    func searchMovies(query: String)
+    func openMovies(query: String)
 }
 
-protocol SearchMoviesPresenterOutputLogic: AnyObject {
-    func didSearchMovies(movies: [MovieEntity])
-    func didSearchMoviesError()
-}
-
-final class SearchMoviesPresenter {
-    weak var viewController: SearchMoviesViewControllerLogic?
-    
+final class SearchMoviesPresenter: SearchMoviesPresenterInputLogic{
     var interactor: SearchMoviesInteractorLogic
     var router: SearchMoviesRouterLogic
     
@@ -22,22 +15,9 @@ final class SearchMoviesPresenter {
         self.interactor = interactor
         self.router = router
     }
-}
-
-extension SearchMoviesPresenter: SearchMoviesPresenterInputLogic {
-    func searchMovies(query: String) {
-        viewController?.displayLoading()
-        interactor.requestSearchMovies(query: query)
-    }
-}
-
-extension SearchMoviesPresenter: SearchMoviesPresenterOutputLogic {
-    func didSearchMovies(movies: [MovieEntity]) {
-        viewController?.displayContent()
-        router.openMovies(movies: movies)
-    }
     
-    func didSearchMoviesError() {
-        viewController?.displayError()
+    func openMovies(query: String) {
+        interactor.saveLastMovieSearch(query: query)
+        router.popMovies()
     }
 }

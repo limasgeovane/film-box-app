@@ -1,11 +1,5 @@
 import UIKit
 
-protocol SearchMoviesViewControllerLogic: AnyObject {
-    func displayLoading()
-    func displayContent()
-    func displayError()
-}
-
 class SearchMoviesViewController: UIViewController {
     private let presenter: SearchMoviesPresenterInputLogic
     private let contentView: SearchMoviesViewLogic
@@ -51,22 +45,8 @@ class SearchMoviesViewController: UIViewController {
     }
 }
 
-extension SearchMoviesViewController: SearchMoviesViewControllerLogic {
-    func displayLoading() {
-        contentView.changeState(state: .loading)
-    }
-    
-    func displayContent() {
-        contentView.changeState(state: .content)
-    }
-    
-    func displayError() {
-        contentView.changeState(state: .error)
-    }
-}
-
 extension SearchMoviesViewController: SearchMoviesViewDelegate {
     func searchPressed(query: String) {
-        presenter.searchMovies(query: query)
+        presenter.openMovies(query: query)
     }
 }

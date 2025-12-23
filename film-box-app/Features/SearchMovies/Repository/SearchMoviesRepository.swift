@@ -1,10 +1,8 @@
 import Foundation
 
 protocol SearchMoviesRepositoryLogic {
-    func fetchMovies(query: String, completion: @escaping (Result<MoviesResponseEntity, Error>) -> Void)
     func saveLastMovieSearch(query: String)
 }
-
 
 struct SearchMoviesRepository: SearchMoviesRepositoryLogic {
     private let network: NetworkLogic
@@ -12,10 +10,6 @@ struct SearchMoviesRepository: SearchMoviesRepositoryLogic {
     
     init(network: NetworkLogic = Network()) {
         self.network = network
-    }
-    
-    func fetchMovies(query: String, completion: @escaping (Result<MoviesResponseEntity, Error>) -> Void) {
-        network.request(configuration: MoviesRequestConfiguration(query: query), completion: completion)
     }
     
     func saveLastMovieSearch(query: String) {
