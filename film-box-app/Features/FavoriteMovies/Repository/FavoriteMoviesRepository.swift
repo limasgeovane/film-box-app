@@ -35,7 +35,6 @@ final class FavoriteMoviesRepository: FavoriteMoviesRepositoryLogic {
     
     func getFavorites() -> Result<[FavoriteMoviesDisplayModel], Error> {
         guard let data = UserDefaults.standard.data(forKey: favoritesKey) else {
-            // sucesso técnico, mas lista vazia
             return .success([])
         }
         
@@ -43,7 +42,6 @@ final class FavoriteMoviesRepository: FavoriteMoviesRepositoryLogic {
             let favorites = try JSONDecoder().decode([FavoriteMoviesDisplayModel].self, from: data)
             return .success(favorites)
         } catch {
-            // erro técnico real
             return .failure(error)
         }
     }
@@ -63,7 +61,6 @@ final class FavoriteMoviesRepository: FavoriteMoviesRepositoryLogic {
             let data = try JSONEncoder().encode(favorites)
             UserDefaults.standard.set(data, forKey: favoritesKey)
         } catch {
-            // aqui você pode logar, enviar para analytics, etc
             print("Erro ao codificar FavoriteMovies: \(error)")
         }
     }
