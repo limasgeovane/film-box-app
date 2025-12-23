@@ -8,13 +8,15 @@ enum SearchMoviesFactory {
             repository: SearchMoviesRepository(),
             presenter: presenter
         )
+        let contentView = SearchMoviesView()
         let viewController = SearchMoviesViewController(
-            interactor: interactor,
-            router: router,
-            contentView: SearchMoviesView()
+            presenter: presenter,
+            contentView: contentView
         )
-        
-        presenter.display = viewController
+
+        presenter.viewController = viewController
+        presenter.interactor = interactor
+        presenter.router = router
         router.viewController = viewController
         
         return viewController

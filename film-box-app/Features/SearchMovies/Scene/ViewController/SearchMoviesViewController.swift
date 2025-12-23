@@ -7,18 +7,15 @@ protocol SearchMoviesViewControllerLogic: AnyObject {
 }
 
 class SearchMoviesViewController: UIViewController {
-    private let interactor: SearchMoviesInteractorLogic
-    private let router: SearchMoviesRouterLogic
+    private let presenter: SearchMoviesPresenter
     private let contentView: SearchMoviesViewLogic
     
     init(
-        interactor: SearchMoviesInteractorLogic,
-        router: SearchMoviesRouterLogic,
+        presenter: SearchMoviesPresenter,
         contentView: SearchMoviesViewLogic
     ) {
+        self.presenter = presenter
         self.contentView = contentView
-        self.router = router
-        self.interactor = interactor
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -61,7 +58,6 @@ extension SearchMoviesViewController: SearchMoviesViewControllerLogic {
     
     func displayMovies(movies: [MovieEntity]) {
         contentView.changeState(state: .content)
-        router.openMovies(movies: movies)
     }
     
     func displayError() {
@@ -71,6 +67,6 @@ extension SearchMoviesViewController: SearchMoviesViewControllerLogic {
 
 extension SearchMoviesViewController: SearchMoviesViewDelegate {
     func searchPressed(query: String) {
-        interactor.requestSearchMovies(query: query)
+        presenter.searchMovies(query: query)
     }
 }

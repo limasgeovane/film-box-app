@@ -193,7 +193,7 @@ class MovieDetailsView: UIView {
 
 extension MovieDetailsView: MovieDetailsViewLogic {
     func setupContent(displayModel: MovieDetailsDisplayModel) {
-        if displayModel.backdropPath == nil {
+        if displayModel.backdropPath.isEmpty {
             backdropPathImageView.image = UIImage(named: "no-image")
             backdropPathImageView.contentMode = .scaleAspectFit
             backdropPathImageView.backgroundColor = .clear
