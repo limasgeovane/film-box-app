@@ -5,8 +5,9 @@ protocol MovieDetailsInteractorLogic {
 }
 
 final class MovieDetailsInteractor {
-    private let repository: MovieDetailsRepositoryLogic
     weak var presenter: MovieDetailsPresenterOutputLogic?
+    
+    private let repository: MovieDetailsRepositoryLogic
     
     init(repository: MovieDetailsRepositoryLogic) {
         self.repository = repository

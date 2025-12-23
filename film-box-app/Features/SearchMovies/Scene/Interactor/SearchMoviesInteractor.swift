@@ -5,8 +5,9 @@ protocol SearchMoviesInteractorLogic {
 }
 
 final class SearchMoviesInteractor {
-    private let repository: SearchMoviesRepositoryLogic
     weak var presenter: SearchMoviesPresenterOutputLogic?
+    
+    private let repository: SearchMoviesRepositoryLogic
     
     init(repository: SearchMoviesRepositoryLogic) {
         self.repository = repository
@@ -37,6 +38,7 @@ final class SearchMoviesInteractor {
 
 extension SearchMoviesInteractor: SearchMoviesInteractorLogic {
     func requestSearchMovies(query: String) {
+        repository.saveLastMovieSearch(query: query)
         fetchSearchMovies(query: query)
     }
 }

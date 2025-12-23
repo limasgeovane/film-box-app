@@ -7,10 +7,11 @@ protocol MovieDetailsViewControllerLogic: AnyObject {
 }
 
 class MovieDetailsViewController: UIViewController {
+    private var favoriteButton: UIBarButtonItem?
+    
     private let presenter: MovieDetailsPresenterInputLogic
     private let contentView: MovieDetailsViewLogic
     private let movieId: Int
-    private var favoriteButton: UIBarButtonItem?
     
     init(
         presenter: MovieDetailsPresenterInputLogic,

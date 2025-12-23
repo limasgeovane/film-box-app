@@ -4,6 +4,7 @@ protocol FavoriteMoviesInteractorLogic {
 
 final class FavoriteMoviesInteractor {
     weak var presenter: FavoriteMoviesPresenterOutputLogic?
+    
     private let repository: FavoriteMoviesRepositoryLogic
     
     init(repository: FavoriteMoviesRepositoryLogic) {
