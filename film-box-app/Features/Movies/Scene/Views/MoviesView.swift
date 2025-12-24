@@ -104,10 +104,10 @@ class MoviesView: UIView, MoviesViewLogic {
             emptyStateView.centerYAnchor.constraint(equalTo: centerYAnchor),
             emptyStateView.centerXAnchor.constraint(equalTo: centerXAnchor),
             
-            errorView.topAnchor.constraint(equalTo: topAnchor),
-            errorView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            errorView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            errorView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            errorView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
+            errorView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            errorView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            errorView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
         ])
     }
     
