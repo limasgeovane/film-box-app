@@ -102,34 +102,32 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
             posterImageView.widthAnchor.constraint(equalToConstant: 50),
             posterImageView.heightAnchor.constraint(equalToConstant: 75),
             
-            favoriteButton.topAnchor.constraint(equalTo: movieCardView.topAnchor, constant: 8),
-            favoriteButton.trailingAnchor.constraint(equalTo: movieCardView.trailingAnchor, constant: -8),
+            favoriteButton.topAnchor.constraint(equalTo: movieCardView.topAnchor, constant: 4),
+            favoriteButton.trailingAnchor.constraint(equalTo: movieCardView.trailingAnchor, constant: -4),
             favoriteButton.widthAnchor.constraint(equalToConstant: 30),
             favoriteButton.heightAnchor.constraint(equalToConstant: 30),
             
             titleLabel.topAnchor.constraint(equalTo: movieCardView.topAnchor, constant: 8),
             titleLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 8),
-            titleLabel.trailingAnchor.constraint(equalTo: favoriteButton.leadingAnchor, constant: -8),
+            titleLabel.trailingAnchor.constraint(equalTo: favoriteButton.leadingAnchor, constant: -4),
             
             ratingLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             ratingLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            ratingLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
             
             overviewLabel.topAnchor.constraint(equalTo: ratingLabel.bottomAnchor, constant: 8),
             overviewLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            overviewLabel.trailingAnchor.constraint(equalTo: movieCardView.trailingAnchor, constant: -8),
-            
-            overviewLabel.bottomAnchor.constraint(equalTo: movieCardView.bottomAnchor, constant: -8)
+            overviewLabel.trailingAnchor.constraint(equalTo: movieCardView.trailingAnchor, constant: -8)
         ])
         
-        overviewLabel.setContentCompressionResistancePriority(.required, for: .vertical)
-    }
+        titleLabel.setContentHuggingPriority(.required, for: .vertical)
+        ratingLabel.setContentHuggingPriority(.required, for: .vertical)
+        overviewLabel.setContentHuggingPriority(.required, for: .vertical)
+        
+        movieCardView.bottomAnchor.constraint(greaterThanOrEqualTo: posterImageView.bottomAnchor, constant: 8).isActive = true
     
-    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-        let targetSize = CGSize(width: layoutAttributes.frame.width, height: 0)
-        let size = contentView.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
-        layoutAttributes.frame.size.height = ceil(size.height)
-        return layoutAttributes
+        let safeBottom = movieCardView.bottomAnchor.constraint(greaterThanOrEqualTo: overviewLabel.bottomAnchor, constant: 8)
+        safeBottom.priority = .defaultHigh
+        safeBottom.isActive = true
     }
     
     func configureCell(displayModel: MovieDisplayModel) {

@@ -20,21 +20,30 @@ class MoviesView: UIView, MoviesViewLogic {
         case error
     }
     
+    weak var delegate: MoviesViewDelegate?
+    
     var movies: [MovieDisplayModel] = [] {
         didSet {
+            if let layout = moviesCollectionView.collectionViewLayout as? DynamicHeightGridView {
+                layout.invalidateLayout()
+            }
             moviesCollectionView.reloadData()
             emptyStateView.isHidden = !movies.isEmpty
         }
     }
     
     private lazy var moviesCollectionView: UICollectionView = {
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
+        let layout = DynamicHeightGridView()
+        layout.delegate = self
+        
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.showsVerticalScrollIndicator = false
         collection.register(MovieViewCollectionViewCell.self, forCellWithReuseIdentifier: MovieViewCollectionViewCell.identifier)
         collection.backgroundColor = .systemBackground
         collection.delegate = self
         collection.dataSource = self
+        collection.contentInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         return collection
     }()
     
@@ -56,8 +65,6 @@ class MoviesView: UIView, MoviesViewLogic {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    weak var delegate: MoviesViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -94,40 +101,14 @@ class MoviesView: UIView, MoviesViewLogic {
             moviesCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             moviesCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
-            emptyStateView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
-            emptyStateView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            emptyStateView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            emptyStateView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
+            emptyStateView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            emptyStateView.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             errorView.topAnchor.constraint(equalTo: topAnchor),
             errorView.leadingAnchor.constraint(equalTo: leadingAnchor),
             errorView.trailingAnchor.constraint(equalTo: trailingAnchor),
             errorView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-    }
-    
-    private func createCompositionalLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(200)
-        )
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(200)
-        )
-
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
-        group.interItemSpacing = .fixed(8)
-        
-        let section = NSCollectionLayoutSection(group: group)
-        
-        section.interGroupSpacing = 8
-   
-        section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
-        
-        return UICollectionViewCompositionalLayout(section: section)
     }
     
     func reloadMovieCell(index: Int) {
@@ -162,28 +143,36 @@ class MoviesView: UIView, MoviesViewLogic {
     }
 }
 
-extension MoviesView: UICollectionViewDataSource {
+extension MoviesView: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        movies.count
+        return movies.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieViewCollectionViewCell.identifier, for: indexPath) as? MovieViewCollectionViewCell else {
-            return UICollectionViewCell()
-        }
-        
-        let movie = movies[indexPath.item]
-        cell.configureCell(displayModel: movie)
-        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieViewCollectionViewCell.identifier, for: indexPath) as? MovieViewCollectionViewCell else { return UICollectionViewCell() }
+        cell.configureCell(displayModel: movies[indexPath.item])
         cell.delegate = delegate as? MovieViewCollectionViewCellDelegate
         
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.didSelectMovie(movieId: movies[indexPath.item].id)
+    }
 }
 
-extension MoviesView: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+extension MoviesView: DynamicHeightGridViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
         let movie = movies[indexPath.item]
-        delegate?.didSelectMovie(movieId: movie.id)
+        let columnWidth = (collectionView.bounds.width - collectionView.contentInset.left - collectionView.contentInset.right) / 2
+        let textWidth = columnWidth - 16 - 50 - 8 - 34
+        let titleFont = UIFont.systemFont(ofSize: 14, weight: .bold)
+        let overviewFont = UIFont.systemFont(ofSize: 12)
+        let titleHeight = movie.title.height(withConstrainedWidth: textWidth, font: titleFont)
+        let overviewHeight = movie.overview.height(withConstrainedWidth: textWidth, font: overviewFont)
+        let totalTextContent = 8 + titleHeight + 8 + 15 + 8 + overviewHeight + 8
+        let finalHeight = max(91, totalTextContent)
+        
+        return finalHeight
     }
 }
