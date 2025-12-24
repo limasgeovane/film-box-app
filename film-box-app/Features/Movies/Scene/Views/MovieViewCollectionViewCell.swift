@@ -35,18 +35,8 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .primary
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
-        label.lineBreakMode = .byTruncatingTail
+        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         return label
-    }()
-    
-    private lazy var favoriteButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "star"), for: .normal)
-        button.tintColor = .systemGray
-        button.addTarget(self, action: #selector(favoriteButtonPressed), for: .touchUpInside)
-        return button
     }()
     
     private let ratingLabel: UILabel = {
@@ -67,6 +57,15 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    private lazy var favoriteButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "star"), for: .normal)
+        button.tintColor = .systemGray
+        button.addTarget(self, action: #selector(favoriteButtonPressed), for: .touchUpInside)
+        return button
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViewHierarchy()
@@ -81,8 +80,8 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
     private func setupViewHierarchy() {
         contentView.addSubview(movieCardView)
         movieCardView.addSubview(posterImageView)
-        movieCardView.addSubview(titleLabel)
         movieCardView.addSubview(favoriteButton)
+        movieCardView.addSubview(titleLabel)
         movieCardView.addSubview(ratingLabel)
         movieCardView.addSubview(overviewLabel)
     }
@@ -93,39 +92,43 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            movieCardView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            movieCardView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
             movieCardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             movieCardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            movieCardView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-            movieCardView.heightAnchor.constraint(greaterThanOrEqualTo: contentView.heightAnchor),
+            movieCardView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
             
             posterImageView.topAnchor.constraint(equalTo: movieCardView.topAnchor, constant: 8),
-            posterImageView.leadingAnchor.constraint(equalTo: movieCardView.leadingAnchor, constant: 16),
-            posterImageView.bottomAnchor.constraint(lessThanOrEqualTo: movieCardView.bottomAnchor, constant: -8),
+            posterImageView.leadingAnchor.constraint(equalTo: movieCardView.leadingAnchor, constant: 8),
             posterImageView.widthAnchor.constraint(equalToConstant: 50),
-            posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: 1.6),
+            posterImageView.heightAnchor.constraint(equalToConstant: 75),
             
-            favoriteButton.topAnchor.constraint(equalTo: movieCardView.topAnchor, constant: 8),
-            favoriteButton.trailingAnchor.constraint(equalTo: movieCardView.trailingAnchor, constant: -16),
-            favoriteButton.widthAnchor.constraint(equalToConstant: 24),
-            favoriteButton.heightAnchor.constraint(equalToConstant: 24),
+            favoriteButton.topAnchor.constraint(equalTo: movieCardView.topAnchor, constant: 4),
+            favoriteButton.trailingAnchor.constraint(equalTo: movieCardView.trailingAnchor, constant: -4),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 30),
             
             titleLabel.topAnchor.constraint(equalTo: movieCardView.topAnchor, constant: 8),
             titleLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 8),
-            titleLabel.trailingAnchor.constraint(equalTo: favoriteButton.leadingAnchor, constant: -8),
+            titleLabel.trailingAnchor.constraint(equalTo: favoriteButton.leadingAnchor, constant: -4),
             
-            ratingLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            ratingLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
             ratingLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            ratingLabel.trailingAnchor.constraint(equalTo: movieCardView.trailingAnchor, constant: -16),
+            ratingLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
             
-            overviewLabel.topAnchor.constraint(equalTo: ratingLabel.bottomAnchor, constant: 8),
+            overviewLabel.topAnchor.constraint(equalTo: ratingLabel.bottomAnchor, constant: 4),
             overviewLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            overviewLabel.trailingAnchor.constraint(equalTo: movieCardView.trailingAnchor, constant: -16),
+            overviewLabel.trailingAnchor.constraint(equalTo: movieCardView.trailingAnchor, constant: -8),
+            
+            overviewLabel.bottomAnchor.constraint(equalTo: movieCardView.bottomAnchor, constant: -12)
         ])
         
-        let bottomConstraint = overviewLabel.bottomAnchor.constraint(equalTo: movieCardView.bottomAnchor, constant: -8)
-        bottomConstraint.priority = .defaultHigh
-        bottomConstraint.isActive = true
+        overviewLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+    }
+    
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        let targetSize = CGSize(width: layoutAttributes.frame.width, height: 0)
+        let size = contentView.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
+        layoutAttributes.frame.size.height = ceil(size.height)
+        return layoutAttributes
     }
     
     func configureCell(displayModel: MovieDisplayModel) {
@@ -149,6 +152,7 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
     
     private func updateFavoriteButtonAppearance() {
         let imageName = isFavorite ? "star.fill" : "star"
+        
         favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
         favoriteButton.tintColor = isFavorite ? UIColor(named: "primaryColor") ?? .systemBlue : .systemGray
     }
