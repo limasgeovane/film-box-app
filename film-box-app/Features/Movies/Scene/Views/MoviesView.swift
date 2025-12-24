@@ -23,18 +23,12 @@ class MoviesView: UIView, MoviesViewLogic {
     var movies: [MovieDisplayModel] = [] {
         didSet {
             moviesCollectionView.reloadData()
-            emptyStateView.isHidden = !movies.isEmpty // verificar
+            emptyStateView.isHidden = !movies.isEmpty
         }
     }
     
     private lazy var moviesCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.sectionInset = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
-        layout.minimumLineSpacing = 8
-        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.showsVerticalScrollIndicator = false
         collection.register(MovieViewCollectionViewCell.self, forCellWithReuseIdentifier: MovieViewCollectionViewCell.identifier)
@@ -110,6 +104,26 @@ class MoviesView: UIView, MoviesViewLogic {
             errorView.trailingAnchor.constraint(equalTo: trailingAnchor),
             errorView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+    }
+    
+    private func createCompositionalLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(0.5),
+            heightDimension: .estimated(200)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(200)
+        )
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item, item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 8
+        
+        return UICollectionViewCompositionalLayout(section: section)
     }
     
     func reloadMovieCell(index: Int) {

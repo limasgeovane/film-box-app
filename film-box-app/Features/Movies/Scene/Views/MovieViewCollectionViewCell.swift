@@ -33,9 +33,10 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .title
         label.textColor = .primary
         label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        label.lineBreakMode = .byTruncatingTail
         return label
     }()
     
@@ -51,17 +52,18 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
     private let ratingLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .primary
         label.textColor = .systemOrange
+        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         return label
     }()
     
     private let overviewLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .secondary
         label.textColor = .secondaryLabel
         label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.lineBreakMode = .byWordWrapping
         return label
     }()
     
@@ -91,18 +93,17 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            contentView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32),
-            
             movieCardView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             movieCardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             movieCardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             movieCardView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            movieCardView.heightAnchor.constraint(greaterThanOrEqualTo: contentView.heightAnchor),
             
             posterImageView.topAnchor.constraint(equalTo: movieCardView.topAnchor, constant: 8),
             posterImageView.leadingAnchor.constraint(equalTo: movieCardView.leadingAnchor, constant: 16),
             posterImageView.bottomAnchor.constraint(lessThanOrEqualTo: movieCardView.bottomAnchor, constant: -8),
-            posterImageView.widthAnchor.constraint(equalToConstant: 90),
-            posterImageView.heightAnchor.constraint(equalToConstant: 130),
+            posterImageView.widthAnchor.constraint(equalToConstant: 50),
+            posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: 1.6),
             
             favoriteButton.topAnchor.constraint(equalTo: movieCardView.topAnchor, constant: 8),
             favoriteButton.trailingAnchor.constraint(equalTo: movieCardView.trailingAnchor, constant: -16),
