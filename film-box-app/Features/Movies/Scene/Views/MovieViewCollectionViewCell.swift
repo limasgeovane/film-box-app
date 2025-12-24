@@ -92,33 +92,34 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            movieCardView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
+            movieCardView.topAnchor.constraint(equalTo: contentView.topAnchor),
             movieCardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             movieCardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            movieCardView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
+            movieCardView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             posterImageView.topAnchor.constraint(equalTo: movieCardView.topAnchor, constant: 8),
             posterImageView.leadingAnchor.constraint(equalTo: movieCardView.leadingAnchor, constant: 8),
             posterImageView.widthAnchor.constraint(equalToConstant: 50),
             posterImageView.heightAnchor.constraint(equalToConstant: 75),
             
-            favoriteButton.topAnchor.constraint(equalTo: movieCardView.topAnchor, constant: 4),
-            favoriteButton.trailingAnchor.constraint(equalTo: movieCardView.trailingAnchor, constant: -4),
+            favoriteButton.topAnchor.constraint(equalTo: movieCardView.topAnchor, constant: 8),
+            favoriteButton.trailingAnchor.constraint(equalTo: movieCardView.trailingAnchor, constant: -8),
             favoriteButton.widthAnchor.constraint(equalToConstant: 30),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 30),
             
             titleLabel.topAnchor.constraint(equalTo: movieCardView.topAnchor, constant: 8),
             titleLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 8),
-            titleLabel.trailingAnchor.constraint(equalTo: favoriteButton.leadingAnchor, constant: -4),
+            titleLabel.trailingAnchor.constraint(equalTo: favoriteButton.leadingAnchor, constant: -8),
             
-            ratingLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
+            ratingLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             ratingLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             ratingLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
             
-            overviewLabel.topAnchor.constraint(equalTo: ratingLabel.bottomAnchor, constant: 4),
+            overviewLabel.topAnchor.constraint(equalTo: ratingLabel.bottomAnchor, constant: 8),
             overviewLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             overviewLabel.trailingAnchor.constraint(equalTo: movieCardView.trailingAnchor, constant: -8),
             
-            overviewLabel.bottomAnchor.constraint(equalTo: movieCardView.bottomAnchor, constant: -12)
+            overviewLabel.bottomAnchor.constraint(equalTo: movieCardView.bottomAnchor, constant: -8)
         ])
         
         overviewLabel.setContentCompressionResistancePriority(.required, for: .vertical)

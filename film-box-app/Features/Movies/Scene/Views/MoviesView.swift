@@ -108,23 +108,24 @@ class MoviesView: UIView, MoviesViewLogic {
     
     private func createCompositionalLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.5),
+            widthDimension: .fractionalWidth(1.0),
             heightDimension: .estimated(200)
         )
-        
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4)
-
+        
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(100)
+            heightDimension: .estimated(200)
         )
-        
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+        group.interItemSpacing = .fixed(8)
         
         let section = NSCollectionLayoutSection(group: group)
+        
         section.interGroupSpacing = 8
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 8, bottom: 10, trailing: 8)
+   
+        section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
         
         return UICollectionViewCompositionalLayout(section: section)
     }
