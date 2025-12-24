@@ -194,7 +194,7 @@ class MovieDetailsView: UIView {
 extension MovieDetailsView: MovieDetailsViewLogic {
     func setupContent(displayModel: MovieDetailsDisplayModel) {
         if displayModel.backdropPath.isEmpty {
-            backdropPathImageView.image = UIImage(named: "no-image")
+            backdropPathImageView.image = UIImage(named: "no-poster-found")
             backdropPathImageView.contentMode = .scaleAspectFit
             backdropPathImageView.backgroundColor = .clear
         } else {

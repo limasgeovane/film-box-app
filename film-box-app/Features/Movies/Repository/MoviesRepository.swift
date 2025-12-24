@@ -8,7 +8,6 @@ protocol MoviesRepositoryLogic {
 
 struct MoviesRepository: MoviesRepositoryLogic {
     private let network: NetworkLogic
-    private let lastSearchKey = "LastSearchMoviesQuery"
     
     init(network: NetworkLogic = Network()) {
         self.network = network
@@ -19,6 +18,6 @@ struct MoviesRepository: MoviesRepositoryLogic {
     }
     
     func getLastMovieSearch() -> String? {
-        UserDefaults.standard.string(forKey: lastSearchKey)
+        UserDefaults.standard.string(forKey: Constants.UserDefaults.lastSearchKey)
     }
 }

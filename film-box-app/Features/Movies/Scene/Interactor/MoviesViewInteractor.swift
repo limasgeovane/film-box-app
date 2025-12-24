@@ -72,7 +72,7 @@ final class MoviesInteractor: MoviesInteractorLogic {
         let posterPath: String? = movie.posterImagePath.isEmpty
         ? nil
         : movie.posterImagePath.replacingOccurrences(
-            of: "https://image.tmdb.org/t/p/w780",
+            of: Constants.TmdbAPI.tmdbImageURL,
             with: ""
         )
         

@@ -31,7 +31,7 @@ extension MovieDetailsPresenter: MovieDetailsPresenterOutputLogic {
         let displayModel = MovieDetailsDisplayModel(
             backdropPath: {
                 if let backdropPath = movieDetails.backdropPath, !backdropPath.isEmpty {
-                    return "https://image.tmdb.org/t/p/w780\(backdropPath)"
+                    return "\(Constants.TmdbAPI.tmdbImageURL)\(backdropPath)"
                 } else {
                     return ""
                 }

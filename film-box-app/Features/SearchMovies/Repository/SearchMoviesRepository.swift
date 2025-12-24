@@ -6,13 +6,12 @@ protocol SearchMoviesRepositoryLogic {
 
 struct SearchMoviesRepository: SearchMoviesRepositoryLogic {
     private let network: NetworkLogic
-    private let lastSearchKey = "LastSearchMoviesQuery"
     
     init(network: NetworkLogic = Network()) {
         self.network = network
     }
     
     func saveLastMovieSearch(query: String) {
-        UserDefaults.standard.set(query, forKey: lastSearchKey)
+        UserDefaults.standard.set(query, forKey: Constants.UserDefaults.lastSearchKey)
     }
 }

@@ -7,15 +7,13 @@ protocol FavoriteMoviesRepositoryLogic {
     func isMovieFavorite(id: Int) -> Bool
 }
 final class FavoriteMoviesRepository: FavoriteMoviesRepositoryLogic {
-    private let favoritesKey = "FavoriteMovies"
-    
     func favorite(movie: MovieEntity) {
         var favorites = getFavorites()
         favorites.append(movie)
         
         do {
             let data = try JSONEncoder().encode(favorites)
-            UserDefaults.standard.set(data, forKey: favoritesKey)
+            UserDefaults.standard.set(data, forKey: Constants.UserDefaults.favoritesMoviesKey)
         } catch {
             print("Erro ao codificar FavoriteMovies: \(error)")
         }
@@ -27,14 +25,14 @@ final class FavoriteMoviesRepository: FavoriteMoviesRepositoryLogic {
         
         do {
             let data = try JSONEncoder().encode(favorites)
-            UserDefaults.standard.set(data, forKey: favoritesKey)
+            UserDefaults.standard.set(data, forKey:  Constants.UserDefaults.favoritesMoviesKey)
         } catch {
             print("Erro ao codificar FavoriteMovies após remoção: \(error)")
         }
     }
     
     func getFavorites() -> [MovieEntity] {
-        guard let data = UserDefaults.standard.data(forKey: favoritesKey) else {
+        guard let data = UserDefaults.standard.data(forKey:  Constants.UserDefaults.favoritesMoviesKey) else {
             return []
         }
         

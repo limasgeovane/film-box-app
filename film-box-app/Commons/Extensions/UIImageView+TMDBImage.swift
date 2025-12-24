@@ -4,7 +4,7 @@ private let imageCache = NSCache<NSString, UIImage>()
 
 extension UIImageView {
     func loadTMDBImage(path: String?) {
-        let defaultImage = UIImage(named: "no-image")
+        let defaultImage = UIImage(named: "no-poster-found")
         image = defaultImage
         
         guard let path, let url = URL(string: path) else { return }

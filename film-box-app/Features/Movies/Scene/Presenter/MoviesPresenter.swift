@@ -63,7 +63,7 @@ extension MoviesPresenter: MoviesPresenterOutputLogic {
                 id: movie.id,
                 posterImagePath: {
                     if let posterPath = movie.posterPath, !posterPath.isEmpty {
-                        return "https://image.tmdb.org/t/p/w780\(posterPath)"
+                        return "\(Constants.TmdbAPI.tmdbImageURL)\(posterPath)"
                     } else {
                         return ""
                     }
