@@ -160,7 +160,7 @@ class FavoriteMoviesViewCollectionViewCell: UICollectionViewCell {
         overviewLabel.setHyphenatedText(displayModel.overview)
     }
     
-    func fittingHeight(forWidth width: CGFloat) -> CGFloat {
+    func getCellHeight(forWidth width: CGFloat) -> CGFloat {
         contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.widthAnchor.constraint(equalToConstant: width).isActive = true
         

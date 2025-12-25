@@ -193,7 +193,7 @@ extension MoviesView: DynamicHeightSizingProvider {
         sizingCell.prepareForReuse()
         sizingCell.configureCell(displayModel: displayModel)
         
-        let height = sizingCell.fittingHeight(forWidth: width)
+        let height = sizingCell.getCellHeight(forWidth: width)
         
         return max(91, height)
     }
