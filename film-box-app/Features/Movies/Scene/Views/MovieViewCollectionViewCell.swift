@@ -35,7 +35,7 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .primary
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        label.font = .gridTitle
         return label
     }()
     
@@ -43,7 +43,7 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .systemOrange
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.font = .gridRating
         return label
     }()
     
@@ -52,7 +52,7 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .secondaryLabel
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = .gridOverview
         label.lineBreakMode = .byWordWrapping
         return label
     }()

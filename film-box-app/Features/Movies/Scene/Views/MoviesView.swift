@@ -166,8 +166,8 @@ extension MoviesView: DynamicHeightGridViewDelegate {
         let movie = movies[indexPath.item]
         let columnWidth = (collectionView.bounds.width - collectionView.contentInset.left - collectionView.contentInset.right) / 2
         let textWidth = columnWidth - 16 - 50 - 8 - 34
-        let titleFont = UIFont.systemFont(ofSize: 14, weight: .bold)
-        let overviewFont = UIFont.systemFont(ofSize: 12)
+        let titleFont = UIFont.gridTitle
+        let overviewFont = UIFont.gridOverview
         let titleHeight = movie.title.height(withConstrainedWidth: textWidth, font: titleFont)
         let overviewHeight = movie.overview.height(withConstrainedWidth: textWidth, font: overviewFont)
         let totalTextContent = 8 + titleHeight + 8 + 15 + 8 + overviewHeight + 8
