@@ -66,6 +66,7 @@ final class MoviesInteractor: MoviesInteractorLogic {
     func favoriteMovie(movie: MovieDisplayModel) {
         let overview: String? = {
             let trimmedOverview = movie.overview.trimmingCharacters(in: .whitespacesAndNewlines)
+            
             return (trimmedOverview.isEmpty || trimmedOverview == String(localized: "noOverviewAvailable")) ? nil : trimmedOverview
         }()
 

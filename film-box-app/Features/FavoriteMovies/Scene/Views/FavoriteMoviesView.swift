@@ -11,7 +11,7 @@ protocol FavoriteMoviesViewLogic: UIView {
     func changeState(state: FavoriteMoviesView.State)
 }
 
-class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDelegate {
+class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic {
     weak var delegate: FavoriteMoviesViewDelegate?
     
     enum State {
@@ -35,7 +35,8 @@ class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDeleg
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.showsVerticalScrollIndicator = false
-        collection.register(FavoriteMoviesViewCollectionViewCell.self, forCellWithReuseIdentifier: FavoriteMoviesViewCollectionViewCell.identifier)
+        collection.register(FavoriteMoviesViewCollectionViewCell.self,
+                            forCellWithReuseIdentifier: FavoriteMoviesViewCollectionViewCell.identifier)
         collection.backgroundColor = .systemBackground
         collection.delegate = self
         collection.dataSource = self
@@ -119,13 +120,17 @@ class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDeleg
     }
 }
 
-extension FavoriteMoviesView: UICollectionViewDataSource {
+extension FavoriteMoviesView: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         favoriteMovies.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteMoviesViewCollectionViewCell.identifier, for: indexPath) as? FavoriteMoviesViewCollectionViewCell else {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: FavoriteMoviesViewCollectionViewCell.identifier,
+            for: indexPath
+        ) as? FavoriteMoviesViewCollectionViewCell else {
             return UICollectionViewCell()
         }
         
@@ -141,7 +146,8 @@ extension FavoriteMoviesView: UICollectionViewDataSource {
 }
 
 extension FavoriteMoviesView: DynamicHeightGridViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView,
+                        heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
         return 180
     }
 }
