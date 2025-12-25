@@ -21,15 +21,17 @@ class SearchMoviesView: UIView {
     private let searchMovieTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
+        
         textField.attributedPlaceholder = NSAttributedString(
             string: String(localized: "searchMoviesTextField"),
             attributes: [
                 .foregroundColor: UIColor.secondaryLabel,
-                .font: .secondary,
+                .font: UIFont.secondaryAppFont
             ]
         )
+
         textField.backgroundColor = .secondarySystemBackground
-        textField.font = .secondary
+        textField.font = UIFont.secondaryAppFont
         textField.textColor = .label
         textField.layer.cornerRadius = 8
         textField.layer.masksToBounds = true
@@ -43,7 +45,7 @@ class SearchMoviesView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(String(localized: "searchMoviesButton"), for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .primary
+        button.backgroundColor = UIColor(named: "primaryAppColor")
         button.layer.cornerRadius = 8
         button.addTarget(nil, action: #selector(searchButtonPressed), for: .touchUpInside)
         return button

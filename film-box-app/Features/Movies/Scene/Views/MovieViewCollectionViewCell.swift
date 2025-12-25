@@ -33,7 +33,7 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .primary
+        label.textColor = UIColor(named: "primaryAppColor")
         label.numberOfLines = 0
         label.font = .gridTitle
         return label
@@ -66,6 +66,15 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
         return button
     }()
     
+    private let textStack: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .vertical
+        stack.spacing = 8
+        stack.alignment = .fill
+        return stack
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViewHierarchy()
@@ -81,9 +90,10 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(movieCardView)
         movieCardView.addSubview(posterImageView)
         movieCardView.addSubview(favoriteButton)
-        movieCardView.addSubview(titleLabel)
-        movieCardView.addSubview(ratingLabel)
-        movieCardView.addSubview(overviewLabel)
+        movieCardView.addSubview(textStack)
+        textStack.addArrangedSubview(titleLabel)
+        textStack.addArrangedSubview(ratingLabel)
+        textStack.addArrangedSubview(overviewLabel)
     }
     
     private func setupViewAttributes() {
@@ -107,27 +117,40 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
             favoriteButton.widthAnchor.constraint(equalToConstant: 30),
             favoriteButton.heightAnchor.constraint(equalToConstant: 30),
             
-            titleLabel.topAnchor.constraint(equalTo: movieCardView.topAnchor, constant: 8),
-            titleLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 8),
-            titleLabel.trailingAnchor.constraint(equalTo: favoriteButton.leadingAnchor, constant: -4),
-            
-            ratingLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            ratingLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            
-            overviewLabel.topAnchor.constraint(equalTo: ratingLabel.bottomAnchor, constant: 8),
-            overviewLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            overviewLabel.trailingAnchor.constraint(equalTo: movieCardView.trailingAnchor, constant: -8)
+            textStack.topAnchor.constraint(equalTo: movieCardView.topAnchor, constant: 8),
+            textStack.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 8),
+            textStack.trailingAnchor.constraint(equalTo: favoriteButton.leadingAnchor, constant: -4),
+            movieCardView.bottomAnchor.constraint(equalTo: textStack.bottomAnchor, constant: 8)
         ])
         
         titleLabel.setContentHuggingPriority(.required, for: .vertical)
         ratingLabel.setContentHuggingPriority(.required, for: .vertical)
         overviewLabel.setContentHuggingPriority(.required, for: .vertical)
         
-        movieCardView.bottomAnchor.constraint(greaterThanOrEqualTo: posterImageView.bottomAnchor, constant: 8).isActive = true
+        titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+        ratingLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+        overviewLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+    }
     
-        let safeBottom = movieCardView.bottomAnchor.constraint(greaterThanOrEqualTo: overviewLabel.bottomAnchor, constant: 8)
-        safeBottom.priority = .defaultHigh
-        safeBottom.isActive = true
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let textWidth = textStack.bounds.width
+        if textWidth > 0 {
+            titleLabel.preferredMaxLayoutWidth = textWidth
+            overviewLabel.preferredMaxLayoutWidth = textWidth
+        }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        posterImageView.image = nil
+        titleLabel.text = nil
+        titleLabel.attributedText = nil
+        ratingLabel.text = nil
+        overviewLabel.text = nil
+        overviewLabel.attributedText = nil
+        isFavorite = false
+        updateFavoriteButtonAppearance()
     }
     
     func configureCell(displayModel: MovieDisplayModel) {
@@ -140,19 +163,42 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
         updateFavoriteButtonAppearance()
     }
     
+    private func applyLineSpacing(to label: UILabel, spacing: CGFloat) {
+        guard let text = label.text else { return }
+        let ps = NSMutableParagraphStyle()
+        ps.lineSpacing = spacing
+        let attrs: [NSAttributedString.Key: Any] = [
+            .font: label.font as Any,
+            .paragraphStyle: ps
+        ]
+        label.attributedText = NSAttributedString(string: text, attributes: attrs)
+    }
+    
     @objc private func favoriteButtonPressed() {
         guard let movieId else { return }
-        
-        isFavorite = !isFavorite
+        isFavorite.toggle()
         updateFavoriteButtonAppearance()
-        
         delegate?.didTapFavorite(movieId: movieId, isFavorite: isFavorite)
     }
     
     private func updateFavoriteButtonAppearance() {
         let imageName = isFavorite ? "star.fill" : "star"
-        
         favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
-        favoriteButton.tintColor = isFavorite ? UIColor(named: "primaryColor") ?? .systemBlue : .systemGray
+        favoriteButton.tintColor = isFavorite ? UIColor(named: "primaryAppColor") ?? .systemBlue : .systemGray
+    }
+    
+    func fittingHeight(forWidth width: CGFloat) -> CGFloat {
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.widthAnchor.constraint(equalToConstant: width).isActive = true
+        
+        let targetSize = CGSize(width: width, height: UIView.layoutFittingCompressedSize.height)
+        
+        let size = contentView.systemLayoutSizeFitting(
+            targetSize,
+            withHorizontalFittingPriority: .required,
+            verticalFittingPriority: .fittingSizeLevel
+        )
+        
+        return ceil(size.height)
     }
 }

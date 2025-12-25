@@ -39,21 +39,21 @@ final class MainTabBarController: UITabBarController {
     }
     
     private func setupTabBarAppearance() {
-        let primaryColor = UIColor(named: "primaryColor") ?? UIColor.systemBlue
-        let secondaryColor = UIColor(named: "secondaryColor") ?? UIColor.gray
+        let primaryAppColor = UIColor(named: "primaryAppColor") ?? UIColor.systemBlue
+        let secondaryAppColor = UIColor(named: "secondaryAppColor") ?? UIColor.gray
         let appearance = UITabBarAppearance()
         
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = UIColor.secondarySystemBackground
         
-        appearance.stackedLayoutAppearance.normal.iconColor = secondaryColor
+        appearance.stackedLayoutAppearance.normal.iconColor = secondaryAppColor
         appearance.stackedLayoutAppearance.normal.titleTextAttributes = [
-            .foregroundColor: secondaryColor
+            .foregroundColor: secondaryAppColor
         ]
         
-        appearance.stackedLayoutAppearance.selected.iconColor = primaryColor
+        appearance.stackedLayoutAppearance.selected.iconColor = primaryAppColor
         appearance.stackedLayoutAppearance.selected.titleTextAttributes = [
-            .foregroundColor: primaryColor,
+            .foregroundColor: primaryAppColor,
         ]
         
         tabBar.standardAppearance = appearance

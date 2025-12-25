@@ -27,7 +27,7 @@ class FavoriteMoviesViewCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .title
-        label.textColor = .primary
+        label.textColor = UIColor(named: "primaryAppColor")
         label.numberOfLines = 0
         return label
     }()
@@ -43,7 +43,7 @@ class FavoriteMoviesViewCollectionViewCell: UICollectionViewCell {
     private let overviewLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .secondary
+        label.font = .secondaryAppFont
         label.textColor = .secondaryLabel
         label.numberOfLines = 0
         return label

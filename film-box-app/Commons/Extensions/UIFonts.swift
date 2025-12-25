@@ -9,7 +9,7 @@ extension UIFont {
         return UIFont(name: "Roboto-Medium", size: 18) ?? UIFont.systemFont(ofSize: 18, weight: .medium)
     }()
     
-    static let secondary: UIFont = {
+    static let secondaryAppFont: UIFont = {
         return UIFont(name: "Roboto-Light", size: 16) ?? UIFont.systemFont(ofSize: 16, weight: .regular)
     }()
     

@@ -45,7 +45,7 @@ class MovieDetailsView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .title
-        label.textColor = .primary
+        label.textColor = UIColor(named: "primaryAppColor")
         label.textAlignment = .center
         label.numberOfLines = 0
         return label
@@ -63,7 +63,7 @@ class MovieDetailsView: UIView {
     private let overviewLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .secondary
+        label.font = .secondaryAppFont
         label.textColor = .secondaryLabel
         label.numberOfLines = 0
         return label
@@ -72,28 +72,28 @@ class MovieDetailsView: UIView {
     private let releaseDateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .secondary
+        label.font = .secondaryAppFont
         return label
     }()
     
     private let budgetLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .secondary
+        label.font = .secondaryAppFont
         return label
     }()
     
     private let revenueLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .secondary
+        label.font = .secondaryAppFont
         return label
     }()
     
     private let ratingLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .secondary
+        label.font = .secondaryAppFont
         label.textColor = .systemOrange
         label.numberOfLines = 0
         return label

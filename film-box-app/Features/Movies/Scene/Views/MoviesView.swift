@@ -24,10 +24,8 @@ class MoviesView: UIView, MoviesViewLogic {
     
     var movies: [MovieDisplayModel] = [] {
         didSet {
-            if let layout = moviesCollectionView.collectionViewLayout as? DynamicHeightGridView {
-                layout.invalidateLayout()
-            }
             moviesCollectionView.reloadData()
+            moviesCollectionView.collectionViewLayout.invalidateLayout()
             emptyStateView.isHidden = !movies.isEmpty
         }
     }
@@ -35,6 +33,7 @@ class MoviesView: UIView, MoviesViewLogic {
     private lazy var moviesCollectionView: UICollectionView = {
         let layout = DynamicHeightGridView()
         layout.delegate = self
+        layout.sizingProvider = self
         
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
@@ -47,7 +46,12 @@ class MoviesView: UIView, MoviesViewLogic {
         return collection
     }()
     
-    private let emptyStateView: EmptyStateView = {
+    private lazy var sizingCell: MovieViewCollectionViewCell = {
+        let cell = MovieViewCollectionViewCell(frame: .zero)
+        return cell
+    }()
+    
+    private let emptyStateView = {
         let view = EmptyStateView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.setupMessage(message: String(localized: "emptyMovies"))
@@ -113,7 +117,9 @@ class MoviesView: UIView, MoviesViewLogic {
     
     func reloadMovieCell(index: Int) {
         let indexPath = IndexPath(item: index, section: 0)
+        
         moviesCollectionView.reloadItems(at: [indexPath])
+        moviesCollectionView.collectionViewLayout.invalidateLayout()
     }
     
     func changeState(state: State) {
@@ -145,11 +151,17 @@ class MoviesView: UIView, MoviesViewLogic {
 
 extension MoviesView: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return movies.count
+        movies.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieViewCollectionViewCell.identifier, for: indexPath) as? MovieViewCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: MovieViewCollectionViewCell.identifier,
+            for: indexPath
+        ) as? MovieViewCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        
         cell.configureCell(displayModel: movies[indexPath.item])
         cell.delegate = delegate as? MovieViewCollectionViewCellDelegate
         
@@ -163,16 +175,23 @@ extension MoviesView: UICollectionViewDataSource, UICollectionViewDelegate {
 
 extension MoviesView: DynamicHeightGridViewDelegate {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
-        let movie = movies[indexPath.item]
-        let columnWidth = (collectionView.bounds.width - collectionView.contentInset.left - collectionView.contentInset.right) / 2
-        let textWidth = columnWidth - 16 - 50 - 8 - 34
-        let titleFont = UIFont.gridTitle
-        let overviewFont = UIFont.gridOverview
-        let titleHeight = movie.title.height(withConstrainedWidth: textWidth, font: titleFont)
-        let overviewHeight = movie.overview.height(withConstrainedWidth: textWidth, font: overviewFont)
-        let totalTextContent = 8 + titleHeight + 8 + 15 + 8 + overviewHeight + 8
-        let finalHeight = max(91, totalTextContent)
+        return 180
+    }
+}
+
+extension MoviesView: DynamicHeightSizingProvider {
+    func heightForItem(at indexPath: IndexPath, in width: CGFloat) -> CGFloat {
+        guard movies.indices.contains(indexPath.item) else {
+            return 180
+        }
+     
+        let displayModel = movies[indexPath.item]
         
-        return finalHeight
+        sizingCell.prepareForReuse()
+        sizingCell.configureCell(displayModel: displayModel)
+        
+        let height = sizingCell.fittingHeight(forWidth: width)
+        
+        return max(91, height)
     }
 }
