@@ -33,7 +33,7 @@ final class MoviesViewController: UIViewController {
         super.viewDidLoad()
         setupNavigation()
     }
-        
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         presenter.searchMovies()
@@ -61,10 +61,8 @@ extension MoviesViewController: MoviesViewDelegate {
     func didSelectMovie(movieId: Int) {
         presenter.didSelectMovie(movieId: movieId)
     }
-}
-
-extension MoviesViewController: MovieViewCollectionViewCellDelegate {
-    func didTapFavorite(movieId: Int, isFavorite: Bool) {
+    
+    func didFavorite(movieId: Int, isFavorite: Bool) {
         presenter.didTapFavorite(movieId: movieId, isFavorite: isFavorite)
     }
 }

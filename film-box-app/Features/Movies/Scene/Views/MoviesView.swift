@@ -2,6 +2,7 @@ import UIKit
 
 protocol MoviesViewDelegate: AnyObject {
     func didSelectMovie(movieId: Int)
+    func didFavorite(movieId: Int, isFavorite: Bool)
 }
 
 protocol MoviesViewLogic: UIView {
@@ -163,7 +164,7 @@ extension MoviesView: UICollectionViewDataSource, UICollectionViewDelegate {
         }
         
         cell.configureCell(displayModel: movies[indexPath.item])
-        cell.delegate = delegate as? MovieViewCollectionViewCellDelegate
+        cell.delegate = self
         
         return cell
     }
@@ -184,7 +185,7 @@ extension MoviesView: DynamicHeightSizingProvider {
         guard movies.indices.contains(indexPath.item) else {
             return 180
         }
-     
+        
         let displayModel = movies[indexPath.item]
         
         sizingCell.prepareForReuse()
@@ -193,5 +194,16 @@ extension MoviesView: DynamicHeightSizingProvider {
         let height = sizingCell.fittingHeight(forWidth: width)
         
         return max(91, height)
+    }
+}
+
+extension MoviesView: MovieViewCollectionViewCellDelegate {
+    func didTapFavorite(movieId: Int, isFavorite: Bool) {
+        if let index = movies.firstIndex(where: { $0.id == movieId }) {
+            movies[index].isFavorite = isFavorite
+            reloadMovieCell(index: index)
+        }
+
+        delegate?.didFavorite(movieId: movieId, isFavorite: isFavorite)
     }
 }

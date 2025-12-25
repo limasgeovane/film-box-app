@@ -149,17 +149,15 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
         ratingLabel.text = nil
         overviewLabel.text = nil
         overviewLabel.attributedText = nil
-        isFavorite = false
-        updateFavoriteButtonAppearance()
     }
     
     func configureCell(displayModel: MovieDisplayModel) {
         movieId = displayModel.id
         isFavorite = displayModel.isFavorite
-        posterImageView.loadTMDBImage(path: displayModel.posterImagePath)
         titleLabel.text = displayModel.title
         ratingLabel.text = displayModel.ratingText
         overviewLabel.text = displayModel.overview
+        posterImageView.loadTMDBImage(path: displayModel.posterImagePath)
         updateFavoriteButtonAppearance()
     }
     
@@ -171,14 +169,14 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
             .font: label.font as Any,
             .paragraphStyle: ps
         ]
+        
         label.attributedText = NSAttributedString(string: text, attributes: attrs)
     }
     
     @objc private func favoriteButtonPressed() {
         guard let movieId else { return }
-        isFavorite.toggle()
-        updateFavoriteButtonAppearance()
-        delegate?.didTapFavorite(movieId: movieId, isFavorite: isFavorite)
+        
+        delegate?.didTapFavorite(movieId: movieId, isFavorite: !isFavorite)
     }
     
     private func updateFavoriteButtonAppearance() {
