@@ -1,5 +1,6 @@
 protocol FavoriteMoviesInteractorLogic {
     func requestFavoriteMovies()
+    func unfavoriteMovie(movieId: Int)
 }
 
 final class FavoriteMoviesInteractor {
@@ -24,6 +25,11 @@ final class FavoriteMoviesInteractor {
 
 extension FavoriteMoviesInteractor: FavoriteMoviesInteractorLogic {
     func requestFavoriteMovies() {
+        fetchFavoriteMovies()
+    }
+    
+    func unfavoriteMovie(movieId: Int) {
+        repository.unfavorite(movieId: movieId)
         fetchFavoriteMovies()
     }
 }

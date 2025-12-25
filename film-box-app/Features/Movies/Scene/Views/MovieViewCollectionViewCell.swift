@@ -162,18 +162,6 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
         updateFavoriteButtonAppearance()
     }
     
-    private func applyLineSpacing(to label: UILabel, spacing: CGFloat) {
-        guard let text = label.text else { return }
-        let ps = NSMutableParagraphStyle()
-        ps.lineSpacing = spacing
-        let attrs: [NSAttributedString.Key: Any] = [
-            .font: label.font as Any,
-            .paragraphStyle: ps
-        ]
-        
-        label.attributedText = NSAttributedString(string: text, attributes: attrs)
-    }
-    
     @objc private func favoriteButtonPressed() {
         guard let movieId else { return }
         

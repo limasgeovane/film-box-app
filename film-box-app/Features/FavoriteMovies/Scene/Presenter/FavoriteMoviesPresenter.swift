@@ -2,6 +2,8 @@ import Foundation
 
 protocol FavoriteMoviesPresenterInputLogic {
     func requestFavoriteMovies()
+    func didTapUnfavorite(movieId: Int)
+    func didSelectFavoriteMovie(movieId: Int)
 }
 
 protocol FavoriteMoviesPresenterOutputLogic: AnyObject {
@@ -14,10 +16,15 @@ final class FavoriteMoviesPresenter {
     
     private var displayModel: [FavoriteMoviesDisplayModel] = []
     
-    var interactor: FavoriteMoviesInteractorLogic
+    private let interactor: FavoriteMoviesInteractorLogic
+    private let router: FavoriteMoviesRouterLogic
     
-    init(interactor: FavoriteMoviesInteractorLogic) {
+    init(
+        interactor: FavoriteMoviesInteractorLogic,
+        router: FavoriteMoviesRouterLogic
+    ) {
         self.interactor = interactor
+        self.router = router
     }
 }
 
@@ -25,6 +32,14 @@ extension FavoriteMoviesPresenter: FavoriteMoviesPresenterInputLogic {
     func requestFavoriteMovies() {
         viewController?.displayLoading()
         interactor.requestFavoriteMovies()
+    }
+    
+    func didTapUnfavorite(movieId: Int) {
+        interactor.unfavoriteMovie(movieId: movieId)
+    }
+    
+    func didSelectFavoriteMovie(movieId: Int) {
+        router.openMovieDetails(movieId: movieId)
     }
 }
 

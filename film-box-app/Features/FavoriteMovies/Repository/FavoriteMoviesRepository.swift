@@ -6,6 +6,7 @@ protocol FavoriteMoviesRepositoryLogic {
     func getFavorites() -> [MovieEntity]
     func isMovieFavorite(id: Int) -> Bool
 }
+
 final class FavoriteMoviesRepository: FavoriteMoviesRepositoryLogic {
     func favorite(movie: MovieEntity) {
         var favorites = getFavorites()

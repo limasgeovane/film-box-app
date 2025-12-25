@@ -1,11 +1,19 @@
 import UIKit
 
+protocol FavoriteMoviesViewDelegate: AnyObject {
+    func didSelectFavoriteMovie(movieId: Int)
+    func didTapUnfavorite(movieId: Int)
+}
+
 protocol FavoriteMoviesViewLogic: UIView {
     var favoriteMovies: [FavoriteMoviesDisplayModel] { get set }
+    var delegate: FavoriteMoviesViewDelegate? { get set }
     func changeState(state: FavoriteMoviesView.State)
 }
 
 class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDelegate {
+    weak var delegate: FavoriteMoviesViewDelegate?
+    
     enum State {
         case content
         case loading
@@ -20,11 +28,9 @@ class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDeleg
     }
     
     private lazy var favoriteMoviesCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.sectionInset = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
-        layout.minimumLineSpacing = 8
-        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        let layout = DynamicHeightGridView()
+        layout.delegate = self
+        layout.sizingProvider = self
         
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
@@ -33,7 +39,13 @@ class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic, UICollectionViewDeleg
         collection.backgroundColor = .systemBackground
         collection.delegate = self
         collection.dataSource = self
+        collection.contentInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         return collection
+    }()
+    
+    private lazy var sizingCell: FavoriteMoviesViewCollectionViewCell = {
+        let cell = FavoriteMoviesViewCollectionViewCell(frame: .zero)
+        return cell
     }()
     
     private let loadingView: LoadingView = {
@@ -117,9 +129,46 @@ extension FavoriteMoviesView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        let favoriteMovie = favoriteMovies[indexPath.item]
-        cell.configureCell(displayModel: favoriteMovie)
+        cell.configureCell(displayModel: favoriteMovies[indexPath.item])
+        cell.delegate = self
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.didSelectFavoriteMovie(movieId: favoriteMovies[indexPath.item].id)
+    }
+}
+
+extension FavoriteMoviesView: DynamicHeightGridViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
+        return 180
+    }
+}
+
+extension FavoriteMoviesView: DynamicHeightSizingProvider {
+    func heightForItem(at indexPath: IndexPath, in width: CGFloat) -> CGFloat {
+        guard favoriteMovies.indices.contains(indexPath.item) else {
+            return 180
+        }
+        
+        let displayModel = favoriteMovies[indexPath.item]
+        
+        sizingCell.prepareForReuse()
+        sizingCell.configureCell(displayModel: displayModel)
+        
+        let height = sizingCell.fittingHeight(forWidth: width)
+        
+        return max(91, height)
+    }
+}
+
+extension FavoriteMoviesView: FavoriteMoviesViewCollectionViewCellDelegate {
+    func didTapUnfavorite(movieId: Int) {
+        if let index = favoriteMovies.firstIndex(where: { $0.id == movieId }) {
+            favoriteMovies.remove(at: index)
+        }
+        
+        delegate?.didTapUnfavorite(movieId: movieId)
     }
 }

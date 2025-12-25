@@ -9,6 +9,7 @@ protocol FavoriteMoviesViewControllerLogic: AnyObject {
 class FavoriteMoviesViewController: UIViewController {
     private let presenter: FavoriteMoviesPresenterInputLogic
     private let contentView: FavoriteMoviesViewLogic
+    private let router: MoviesRouterLogic = MoviesRouter()
     
     init(
         presenter: FavoriteMoviesPresenterInputLogic,
@@ -25,6 +26,7 @@ class FavoriteMoviesViewController: UIViewController {
     
     override func loadView() {
         view = contentView
+        contentView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -43,9 +45,19 @@ extension FavoriteMoviesViewController: FavoriteMoviesViewControllerLogic {
         contentView.favoriteMovies = displayModel
         contentView.changeState(state: .content)
     }
-
+    
     func displayEmptyState() {
         contentView.favoriteMovies = []
         contentView.changeState(state: .empty)
+    }
+}
+
+extension FavoriteMoviesViewController: FavoriteMoviesViewDelegate {
+    func didSelectFavoriteMovie(movieId: Int) {
+        presenter.didSelectFavoriteMovie(movieId: movieId)
+    }
+    
+    func didTapUnfavorite(movieId: Int) {
+        presenter.didTapUnfavorite(movieId: movieId)
     }
 }
