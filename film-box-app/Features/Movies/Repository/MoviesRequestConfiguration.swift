@@ -11,7 +11,8 @@ struct MoviesRequestConfiguration: NetworkRequestConfigurator {
     
     var parameters: [String: Any] {
         [
-            "query": query
+            "query": query,
+            "language": Constants.TmdbAPI.language
         ]
     }
     

@@ -9,6 +9,12 @@ struct MovieDetailsRequestConfiguration: NetworkRequestConfigurator {
         "/movie/\(movieId)"
     }
     
+    var parameters: [String: Any] {
+        [
+            "language": Constants.TmdbAPI.language
+        ]
+    }
+    
     var headers: [String: String] {
         [
             "Authorization": "Bearer \(NetworkAuthorization.bearerToken)"

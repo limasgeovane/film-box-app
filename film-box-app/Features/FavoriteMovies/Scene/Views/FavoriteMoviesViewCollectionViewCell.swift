@@ -147,17 +147,17 @@ class FavoriteMoviesViewCollectionViewCell: UICollectionViewCell {
         overviewLabel.attributedText = nil
     }
     
+    @objc private func favoriteButtonPressed() {
+        guard let movieId else { return }
+        delegate?.didTapUnfavorite(movieId: movieId)
+    }
+    
     func configureCell(displayModel: FavoriteMoviesDisplayModel) {
         movieId = displayModel.id
         posterImageView.loadTMDBImage(path: displayModel.posterImagePath)
         titleLabel.setHyphenatedText(displayModel.title)
         ratingLabel.setHyphenatedText(displayModel.ratingText)
         overviewLabel.setHyphenatedText(displayModel.overview)
-    }
-    
-    @objc private func favoriteButtonPressed() {
-        guard let movieId else { return }
-        delegate?.didTapUnfavorite(movieId: movieId)
     }
     
     func fittingHeight(forWidth width: CGFloat) -> CGFloat {
