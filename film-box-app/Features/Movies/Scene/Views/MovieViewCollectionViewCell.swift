@@ -43,6 +43,7 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .systemOrange
+        label.numberOfLines = 0
         label.font = .gridRating
         return label
     }()
@@ -154,9 +155,9 @@ class MovieViewCollectionViewCell: UICollectionViewCell {
     func configureCell(displayModel: MovieDisplayModel) {
         movieId = displayModel.id
         isFavorite = displayModel.isFavorite
-        titleLabel.text = displayModel.title
-        ratingLabel.text = displayModel.ratingText
-        overviewLabel.text = displayModel.overview
+        titleLabel.setHyphenatedText(displayModel.title)
+        ratingLabel.setHyphenatedText(displayModel.ratingText)
+        overviewLabel.setHyphenatedText(displayModel.overview)
         posterImageView.loadTMDBImage(path: displayModel.posterImagePath)
         updateFavoriteButtonAppearance()
     }

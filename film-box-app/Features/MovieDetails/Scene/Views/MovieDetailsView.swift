@@ -202,9 +202,9 @@ extension MovieDetailsView: MovieDetailsViewLogic {
             backdropPathImageView.contentMode = .scaleAspectFill
             backdropPathImageView.backgroundColor = .systemGray5
         }
-        originalTitleLabel.text = displayModel.originalTitle
-        titleLabel.text = displayModel.title
-        overviewLabel.text = displayModel.overview
+        originalTitleLabel.setHyphenatedText(displayModel.originalTitle)
+        titleLabel.setHyphenatedText(displayModel.title)
+        overviewLabel.setHyphenatedText(displayModel.overview)
         releaseDateLabel.text = displayModel.releaseDate
         budgetLabel.text = displayModel.budget
         revenueLabel.text = displayModel.revenue
