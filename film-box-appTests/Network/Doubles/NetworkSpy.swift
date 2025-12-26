@@ -7,6 +7,7 @@ final class NetworkSpy: NetworkLogic {
     }
 
     private(set) var messages: [Message] = []
+
     var stubbedResponse: Any?
     var errorToThrow: Error?
 
@@ -16,8 +17,8 @@ final class NetworkSpy: NetworkLogic {
     ) {
         messages.append(.request(NetworkRequestConfiguratorSpy(from: configuration)))
 
-        if let error = errorToThrow {
-            completion(.failure(error))
+        if let errorToThrow {
+            completion(.failure(errorToThrow))
             return
         }
 
@@ -25,7 +26,7 @@ final class NetworkSpy: NetworkLogic {
             completion(.failure(NetworkDeserializationError.decodingFailed))
             return
         }
-        
+
         completion(.success(result))
     }
 }

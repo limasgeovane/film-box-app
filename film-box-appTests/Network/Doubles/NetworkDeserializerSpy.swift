@@ -9,15 +9,19 @@ final class NetworkDeserializationSpy: NetworkDeserializable {
     private(set) var messages: [Message] = []
 
     var stubbedDecodedValue: Any?
-    var stubbedError: Error?
+    var errorToThrow: Error?
 
     func decode<T: Decodable>(data: Data?) throws -> T {
         messages.append(.decode)
 
-        if let error = stubbedError {
-            throw error
+        if let errorToThrow {
+            throw errorToThrow
         }
 
-        return stubbedDecodedValue as! T
+        guard let value = stubbedDecodedValue as? T else {
+            throw NetworkDeserializationError.decodingFailed
+        }
+
+        return value
     }
 }

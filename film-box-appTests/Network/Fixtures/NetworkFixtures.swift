@@ -3,16 +3,27 @@ import Foundation
 
 enum NetworkFixtures {
     struct RequestConfig: NetworkRequestConfigurator {
-        var path: String { "/path" }
-        var parameters: [String: Any] { ["key": "value"] }
-        var hearders: [String: String] { ["Header": "Value"] }
+        let baseURL: NetworkBaseURL = .tmdb
+        let path: String = "/movie/550"
+        let method: NetworkMethod = .get
+        let parameters: [String: Any] = ["language": "en-US"]
+        let enconding: NetworkParameterEncoding = .default
+        let headers: [String: String] = ["Authorization": "Bearer token"]
     }
 
-    struct Response: Codable, Equatable {
-        let name: String
-    }
-
-    static func makeResponse(name: String = "a name") -> Response {
-        Response(name: name)
+    static func makeMovieEntity(
+        id: Int = 550,
+        title: String = "Fight Club",
+        overview: String? = "An insomniac office worker...",
+        voteAverage: Double? = 8.4,
+        posterPath: String? = "/poster.jpg"
+    ) -> MovieEntity {
+        MovieEntity(
+            id: id,
+            title: title,
+            overview: overview,
+            voteAverage: voteAverage,
+            posterPath: posterPath
+        )
     }
 }

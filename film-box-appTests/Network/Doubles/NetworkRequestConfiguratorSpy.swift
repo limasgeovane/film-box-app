@@ -16,14 +16,17 @@ struct NetworkRequestConfiguratorSpy: Equatable {
         self.headers = configurator.headers
     }
 
-    static func == (lhs: NetworkRequestConfiguratorSpy, rhs: NetworkRequestConfiguratorSpy) -> Bool {
+    static func == (lhs: Self, rhs: Self) -> Bool {
         let sameMethod: Bool = {
             switch (lhs.method, rhs.method) {
-            case (.get, .get), (.post, .post): return true
-            default: return false
+            case (.get, .get),
+                 (.post, .post):
+                return true
+            default:
+                return false
             }
         }()
-        
+
         return lhs.baseURL == rhs.baseURL &&
         lhs.path == rhs.path &&
         sameMethod &&

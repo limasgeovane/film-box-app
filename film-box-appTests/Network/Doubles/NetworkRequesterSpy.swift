@@ -5,13 +5,16 @@ final class NetworkRequesterSpy: NetworkRequester {
     enum Message {
         case request(
             url: String,
+            method: NetworkMethod,
             parameters: [String: Any]?,
             headers: [String: String]?
         )
     }
 
     private(set) var messages: [Message] = []
-    var stubbedResult: Result<Data?, Error>?
+
+    var stubbedData: Data?
+    var errorToThrow: Error?
 
     func request(
         url: String,
@@ -21,13 +24,20 @@ final class NetworkRequesterSpy: NetworkRequester {
         headers: [String: String]?,
         completion: @escaping (Result<Data?, Error>) -> Void
     ) {
-        messages.append(.request(url: url, parameters: parameters, headers: headers))
+        messages.append(
+            .request(
+                url: url,
+                method: method,
+                parameters: parameters,
+                headers: headers
+            )
+        )
 
-        guard let result = stubbedResult else {
-            completion(.failure(NetworkError.invalidURL))
+        if let errorToThrow {
+            completion(.failure(errorToThrow))
             return
         }
 
-        completion(result)
+        completion(.success(stubbedData))
     }
 }
