@@ -7,7 +7,7 @@ protocol NetworkLogic {
     )
 }
 
-class Network: NetworkLogic {
+final class Network: NetworkLogic {
     private let networkRequest: NetworkRequester
     private let networkDeserialization: NetworkDeserialization
     

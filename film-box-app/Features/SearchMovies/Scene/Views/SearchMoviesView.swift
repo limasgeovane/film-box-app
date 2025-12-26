@@ -11,7 +11,7 @@ protocol SearchMoviesViewLogic: UIView {
     func changeState(state: SearchMoviesView.State)
 }
 
-class SearchMoviesView: UIView {
+final class SearchMoviesView: UIView {
     enum State {
         case loading
         case content

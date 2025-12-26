@@ -1,6 +1,6 @@
 import UIKit
 
-class SearchMoviesViewController: UIViewController {
+final class SearchMoviesViewController: UIViewController {
     private let presenter: SearchMoviesPresenterInputLogic
     private let contentView: SearchMoviesViewLogic
     

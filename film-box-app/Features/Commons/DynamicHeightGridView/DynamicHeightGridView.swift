@@ -8,7 +8,7 @@ protocol DynamicHeightSizingProvider: AnyObject {
     func heightForItem(at indexPath: IndexPath, in width: CGFloat) -> CGFloat
 }
 
-class DynamicHeightGridView: UICollectionViewLayout {
+final class DynamicHeightGridView: UICollectionViewLayout {
     weak var delegate: DynamicHeightGridViewDelegate?
     weak var sizingProvider: DynamicHeightSizingProvider?
     

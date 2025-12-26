@@ -6,7 +6,7 @@ protocol MovieDetailsViewControllerLogic: AnyObject {
     func displayError()
 }
 
-class MovieDetailsViewController: UIViewController {
+final class MovieDetailsViewController: UIViewController {
     private let presenter: MovieDetailsPresenterInputLogic
     private let contentView: MovieDetailsViewLogic
     private let movieId: Int

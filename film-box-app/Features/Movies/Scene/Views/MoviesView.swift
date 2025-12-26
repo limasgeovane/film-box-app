@@ -13,7 +13,7 @@ protocol MoviesViewLogic: UIView {
     func changeState(state: MoviesView.State)
 }
 
-class MoviesView: UIView, MoviesViewLogic {
+final class MoviesView: UIView, MoviesViewLogic {
     enum State {
         case loading
         case Empty

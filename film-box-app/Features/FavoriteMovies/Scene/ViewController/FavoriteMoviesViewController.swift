@@ -6,7 +6,7 @@ protocol FavoriteMoviesViewControllerLogic: AnyObject {
     func displayEmptyState()
 }
 
-class FavoriteMoviesViewController: UIViewController {
+final class FavoriteMoviesViewController: UIViewController {
     private let presenter: FavoriteMoviesPresenterInputLogic
     private let contentView: FavoriteMoviesViewLogic
     private let router: MoviesRouterLogic = MoviesRouter()

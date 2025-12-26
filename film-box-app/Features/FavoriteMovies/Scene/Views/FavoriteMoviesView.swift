@@ -11,7 +11,7 @@ protocol FavoriteMoviesViewLogic: UIView {
     func changeState(state: FavoriteMoviesView.State)
 }
 
-class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic {
+final class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic {
     weak var delegate: FavoriteMoviesViewDelegate?
     
     enum State {

@@ -4,7 +4,7 @@ protocol MovieViewCollectionViewCellDelegate: AnyObject {
     func didTapFavorite(movieId: Int, isFavorite: Bool)
 }
 
-class MovieViewCollectionViewCell: UICollectionViewCell {
+final class MovieViewCollectionViewCell: UICollectionViewCell {
     static let identifier: String = "MovieViewCollectionViewCell"
     
     weak var delegate: MovieViewCollectionViewCellDelegate?

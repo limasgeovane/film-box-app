@@ -5,7 +5,7 @@ protocol MovieDetailsViewLogic: UIView {
     func changeState(state: MovieDetailsView.State)
 }
 
-class MovieDetailsView: UIView {
+final class MovieDetailsView: UIView {
     enum State {
         case content
         case loading
