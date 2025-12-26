@@ -22,8 +22,8 @@ final class MovieDetailsPresenterTests: XCTestCase {
         let entity = MovieDetailsEntityFixture.make(
             backdropPath: "/bd.jpg",
             overview: "Overview",
-            budget: 1_000_000,
-            revenue: 5_000_000,
+            budget: 1000000,
+            revenue: 5000000,
             voteAverage: 8.5
         )
         

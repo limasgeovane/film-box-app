@@ -1,5 +1,3 @@
-import Foundation
-
 protocol MovieDetailsRepositoryLogic {
     func fetchMovieDetails(movieId: Int, completion: @escaping (Result<MovieDetailsEntity, Error>) -> Void)
 }

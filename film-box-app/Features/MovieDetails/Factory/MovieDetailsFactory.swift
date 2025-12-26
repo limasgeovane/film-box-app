@@ -2,7 +2,11 @@ import UIKit
 
 enum MovieDetailsFactory {
     static func make(movieId: Int) -> UIViewController {
-        let interactor = MovieDetailsInteractor(repository: MovieDetailsRepository())
+        let interactor = MovieDetailsInteractor(
+            repository: MovieDetailsRepository(),
+            favoriteMoviesRepository: FavoriteMoviesRepository()
+        )
+        
         let presenter = MovieDetailsPresenter(interactor: interactor)
         
         let viewController = MovieDetailsViewController(

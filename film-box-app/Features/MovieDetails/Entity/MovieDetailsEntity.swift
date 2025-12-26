@@ -1,4 +1,5 @@
 struct MovieDetailsEntity: Decodable {
+    let id: Int
     let backdropPath: String?
     let originalTitle: String
     let title: String
@@ -9,6 +10,7 @@ struct MovieDetailsEntity: Decodable {
     let voteAverage: Double?
 
     enum CodingKeys: String, CodingKey {
+        case id
         case backdropPath = "backdrop_path"
         case originalTitle = "original_title"
         case title

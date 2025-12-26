@@ -2,6 +2,7 @@ import Foundation
 
 protocol MovieDetailsPresenterInputLogic {
     func requestMovieDetails(movieId: Int)
+    func didTapFavorite(movieId: Int, isFavorite: Bool)
 }
 
 protocol MovieDetailsPresenterOutputLogic: AnyObject {
@@ -12,8 +13,10 @@ protocol MovieDetailsPresenterOutputLogic: AnyObject {
 final class MovieDetailsPresenter {
     weak var viewController: MovieDetailsViewControllerLogic?
     
-    var interactor: MovieDetailsInteractorLogic
+    private var displayModel: MovieDetailsDisplayModel?
     
+    private let interactor: MovieDetailsInteractorLogic
+
     init(interactor: MovieDetailsInteractorLogic) {
         self.interactor = interactor
     }
@@ -24,11 +27,22 @@ extension MovieDetailsPresenter: MovieDetailsPresenterInputLogic {
         viewController?.displayLoading()
         interactor.requestMovieDetails(movieId: movieId)
     }
+    
+    func didTapFavorite(movieId: Int, isFavorite: Bool) {
+        guard let displayModel else { return }
+        
+        if isFavorite {
+            interactor.favoriteMovie(movie: displayModel)
+        } else {
+            interactor.unfavoriteMovie(movieId: movieId)
+        }
+    }
 }
 
 extension MovieDetailsPresenter: MovieDetailsPresenterOutputLogic {
     func didRequestMovieDetails(movieDetails: MovieDetailsEntity) {
         let displayModel = MovieDetailsDisplayModel(
+            id: movieDetails.id,
             backdropPath: {
                 if let backdropPath = movieDetails.backdropPath, !backdropPath.isEmpty {
                     return "\(Constants.TmdbAPI.tmdbImageURL)\(backdropPath)"
@@ -54,7 +68,7 @@ extension MovieDetailsPresenter: MovieDetailsPresenterOutputLogic {
                 }
             }(),
             revenue: {
-                if let revenue = movieDetails.budget, revenue > 0 {
+                if let revenue = movieDetails.revenue, revenue > 0 {
                     return "\(String(localized: "revenue")): \(revenue.usdFormatter)"
                 } else {
                     return ""
@@ -66,9 +80,11 @@ extension MovieDetailsPresenter: MovieDetailsPresenterOutputLogic {
                 } else {
                     return String(localized: "unrated")
                 }
-            }()
+            }(),
+            isFavorite: FavoriteMoviesRepository().isMovieFavorite(id: movieDetails.id)
         )
         
+        self.displayModel = displayModel
         viewController?.displayContent(displayModel: displayModel)
     }
     
