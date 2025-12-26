@@ -6,23 +6,26 @@ protocol FavoriteMoviesViewDelegate: AnyObject {
 }
 
 protocol FavoriteMoviesViewLogic: UIView {
-    var favoriteMovies: [FavoriteMoviesDisplayModel] { get set }
     var delegate: FavoriteMoviesViewDelegate? { get set }
+    var favoriteMovies: [FavoriteMoviesDisplayModel] { get set }
+    
     func changeState(state: FavoriteMoviesView.State)
 }
 
 final class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic {
-    weak var delegate: FavoriteMoviesViewDelegate?
-    
     enum State {
-        case content
         case loading
+        case content
         case empty
+        case error
     }
+    
+    weak var delegate: FavoriteMoviesViewDelegate?
     
     var favoriteMovies: [FavoriteMoviesDisplayModel] = [] {
         didSet {
             favoriteMoviesCollectionView.reloadData()
+            favoriteMoviesCollectionView.collectionViewLayout.invalidateLayout()
             emptyStateView.isHidden = !favoriteMovies.isEmpty
         }
     }
@@ -35,8 +38,10 @@ final class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.showsVerticalScrollIndicator = false
-        collection.register(FavoriteMoviesViewCollectionViewCell.self,
-                            forCellWithReuseIdentifier: FavoriteMoviesViewCollectionViewCell.identifier)
+        collection.register(
+            FavoriteMoviesViewCollectionViewCell.self,
+            forCellWithReuseIdentifier: FavoriteMoviesViewCollectionViewCell.identifier
+        )
         collection.backgroundColor = .systemBackground
         collection.delegate = self
         collection.dataSource = self
@@ -45,8 +50,7 @@ final class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic {
     }()
     
     private lazy var sizingCell: FavoriteMoviesViewCollectionViewCell = {
-        let cell = FavoriteMoviesViewCollectionViewCell(frame: .zero)
-        return cell
+        FavoriteMoviesViewCollectionViewCell(frame: .zero)
     }()
     
     private let loadingView: LoadingView = {
@@ -62,11 +66,18 @@ final class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic {
         return view
     }()
     
+    private let errorView: ErrorView = {
+        let view = ErrorView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViewHierarchy()
         setupViewAttributes()
         setupLayout()
+        changeState(state: .loading)
     }
     
     required init?(coder: NSCoder) {
@@ -75,8 +86,9 @@ final class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic {
     
     private func setupViewHierarchy() {
         addSubview(favoriteMoviesCollectionView)
-        addSubview(loadingView)
         addSubview(emptyStateView)
+        addSubview(loadingView)
+        addSubview(errorView)
     }
     
     private func setupViewAttributes() {
@@ -98,35 +110,49 @@ final class FavoriteMoviesView: UIView, FavoriteMoviesViewLogic {
             emptyStateView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
             emptyStateView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             emptyStateView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            emptyStateView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
+            emptyStateView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
+            
+            errorView.topAnchor.constraint(equalTo: topAnchor),
+            errorView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            errorView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            errorView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
     
     func changeState(state: State) {
         switch state {
-        case .content:
-            favoriteMoviesCollectionView.isHidden = false
-            loadingView.isHidden = true
-            emptyStateView.isHidden = true
         case .loading:
-            favoriteMoviesCollectionView.isHidden = true
             loadingView.isHidden = false
-            emptyStateView.isHidden = true
-        case .empty:
             favoriteMoviesCollectionView.isHidden = true
+            emptyStateView.isHidden = true
+            errorView.isHidden = true
+        case .content:
             loadingView.isHidden = true
+            favoriteMoviesCollectionView.isHidden = false
+            emptyStateView.isHidden = true
+            errorView.isHidden = true
+        case .empty:
+            loadingView.isHidden = true
+            favoriteMoviesCollectionView.isHidden = true
             emptyStateView.isHidden = false
+            errorView.isHidden = true
+        case .error:
+            loadingView.isHidden = true
+            favoriteMoviesCollectionView.isHidden = true
+            emptyStateView.isHidden = true
+            errorView.isHidden = false
+            errorView.setupMessage(message: String(localized: "requestMoviesError"))
         }
     }
 }
 
 extension FavoriteMoviesView: UICollectionViewDataSource, UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         favoriteMovies.count
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: FavoriteMoviesViewCollectionViewCell.identifier,
             for: indexPath
@@ -136,7 +162,6 @@ extension FavoriteMoviesView: UICollectionViewDataSource, UICollectionViewDelega
         
         cell.configureCell(displayModel: favoriteMovies[indexPath.item])
         cell.delegate = self
-        
         return cell
     }
     
@@ -146,9 +171,8 @@ extension FavoriteMoviesView: UICollectionViewDataSource, UICollectionViewDelega
 }
 
 extension FavoriteMoviesView: DynamicHeightGridViewDelegate {
-    func collectionView(_ collectionView: UICollectionView,
-                        heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
-        return 180
+    func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
+        180
     }
 }
 
@@ -164,7 +188,6 @@ extension FavoriteMoviesView: DynamicHeightSizingProvider {
         sizingCell.configureCell(displayModel: displayModel)
         
         let height = sizingCell.getCellHeight(forWidth: width)
-        
         return max(91, height)
     }
 }

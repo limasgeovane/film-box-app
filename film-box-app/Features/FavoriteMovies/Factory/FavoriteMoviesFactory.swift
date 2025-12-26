@@ -3,7 +3,12 @@ import UIKit
 enum FavoriteMoviesFactory {
     static func make() -> UIViewController {
         let repository = FavoriteMoviesRepository()
-        let interactor = FavoriteMoviesInteractor(repository: repository)
+        
+        let interactor = FavoriteMoviesInteractor(
+            repository: repository,
+            movieDetailsRepository: MovieDetailsRepository()
+        )
+        
         let router = FavoriteMoviesRouter()
         
         let presenter = FavoriteMoviesPresenter(interactor: interactor, router: router)

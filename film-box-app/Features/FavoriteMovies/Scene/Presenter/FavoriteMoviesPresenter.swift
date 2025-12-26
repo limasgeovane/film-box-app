@@ -9,6 +9,7 @@ protocol FavoriteMoviesPresenterInputLogic {
 protocol FavoriteMoviesPresenterOutputLogic: AnyObject {
     func didRequestFavoriteMovies(favoriteMovies: [MovieEntity])
     func didRequestFavoriteMoviesEmpty()
+    func didRequestFavoriteMoviesError()
 }
 
 final class FavoriteMoviesPresenter {
@@ -78,5 +79,9 @@ extension FavoriteMoviesPresenter: FavoriteMoviesPresenterOutputLogic {
     
     func didRequestFavoriteMoviesEmpty() {
         viewController?.displayEmptyState()
+    }
+    
+    func didRequestFavoriteMoviesError() {
+        viewController?.displayError()
     }
 }

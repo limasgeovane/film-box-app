@@ -1,53 +1,41 @@
 import Foundation
 
 protocol FavoriteMoviesRepositoryLogic {
-    func favorite(movie: MovieEntity)
+    func favorite(movieId: Int)
     func unfavorite(movieId: Int)
-    func getFavorites() -> [MovieEntity]
+    func getFavoritesIds() -> [Int]
     func isMovieFavorite(id: Int) -> Bool
 }
 
 final class FavoriteMoviesRepository: FavoriteMoviesRepositoryLogic {
-    func favorite(movie: MovieEntity) {
-        var favorites = getFavorites()
-        favorites.append(movie)
+    func favorite(movieId: Int) {
+        var favorites = getFavoritesIds()
         
-        do {
-            let data = try JSONEncoder().encode(favorites)
-            UserDefaults.standard.set(data, forKey: Constants.UserDefaults.favoritesMoviesKey)
-        } catch {
-            print("Erro ao codificar FavoriteMovies: \(error)")
+        if favorites.contains(movieId) == false {
+            favorites.append(movieId)
         }
+        
+        UserDefaults.standard.set(favorites, forKey: Constants.UserDefaults.favoritesMoviesKey)
     }
     
     func unfavorite(movieId: Int) {
-        var favorites = getFavorites()
-        favorites.removeAll { $0.id == movieId }
+        var favorites = getFavoritesIds()
+        favorites.removeAll { $0 == movieId }
         
-        do {
-            let data = try JSONEncoder().encode(favorites)
-            UserDefaults.standard.set(data, forKey:  Constants.UserDefaults.favoritesMoviesKey)
-        } catch {
-            print("Erro ao codificar FavoriteMovies após remoção: \(error)")
-        }
+        UserDefaults.standard.set(favorites, forKey: Constants.UserDefaults.favoritesMoviesKey)
     }
     
-    func getFavorites() -> [MovieEntity] {
-        guard let data = UserDefaults.standard.data(forKey:  Constants.UserDefaults.favoritesMoviesKey) else {
-            return []
+    func getFavoritesIds() -> [Int] {
+        let favorites = UserDefaults.standard.array(forKey: Constants.UserDefaults.favoritesMoviesKey) as? [Int]
+        
+        if let favorites {
+            return favorites.sorted(by: >)
         }
         
-        do {
-            let favorites = try JSONDecoder().decode([MovieEntity].self, from: data)
-            return favorites.sorted { $0.id > $1.id }
-        } catch {
-            return []
-        }
+        return []
     }
     
     func isMovieFavorite(id: Int) -> Bool {
-        return getFavorites().contains {
-            $0.id == id
-        }
+        return getFavoritesIds().contains(id)
     }
 }

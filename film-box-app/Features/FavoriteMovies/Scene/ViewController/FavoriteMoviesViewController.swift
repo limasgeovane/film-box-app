@@ -4,6 +4,7 @@ protocol FavoriteMoviesViewControllerLogic: AnyObject {
     func displayLoading()
     func displayContent(displayModel: [FavoriteMoviesDisplayModel])
     func displayEmptyState()
+    func displayError()
 }
 
 final class FavoriteMoviesViewController: UIViewController {
@@ -49,6 +50,11 @@ extension FavoriteMoviesViewController: FavoriteMoviesViewControllerLogic {
     func displayEmptyState() {
         contentView.favoriteMovies = []
         contentView.changeState(state: .empty)
+    }
+    
+    func displayError() {
+        contentView.favoriteMovies = []
+        contentView.changeState(state: .error)
     }
 }
 
