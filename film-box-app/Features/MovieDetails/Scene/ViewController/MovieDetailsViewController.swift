@@ -7,8 +7,6 @@ protocol MovieDetailsViewControllerLogic: AnyObject {
 }
 
 class MovieDetailsViewController: UIViewController {
-    private var favoriteButton: UIBarButtonItem?
-    
     private let presenter: MovieDetailsPresenterInputLogic
     private let contentView: MovieDetailsViewLogic
     private let movieId: Int
@@ -46,7 +44,6 @@ extension MovieDetailsViewController: MovieDetailsViewControllerLogic {
     }
     
     func displayContent(displayModel: MovieDetailsDisplayModel) {
-        navigationItem.rightBarButtonItem = favoriteButton
         contentView.setupContent(displayModel: displayModel)
         contentView.changeState(state: .content)
     }
