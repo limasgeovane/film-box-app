@@ -37,8 +37,24 @@ Allows users to view more detailed information about a movie on a dedicated scre
 ## 🏗️ Architecture
 VIPER + Repository
 
-- **View**
-- **Interactor**
-- **Presenter**
-- **Entity**
-- **Router**
+- **View:** Responsible for displaying the screens and visual elements such as buttons, images, and text.
+- **Interactor:** Responsible for the application's business rules and for communicating with the repository.
+- **Presenter:** Defines how data will be presented on the view. Responsible for mediating between the interactor, view, and router.
+- **Entity:** Stores the model classes.
+- **Router:** Responsible for handling all the app's navigation.
+- **Repository:** Intermediates communication between data sources (API and UserDefaults) and the application.
+
+## 🎥 Demo
+
+<div style="display: flex; justify-content: space-evenly; align-items: center; gap: 20px; flex-wrap: nowrap;">
+  <div style="text-align: center;">
+    <h3>Dark Mode</h3>
+    <img src="screenshots/screenshot-gif-1.gif" alt="Dark Mode Demo" style="width: 300px;" />
+  </div>
+  <div style="text-align: center;">
+    <h3>Light Mode</h3>
+    <img src="screenshots/screenshot-gif-2.gif" alt="Light Mode Demo" style="width: 300px;" />
+  </div>
+</div>
+
+---
