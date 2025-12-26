@@ -30,8 +30,8 @@ Allows users to view more detailed information about a movie on a dedicated scre
 - Displays an error if the API does not return data.
 
 ## 🛠️ Technologies
-- **Language:** Swift [link](https://developer.apple.com/swift/)
-- **Framework:** UIKit [link](https://developer.apple.com/documentation/uikit)
+- **Language:** [Swift](https://developer.apple.com/swift/)
+- **Framework:** [UIKit](https://developer.apple.com/documentation/uikit)
 - **API:** [TMDB API](https://developer.themoviedb.org/docs/getting-started)
 
 ## 🏗️ Architecture

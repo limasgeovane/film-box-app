@@ -3,7 +3,7 @@ import XCTest
 
 final class MovieDetailsPresenterTests: XCTestCase {
     let viewControllerSpy = MovieDetailsViewControllerSpy()
-    let interactorSpy = MovieDetailsInteractorSpy() // opcional, se quiser contar chamada
+    let interactorSpy = MovieDetailsInteractorSpy()
     lazy var sut: MovieDetailsPresenter = {
         let presenter = MovieDetailsPresenter(interactor: interactorSpy)
         presenter.viewController = viewControllerSpy

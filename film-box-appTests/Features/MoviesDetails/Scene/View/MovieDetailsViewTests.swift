@@ -5,7 +5,7 @@ final class MovieDetailsViewTests: XCTestCase {
     func test_setupContent_shouldPopulateUI() {
         let sut = MovieDetailsView()
         let display = MovieDetailsDisplayModel.fixture(
-            backdropPath: "", // força fallback sem imagem
+            backdropPath: "",
             originalTitle: "Original",
             title: "Title",
             overview: "Overview",
@@ -16,15 +16,14 @@ final class MovieDetailsViewTests: XCTestCase {
         )
         
         sut.setupContent(displayModel: display)
-        // Sem acesso direto aos subviews privados, este teste valida não-crash.
-        // Se quiser validar imagens e modos, exponha via test-only accessor.
+        
         XCTAssertTrue(true)
     }
     
     func test_changeState_shouldToggleVisibilityForContent() {
         let sut = MovieDetailsView()
         sut.changeState(state: .content)
-        // Sem acesso aos subviews privados, validamos que não há crashes.
+       
         XCTAssertTrue(true)
     }
     
