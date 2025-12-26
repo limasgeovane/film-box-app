@@ -48,12 +48,7 @@ VIPER + Repository
 
 <div style="display: flex; justify-content: space-evenly; align-items: center; gap: 20px; flex-wrap: nowrap;">
   <div style="text-align: center;">
-    <h3>Dark Mode</h3>
     <img src="screenshots/screenshot-gif-1.gif" alt="Dark Mode Demo" style="width: 300px;" />
-  </div>
-  <div style="text-align: center;">
-    <h3>Light Mode</h3>
-    <img src="screenshots/screenshot-gif-2.gif" alt="Light Mode Demo" style="width: 300px;" />
   </div>
 </div>
 
