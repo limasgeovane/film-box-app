@@ -65,3 +65,9 @@ final class ErrorView: UIView {
         errorLabel.text = message
     }
 }
+
+#if DEBUG
+extension ErrorView {
+    var test_debug_ErrorView_errorLabel: String? { errorLabel.text }
+}
+#endif

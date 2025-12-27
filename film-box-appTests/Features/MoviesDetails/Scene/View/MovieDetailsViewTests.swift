@@ -4,29 +4,47 @@ import XCTest
 final class MovieDetailsViewTests: XCTestCase {
     func test_setupContent_shouldPopulateUI() {
         let sut = MovieDetailsView()
-        let display = MovieDetailsDisplayModel.fixture()
+        let movieDetailsDisplayModel = MovieDetailsDisplayModel.fixture()
         
-        sut.setupContent(displayModel: display)
+        sut.setupContent(displayModel: movieDetailsDisplayModel)
         
         XCTAssertTrue(true)
+    }
+    
+    var sut: MovieDetailsView!
+    
+    override func setUp() {
+        super.setUp()
+        sut = MovieDetailsView()
+    }
+    
+    override func tearDown() {
+        sut = nil
+        super.tearDown()
     }
     
     func test_changeState_shouldToggleVisibilityForContent() {
-        let sut = MovieDetailsView()
         sut.changeState(state: .content)
-       
-        XCTAssertTrue(true)
+        XCTAssertFalse(sut.test_debug_MovieDetailsView_movieDetailsCardView.isHidden)
+        XCTAssertTrue(sut.test_debug_MovieDetailsView_loadingView.isHidden)
+        XCTAssertTrue(sut.test_debug_MovieDetailsView_errorView.isHidden)
     }
     
     func test_changeState_shouldToggleVisibilityForLoading() {
-        let sut = MovieDetailsView()
         sut.changeState(state: .loading)
-        XCTAssertTrue(true)
+        XCTAssertTrue(sut.test_debug_MovieDetailsView_movieDetailsCardView.isHidden)
+        XCTAssertFalse(sut.test_debug_MovieDetailsView_loadingView.isHidden)
+        XCTAssertTrue(sut.test_debug_MovieDetailsView_errorView.isHidden)
     }
     
     func test_changeState_shouldToggleVisibilityForError() {
-        let sut = MovieDetailsView()
         sut.changeState(state: .error)
-        XCTAssertTrue(true)
+        XCTAssertTrue(sut.test_debug_MovieDetailsView_movieDetailsCardView.isHidden)
+        XCTAssertTrue(sut.test_debug_MovieDetailsView_loadingView.isHidden)
+        XCTAssertFalse(sut.test_debug_MovieDetailsView_errorView.isHidden)
+        XCTAssertEqual(
+            sut.test_debug_MovieDetailsView_errorView.test_debug_ErrorView_errorLabel,
+            String(localized: "requestMovieDetailsError")
+        )
     }
 }

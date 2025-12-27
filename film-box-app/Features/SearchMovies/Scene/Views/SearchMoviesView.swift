@@ -133,9 +133,10 @@ extension SearchMoviesView: UITextFieldDelegate {
     }
 }
 
-extension SearchMoviesView {
 #if DEBUG
-    var testTextField: UITextField { searchMovieTextField }
-    var testButton: UIButton { searchMovieButton }
-#endif
+extension SearchMoviesView {
+    var test_debug_SearchMoviesView_TextField: UITextField { searchMovieTextField }
+    var test_debug_SearchMoviesView_testButton: UIButton { searchMovieButton }
+    var test_debug_SearchMoviesView_errorView: ErrorView { errorView }
 }
+#endif

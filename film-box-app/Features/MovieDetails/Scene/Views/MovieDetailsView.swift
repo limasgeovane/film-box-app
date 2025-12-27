@@ -215,7 +215,6 @@ extension MovieDetailsView: MovieDetailsViewLogic {
         switch state {
         case .content:
             movieDetailsCardView.isHidden = false
-            movieStackView.isHidden = false
             loadingView.isHidden = true
             errorView.isHidden = true
         case .loading:
@@ -223,7 +222,7 @@ extension MovieDetailsView: MovieDetailsViewLogic {
             loadingView.isHidden = false
             errorView.isHidden = true
         case .error:
-            movieDetailsCardView.isHidden = false
+            movieDetailsCardView.isHidden = true
             movieStackView.isHidden = true
             loadingView.isHidden = true
             errorView.isHidden = false
@@ -231,3 +230,11 @@ extension MovieDetailsView: MovieDetailsViewLogic {
         }
     }
 }
+
+#if DEBUG
+extension MovieDetailsView {
+    var test_debug_MovieDetailsView_movieDetailsCardView: UIView { movieDetailsCardView }
+    var test_debug_MovieDetailsView_loadingView: LoadingView { loadingView }
+    var test_debug_MovieDetailsView_errorView: ErrorView { errorView }
+}
+#endif

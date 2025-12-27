@@ -82,9 +82,9 @@ final class MoviesInteractorTests: XCTestCase {
     }
         
     func test_favoriteMovie_shouldFavoriteMovieEntity() {
-        let movieDisplay = MovieDisplayModel.fixture()
+        let movieDisplayModel = MovieDisplayModel.fixture()
         
-        sut.favoriteMovie(movie: movieDisplay)
+        sut.favoriteMovie(movie: movieDisplayModel)
         
         XCTAssertEqual(favoriteMoviesRepositorySpy.favoriteCount, 1)
         XCTAssertEqual(favoriteMoviesRepositorySpy.favoriteParameterFavoriteMovie, 99)
