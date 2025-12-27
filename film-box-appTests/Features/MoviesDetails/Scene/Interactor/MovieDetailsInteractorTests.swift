@@ -2,10 +2,15 @@ import XCTest
 @testable import film_box_app
 
 final class MovieDetailsInteractorTests: XCTestCase {
-    let repositorySpy = MovieDetailsRepositorySpy()
     let presenterSpy = MovieDetailsPresenterSpy()
     
-    lazy var sut = MovieDetailsInteractor(repository: repositorySpy)
+    let repositorySpy = MovieDetailsRepositorySpy()
+    let favoriteMoviesRepositorySpy = FavoriteMoviesRepositorySpy()
+    
+    lazy var sut = MovieDetailsInteractor(
+        repository: repositorySpy,
+        favoriteMoviesRepository: favoriteMoviesRepositorySpy
+    )
     
     override func setUp() {
         super.setUp()

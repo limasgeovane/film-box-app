@@ -89,8 +89,7 @@ final class MoviesInteractorTests: XCTestCase {
         sut.favoriteMovie(movie: movieDisplay)
         
         XCTAssertEqual(favoriteMoviesRepositorySpy.favoriteCount, 1)
-        XCTAssertEqual(favoriteMoviesRepositorySpy.favoriteParameterFavoriteMovie?.id, 1)
-        XCTAssertEqual(favoriteMoviesRepositorySpy.favoriteParameterFavoriteMovie?.title, "Interstellar")
+        XCTAssertEqual(favoriteMoviesRepositorySpy.favoriteParameterFavoriteMovie, 1)
     }
         
     func test_unfavoriteMovie_shouldUnfavoriteMovieEntity() {

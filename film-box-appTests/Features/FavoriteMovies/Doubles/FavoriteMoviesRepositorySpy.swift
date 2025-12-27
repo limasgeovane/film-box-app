@@ -2,17 +2,17 @@
 
 final class FavoriteMoviesRepositorySpy: FavoriteMoviesRepositoryLogic {
     private(set) var favoriteCount = 0
-    private(set) var favoriteParameterFavoriteMovie: MovieEntity?
+    private(set) var favoriteParameterFavoriteMovie: Int?
     
-    func favorite(movie: MovieEntity) {
+    func favorite(movieId movie: Int) {
         favoriteCount += 1
         favoriteParameterFavoriteMovie = movie
     }
     
     private(set) var getFavoritesCount = 0
-    var stubbedGetFavoritesResult: [MovieEntity] = []
+    var stubbedGetFavoritesResult: [Int] = []
     
-    func getFavorites() -> [MovieEntity] {
+    func getFavoritesIds() -> [Int] {
         getFavoritesCount += 1
         return stubbedGetFavoritesResult
     }

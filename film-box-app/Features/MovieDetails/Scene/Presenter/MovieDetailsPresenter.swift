@@ -14,7 +14,6 @@ final class MovieDetailsPresenter {
     weak var viewController: MovieDetailsViewControllerLogic?
     
     private var displayModel: MovieDetailsDisplayModel?
-    
     private let interactor: MovieDetailsInteractorLogic
 
     init(interactor: MovieDetailsInteractorLogic) {
@@ -41,6 +40,8 @@ extension MovieDetailsPresenter: MovieDetailsPresenterInputLogic {
 
 extension MovieDetailsPresenter: MovieDetailsPresenterOutputLogic {
     func didRequestMovieDetails(movieDetails: MovieDetailsEntity) {
+        let isFavorite = interactor.isMovieFavorite(movieId: movieDetails.id)
+        
         let displayModel = MovieDetailsDisplayModel(
             id: movieDetails.id,
             backdropPath: {
@@ -56,7 +57,7 @@ extension MovieDetailsPresenter: MovieDetailsPresenterOutputLogic {
                 if let overview = movieDetails.overview, !overview.isEmpty {
                     return overview
                 } else {
-                    return (String(localized: "noOverviewAvailable"))
+                    return String(localized: "noOverviewAvailable")
                 }
             }(),
             releaseDate: "\(movieDetails.releaseDate.usLongDate)",
@@ -81,7 +82,7 @@ extension MovieDetailsPresenter: MovieDetailsPresenterOutputLogic {
                     return String(localized: "unrated")
                 }
             }(),
-            isFavorite: FavoriteMoviesRepository().isMovieFavorite(id: movieDetails.id)
+            isFavorite: isFavorite
         )
         
         self.displayModel = displayModel

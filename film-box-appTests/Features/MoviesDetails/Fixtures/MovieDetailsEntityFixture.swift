@@ -2,6 +2,7 @@
 
 struct MovieDetailsEntityFixture {
     static func make(
+        id: Int = 1,
         backdropPath: String? = "/backdrop.jpg",
         originalTitle: String = "Original Title",
         title: String = "Movie Title",
@@ -12,6 +13,7 @@ struct MovieDetailsEntityFixture {
         voteAverage: Double? = 8.5
     ) -> MovieDetailsEntity {
         .init(
+            id: id,
             backdropPath: backdropPath,
             originalTitle: originalTitle,
             title: title,

@@ -4,6 +4,7 @@ protocol MovieDetailsInteractorLogic {
     func requestMovieDetails(movieId: Int)
     func favoriteMovie(movie: MovieDetailsDisplayModel)
     func unfavoriteMovie(movieId: Int)
+    func isMovieFavorite(movieId: Int) -> Bool
 }
 
 final class MovieDetailsInteractor {
@@ -27,9 +28,7 @@ final class MovieDetailsInteractor {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let movieDetails):
-                    self.presenter?.didRequestMovieDetails(
-                        movieDetails: movieDetails
-                    )
+                    self.presenter?.didRequestMovieDetails(movieDetails: movieDetails)
                 case .failure:
                     self.presenter?.didRequestMovieDetailsError()
                 }
@@ -49,5 +48,9 @@ extension MovieDetailsInteractor: MovieDetailsInteractorLogic {
     
     func unfavoriteMovie(movieId: Int) {
         favoriteMoviesRepository.unfavorite(movieId: movieId)
+    }
+    
+    func isMovieFavorite(movieId: Int) -> Bool {
+        return favoriteMoviesRepository.isMovieFavorite(id: movieId)
     }
 }
