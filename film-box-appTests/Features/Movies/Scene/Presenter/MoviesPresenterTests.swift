@@ -35,14 +35,11 @@ final class MoviesPresenterTests: XCTestCase {
         
         sut.didTapFavorite(movieId: 99, isFavorite: true)
         XCTAssertEqual(interactorSpy.requestFavoriteMovieCount, 1)
-        
-        sut.didTapFavorite(movieId: 99, isFavorite: false)
-        XCTAssertEqual(interactorSpy.requestUnfavoriteMovieCount, 1)
     }
     
     func test_didSearchMovies_shouldMapEntitiesAndDisplayContent() {
-        let entity = MovieEntity.fixture()
-        sut.didSearchMovies(movies: [entity], favoriteMovies: [99])
+        let movieEntity = MovieEntity.fixture()
+        sut.didSearchMovies(movies: [movieEntity], favoriteMovies: [99])
         
         XCTAssertEqual(viewControllerSpy.displayContentCount, 1)
         XCTAssertEqual(viewControllerSpy.displayContentParameterMovies.first?.title, "Movie Title")

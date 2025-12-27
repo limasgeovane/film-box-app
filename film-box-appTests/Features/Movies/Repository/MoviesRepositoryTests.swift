@@ -37,7 +37,7 @@ final class MoviesRepositoryTests: XCTestCase {
     }
     
     func test_getLastMovieSearch_shouldReturnSavedQuery() {
-        UserDefaults.standard.set("Batman", forKey: Constants.UserDefaults.lastSearchKey)
-        XCTAssertEqual(sut.getLastMovieSearch(), "Batman")
+        UserDefaults.standard.set("Movie Title", forKey: Constants.UserDefaults.lastSearchKey)
+        XCTAssertEqual(sut.getLastMovieSearch(), "Movie Title")
     }
 }

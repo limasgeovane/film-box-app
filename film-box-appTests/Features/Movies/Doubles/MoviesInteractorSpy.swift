@@ -7,8 +7,10 @@ final class MoviesInteractorSpy: MoviesInteractorLogic {
     }
 
     private(set) var requestFavoriteMovieCount = 0
+    private(set) var requestFavoriteMovieParameter: MovieDisplayModel?
     func favoriteMovie(movie: MovieDisplayModel) {
         requestFavoriteMovieCount += 1
+        requestFavoriteMovieParameter = movie
     }
 
     private(set) var requestUnfavoriteMovieCount = 0

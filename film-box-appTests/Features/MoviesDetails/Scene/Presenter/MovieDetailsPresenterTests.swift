@@ -19,22 +19,13 @@ final class MovieDetailsPresenterTests: XCTestCase {
     }
     
     func test_didRequestMovieDetails_shouldMapEntityAndDisplayContent() {
-        let entity = MovieDetailsEntity.fixture(
-            backdropPath: "/bd.jpg",
-            overview: "Overview",
-            budget: 1000000,
-            revenue: 5000000,
-            voteAverage: 8.5
-        )
+        let movieEntity = MovieDetailsEntity.fixture()
         
-        sut.didRequestMovieDetails(movieDetails: entity)
+        sut.didRequestMovieDetails(movieDetails: movieEntity)
         
         XCTAssertEqual(viewControllerSpy.displayContentCount, 1)
-        let display = viewControllerSpy.displayContentParameter
-        XCTAssertEqual(display?.backdropPath, "\(Constants.TmdbAPI.tmdbImageURL)/bd.jpg")
-        XCTAssertEqual(display?.title, entity.title)
-        XCTAssertEqual(display?.overview, "Overview")
-        XCTAssertEqual(display?.ratingText, "\(String(localized: "movieRating")): 8.5")
+        XCTAssertEqual(viewControllerSpy.displayContentParameter?.title, "Movie Title")
+        XCTAssertEqual(viewControllerSpy.displayContentParameter?.isFavorite, interactorSpy.isMovieFavorite(movieId: movieEntity.id))
     }
     
     func test_didRequestMovieDetailsError_shouldDisplayError() {

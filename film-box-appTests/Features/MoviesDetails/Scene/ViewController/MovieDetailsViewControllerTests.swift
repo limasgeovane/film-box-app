@@ -8,7 +8,7 @@ final class MovieDetailsViewControllerTests: XCTestCase {
     lazy var sut = MovieDetailsViewController(
         presenter: presenterSpy,
         contentView: contentViewSpy,
-        movieId: 77
+        movieId: 99
     )
     
     func test_loadView_shouldSetView() {
@@ -22,7 +22,7 @@ final class MovieDetailsViewControllerTests: XCTestCase {
         sut.viewWillAppear(false)
         
         XCTAssertEqual(presenterSpy.requestMovieDetailsCount, 1)
-        XCTAssertEqual(presenterSpy.requestMovieDetailsParameterId, 77)
+        XCTAssertEqual(presenterSpy.requestMovieDetailsParameterId, 99)
     }
     
     func test_displayLoading_shouldHideFavoriteAndShowLoading() {

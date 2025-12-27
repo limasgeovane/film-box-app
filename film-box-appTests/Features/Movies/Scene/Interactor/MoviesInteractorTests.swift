@@ -27,7 +27,7 @@ final class MoviesInteractorTests: XCTestCase {
     }
     
     func test_requestSearchMovies_givenValidQuery_givenEmptyResults_shouldResponseError() {
-        repositorySpy.stubbedGetLastMovieSearchResult = "Batman"
+        repositorySpy.stubbedGetLastMovieSearchResult = "Movie Title"
         repositorySpy.stubbedFetchMovieCompletionResult = .success(
             MoviesResponseEntity(page: 1, results: [], totalPages: 1, totalResults: 0)
         )
@@ -44,7 +44,7 @@ final class MoviesInteractorTests: XCTestCase {
     }
     
     func test_requestSearchMovies_givenValidQuery_givenSuccess_shouldResponseMovies() {
-        repositorySpy.stubbedGetLastMovieSearchResult = "Inception"
+        repositorySpy.stubbedGetLastMovieSearchResult =  "Movie Title"
         
         let movie = MovieEntity.fixture(id: 99)
         
