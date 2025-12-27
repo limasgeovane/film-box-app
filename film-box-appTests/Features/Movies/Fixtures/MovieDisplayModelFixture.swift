@@ -4,9 +4,9 @@ import Foundation
 extension MovieDisplayModel {
     static func fixture(
         id: Int = 99,
-        posterImagePath: String = "\(Constants.TmdbAPI.tmdbImageURL)/posterPath.jpg",
+        posterImagePath: String = "https://image.tmdb.org/t/p/w780/posterPath.jpg",
         title: String = "Movie Title",
-        ratingText: String = "\(String(localized: "movieRating")): 8.5",
+        ratingText: String = "Rating: 8.5",
         overview: String = "Movie overview",
         isFavorite: Bool = false
     ) -> Self {

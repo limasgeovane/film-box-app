@@ -11,7 +11,7 @@ extension MovieDetailsEntity {
         budget: Int? = 1000000,
         revenue: Int? = 5000000,
         voteAverage: Double? = 8.5,
-        posterPath: String? = "/backdrop.jpg"
+        posterPath: String? = "/posterPath.jpg"
     ) -> Self {
         .init(
             id: id,

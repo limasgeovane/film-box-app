@@ -3,7 +3,7 @@
 extension MovieDetailsDisplayModel {
     static func fixture(
         id: Int = 99,
-        backdropPath: String = "\(Constants.TmdbAPI.tmdbImageURL)/backdrop.jpg",
+        backdropPath: String = "https://image.tmdb.org/t/p/w780/backdrop.jpg",
         originalTitle: String = "Original Title",
         title: String = "Movie Title",
         overview: String = "Movie overview",

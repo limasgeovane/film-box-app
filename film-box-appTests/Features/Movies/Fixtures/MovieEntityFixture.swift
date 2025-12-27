@@ -6,7 +6,7 @@ extension MovieEntity {
         title: String = "Movie Title",
         overview: String? = "Movie overview",
         voteAverage: Double? = 8.8,
-        posterPath: String? = "/inceptionPoster.jpg"
+        posterPath: String? = "/posterPath.jpg"
     ) -> Self {
         .init(
             id: id,

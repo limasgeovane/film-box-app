@@ -13,10 +13,11 @@ protocol SearchMoviesViewLogic: UIView {
 
 final class SearchMoviesView: UIView {
     enum State {
-        case loading
         case content
         case error
     }
+    
+    weak var delegate: SearchMoviesViewDelegate?
     
     private let searchMovieTextField: UITextField = {
         let textField = UITextField()
@@ -29,7 +30,7 @@ final class SearchMoviesView: UIView {
                 .font: UIFont.secondaryAppFont
             ]
         )
-
+        
         textField.backgroundColor = .secondarySystemBackground
         textField.font = UIFont.secondaryAppFont
         textField.textColor = .label
@@ -60,19 +61,11 @@ final class SearchMoviesView: UIView {
         return stackView
     }()
     
-    private let loadingView: LoadingView = {
-        let view = LoadingView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     private let errorView: ErrorView = {
         let view = ErrorView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    weak var delegate: SearchMoviesViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -88,7 +81,6 @@ final class SearchMoviesView: UIView {
     
     private func setupViewHierarchy() {
         addSubview(searchMovieStackView)
-        addSubview(loadingView)
         addSubview(errorView)
     }
     
@@ -98,11 +90,6 @@ final class SearchMoviesView: UIView {
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            loadingView.topAnchor.constraint(equalTo: topAnchor),
-            loadingView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            loadingView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            loadingView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            
             searchMovieStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 32),
             searchMovieStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             searchMovieStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
@@ -118,30 +105,18 @@ final class SearchMoviesView: UIView {
     }
     
     @objc private func searchButtonPressed() {
-        guard let query = searchMovieTextField.text, !query.isEmpty else {
-            errorView.isHidden = false
-            errorView.setupMessage(message: String(localized: "emptyFieldError"))
-            return
-        }
-        
-        errorView.isHidden = true
-        delegate?.searchPressed(query: query)
+        delegate?.searchPressed(query: searchMovieTextField.text ?? "")
     }
 }
 
 extension SearchMoviesView: SearchMoviesViewLogic {
     func changeState(state: State) {
         switch state {
-        case .loading:
-            loadingView.isHidden = false
-            errorView.isHidden = true
         case .content:
-            loadingView.isHidden = true
             errorView.isHidden = true
         case .error:
-            loadingView.isHidden = true
             errorView.isHidden = false
-            errorView.setupMessage(message: String(localized: "requestMoviesError"))
+            errorView.setupMessage(message: String(localized: "emptyFieldError"))
         }
     }
     
@@ -156,4 +131,11 @@ extension SearchMoviesView: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+}
+
+extension SearchMoviesView {
+#if DEBUG
+    var testTextField: UITextField { searchMovieTextField }
+    var testButton: UIButton { searchMovieButton }
+#endif
 }

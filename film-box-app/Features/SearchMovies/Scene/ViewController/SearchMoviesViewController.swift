@@ -1,5 +1,9 @@
 import UIKit
 
+protocol SearchMoviesViewControllerLogic: AnyObject {
+    func displayContent()
+}
+
 final class SearchMoviesViewController: UIViewController {
     private let presenter: SearchMoviesPresenterInputLogic
     private let contentView: SearchMoviesViewLogic
@@ -26,7 +30,7 @@ final class SearchMoviesViewController: UIViewController {
         title = String(localized: "searchMoviesTitle")
         contentView.delegate = self
         setupDismissKeyboard()
-        contentView.changeState(state: .content)
+        displayContent()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -45,8 +49,18 @@ final class SearchMoviesViewController: UIViewController {
     }
 }
 
+extension SearchMoviesViewController: SearchMoviesViewControllerLogic {
+    func displayContent() {
+        contentView.changeState(state: .content)
+    }
+}
+
 extension SearchMoviesViewController: SearchMoviesViewDelegate {
     func searchPressed(query: String) {
-        presenter.openMovies(query: query)
+        if query.isEmpty {
+            contentView.changeState(state: .error)
+        } else {
+            presenter.openMovies(query: query)
+        }
     }
 }
