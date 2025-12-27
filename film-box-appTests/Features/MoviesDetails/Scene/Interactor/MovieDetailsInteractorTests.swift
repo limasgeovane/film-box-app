@@ -46,4 +46,40 @@ final class MovieDetailsInteractorTests: XCTestCase {
         XCTAssertEqual(repositorySpy.fetchMovieDetailsParameterId, 99)
         XCTAssertEqual(presenterSpy.didRequestMovieDetailsErrorCount, 1)
     }
+    
+    func test_favoriteMovie_shouldCallFavoriteMoviesRepository() {
+        let movie = MovieDetailsDisplayModel.fixture(id: 42)
+        
+        sut.favoriteMovie(movie: movie)
+        
+        XCTAssertEqual(favoriteMoviesRepositorySpy.favoriteCount, 1)
+        XCTAssertEqual(favoriteMoviesRepositorySpy.favoriteParameterFavoriteMovie, 42)
+    }
+    
+    func test_unfavoriteMovie_shouldCallFavoriteMoviesRepository() {
+        sut.unfavoriteMovie(movieId: 99)
+        
+        XCTAssertEqual(favoriteMoviesRepositorySpy.unfavoriteCount, 1)
+        XCTAssertEqual(favoriteMoviesRepositorySpy.unfavoriteParameterFavoriteMovie, 99)
+    }
+    
+    func test_isMovieFavorite_givenTrue_shouldReturnTrue() {
+        favoriteMoviesRepositorySpy.stubbedIsMovieFavoriteResult = true
+        
+        let result = sut.isMovieFavorite(movieId: 7)
+        
+        XCTAssertEqual(favoriteMoviesRepositorySpy.isMovieFavoriteCount, 1)
+        XCTAssertEqual(favoriteMoviesRepositorySpy.isMovieFavoriteParameterInt, 7)
+        XCTAssertTrue(result)
+    }
+    
+    func test_isMovieFavorite_givenFalse_shouldReturnFalse() {
+        favoriteMoviesRepositorySpy.stubbedIsMovieFavoriteResult = false
+        
+        let result = sut.isMovieFavorite(movieId: 8)
+        
+        XCTAssertEqual(favoriteMoviesRepositorySpy.isMovieFavoriteCount, 1)
+        XCTAssertEqual(favoriteMoviesRepositorySpy.isMovieFavoriteParameterInt, 8)
+        XCTAssertFalse(result)
+    }
 }
