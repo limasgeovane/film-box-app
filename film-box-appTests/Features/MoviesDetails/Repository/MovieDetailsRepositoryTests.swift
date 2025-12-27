@@ -6,11 +6,11 @@ final class MovieDetailsRepositoryTests: XCTestCase {
     lazy var sut = MovieDetailsRepository(network: networkSpy)
     
     func test_fetchMovieDetails_givenSuccess_shouldCompleteSuccess() {
-        let movieDetails = MovieDetailsEntityFixture.make()
+        let movieDetails = MovieDetailsEntity.fixture()
         networkSpy.stubbedResponse = movieDetails
         networkSpy.errorToThrow = nil
         
-        sut.fetchMovieDetails(movieId: 42) { result in
+        sut.fetchMovieDetails(movieId: 99) { result in
             switch result {
             case .success(let response):
                 XCTAssertEqual(response.title, movieDetails.title)

@@ -57,7 +57,6 @@ extension MoviesPresenter: MoviesPresenterInputLogic {
 
 extension MoviesPresenter: MoviesPresenterOutputLogic {
     func didSearchMovies(movies: [MovieEntity], favoriteMovies: Set<Int>) {
-       
         displayModel = movies.map { movie in
             return MovieDisplayModel(
                 id: movie.id,

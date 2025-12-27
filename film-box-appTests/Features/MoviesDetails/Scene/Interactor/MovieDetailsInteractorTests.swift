@@ -18,17 +18,17 @@ final class MovieDetailsInteractorTests: XCTestCase {
     }
     
     func test_requestMovieDetails_givenSuccess_shouldCallPresenterWithMovieDetails() {
-        let movieDetails = MovieDetailsEntityFixture.make()
+        let movieDetails = MovieDetailsEntity.fixture()
         repositorySpy.stubbedFetchMovieDetailsResult = .success(movieDetails)
         
         let exp = expectation(description: "wait async success")
         DispatchQueue.main.async { exp.fulfill() }
         
-        sut.requestMovieDetails(movieId: 1)
+        sut.requestMovieDetails(movieId: 99)
         
         wait(for: [exp], timeout: 0.2)
         XCTAssertEqual(repositorySpy.fetchMovieDetailsCount, 1)
-        XCTAssertEqual(repositorySpy.fetchMovieDetailsParameterId, 1)
+        XCTAssertEqual(repositorySpy.fetchMovieDetailsParameterId, 99)
         XCTAssertEqual(presenterSpy.didRequestMovieDetailsCount, 1)
         XCTAssertEqual(presenterSpy.didRequestMovieDetailsParameter?.title, "Movie Title")
     }
@@ -66,20 +66,20 @@ final class MovieDetailsInteractorTests: XCTestCase {
     func test_isMovieFavorite_givenTrue_shouldReturnTrue() {
         favoriteMoviesRepositorySpy.stubbedIsMovieFavoriteResult = true
         
-        let result = sut.isMovieFavorite(movieId: 7)
+        let result = sut.isMovieFavorite(movieId: 99)
         
         XCTAssertEqual(favoriteMoviesRepositorySpy.isMovieFavoriteCount, 1)
-        XCTAssertEqual(favoriteMoviesRepositorySpy.isMovieFavoriteParameterInt, 7)
+        XCTAssertEqual(favoriteMoviesRepositorySpy.isMovieFavoriteParameterInt, 99)
         XCTAssertTrue(result)
     }
     
     func test_isMovieFavorite_givenFalse_shouldReturnFalse() {
         favoriteMoviesRepositorySpy.stubbedIsMovieFavoriteResult = false
         
-        let result = sut.isMovieFavorite(movieId: 8)
+        let result = sut.isMovieFavorite(movieId: 99)
         
         XCTAssertEqual(favoriteMoviesRepositorySpy.isMovieFavoriteCount, 1)
-        XCTAssertEqual(favoriteMoviesRepositorySpy.isMovieFavoriteParameterInt, 8)
+        XCTAssertEqual(favoriteMoviesRepositorySpy.isMovieFavoriteParameterInt, 99)
         XCTAssertFalse(result)
     }
 }

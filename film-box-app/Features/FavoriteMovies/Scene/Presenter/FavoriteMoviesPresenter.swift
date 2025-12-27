@@ -7,7 +7,7 @@ protocol FavoriteMoviesPresenterInputLogic {
 }
 
 protocol FavoriteMoviesPresenterOutputLogic: AnyObject {
-    func didRequestFavoriteMovies(favoriteMovies: [MovieEntity])
+    func didRequestFavoriteMovies(favoriteMovies: [MovieDetailsEntity])
     func didRequestFavoriteMoviesEmpty()
     func didRequestFavoriteMoviesError()
 }
@@ -45,7 +45,7 @@ extension FavoriteMoviesPresenter: FavoriteMoviesPresenterInputLogic {
 }
 
 extension FavoriteMoviesPresenter: FavoriteMoviesPresenterOutputLogic {
-    func didRequestFavoriteMovies(favoriteMovies: [MovieEntity]) {
+    func didRequestFavoriteMovies(favoriteMovies: [MovieDetailsEntity]) {
         displayModel = favoriteMovies.map { movie in
             return FavoriteMoviesDisplayModel(
                 id: movie.id,

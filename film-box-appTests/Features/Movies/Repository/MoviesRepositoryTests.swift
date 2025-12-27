@@ -6,14 +6,14 @@ final class MoviesRepositoryTests: XCTestCase {
     lazy var sut = MoviesRepository(network: networkSpy)
     
     func test_fetchMovies_givenSuccess_shouldCompleteSuccess() {
-        let response = MovieEntityFixture.makeResponse()
+        let response = MoviesResponseEntity.fixture()
         networkSpy.stubbedResponse = response
         networkSpy.errorToThrow = nil
         
-        sut.fetchMovies(query: "Inception") { result in
+        sut.fetchMovies(query: "Movie Title") { result in
             switch result {
             case .success(let moviesResponse):
-                XCTAssertEqual(moviesResponse.results.first?.title, "Inception")
+                XCTAssertEqual(moviesResponse.results.first?.title, "Movie Title")
                 XCTAssertEqual(self.networkSpy.messages.count, 1)
             case .failure:
                 XCTFail("Should be success")
@@ -25,7 +25,7 @@ final class MoviesRepositoryTests: XCTestCase {
         networkSpy.errorToThrow = NSError(domain: "test", code: -1)
         networkSpy.stubbedResponse = nil
         
-        sut.fetchMovies(query: "Matrix") { result in
+        sut.fetchMovies(query: "Movie Title") { result in
             switch result {
             case .failure(let error):
                 XCTAssertNotNil(error)

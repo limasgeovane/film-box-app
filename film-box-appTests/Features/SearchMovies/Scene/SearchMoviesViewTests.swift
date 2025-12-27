@@ -45,7 +45,7 @@ final class SearchMoviesViewTests: XCTestCase {
             .first?.arrangedSubviews
             .compactMap { $0 as? UITextField }
             .first
-        textField?.text = "Matrix"
+        textField?.text = "Movie Title"
         
         let button = sut.subviews
             .compactMap { $0 as? UIStackView }
@@ -55,6 +55,6 @@ final class SearchMoviesViewTests: XCTestCase {
         button?.sendActions(for: .touchUpInside)
         
         XCTAssertEqual(delegateSpy.searchPressedCount, 1)
-        XCTAssertEqual(delegateSpy.searchPressedParameterQuery, "Matrix")
+        XCTAssertEqual(delegateSpy.searchPressedParameterQuery, "Movie Title")
     }
 }

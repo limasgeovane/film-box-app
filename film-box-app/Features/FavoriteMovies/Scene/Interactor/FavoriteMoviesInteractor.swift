@@ -27,7 +27,7 @@ final class FavoriteMoviesInteractor {
             return
         }
         
-        var movies: [MovieEntity] = []
+        var movies: [MovieDetailsEntity] = []
         let group = DispatchGroup()
         var hasError = false
         
@@ -40,15 +40,19 @@ final class FavoriteMoviesInteractor {
                 syncQueue.async {
                     switch result {
                     case .success(let details):
-                        let movie = MovieEntity(
+                        let movie = MovieDetailsEntity(
                             id: details.id,
+                            backdropPath: details.backdropPath,
+                            originalTitle: details.originalTitle,
                             title: details.title,
                             overview: details.overview,
+                            releaseDate: details.releaseDate,
+                            budget: details.budget,
+                            revenue: details.revenue,
                             voteAverage: details.voteAverage,
-                            posterPath: details.backdropPath
+                            posterPath: details.posterPath
                         )
                         movies.append(movie)
-                        
                     case .failure:
                         hasError = true
                     }

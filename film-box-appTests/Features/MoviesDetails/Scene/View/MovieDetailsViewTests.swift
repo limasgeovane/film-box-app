@@ -4,16 +4,7 @@ import XCTest
 final class MovieDetailsViewTests: XCTestCase {
     func test_setupContent_shouldPopulateUI() {
         let sut = MovieDetailsView()
-        let display = MovieDetailsDisplayModel.fixture(
-            backdropPath: "",
-            originalTitle: "Original",
-            title: "Title",
-            overview: "Overview",
-            releaseDate: "Dec 25, 2025",
-            budget: "Budget: $1,000,000",
-            revenue: "Revenue: $5,000,000",
-            ratingText: "Rating: 8.5"
-        )
+        let display = MovieDetailsDisplayModel.fixture()
         
         sut.setupContent(displayModel: display)
         

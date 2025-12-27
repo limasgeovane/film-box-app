@@ -45,13 +45,17 @@ final class MoviesInteractorTests: XCTestCase {
     
     func test_requestSearchMovies_givenValidQuery_givenSuccess_shouldResponseMovies() {
         repositorySpy.stubbedGetLastMovieSearchResult = "Inception"
-        let movie = MovieEntityFixture.makeMovie(id: 1)
+        
+        let movie = MovieEntity.fixture(id: 99)
+        
         repositorySpy.stubbedFetchMovieCompletionResult = .success(
-            MovieEntityFixture.makeResponse(results: [movie])
+            MoviesResponseEntity.fixture(results: [movie])
         )
+        
         favoriteMoviesRepositorySpy.stubbedIsMovieFavoriteResult = true
         
         let exp = expectation(description: "wait async success")
+        
         DispatchQueue.main.async { exp.fulfill() }
         
         sut.requestSearchMovies()
@@ -63,7 +67,7 @@ final class MoviesInteractorTests: XCTestCase {
     }
     
     func test_requestSearchMovies_givenFailure_shouldResponseError() {
-        repositorySpy.stubbedGetLastMovieSearchResult = "Matrix"
+        repositorySpy.stubbedGetLastMovieSearchResult = "Movie Title"
         repositorySpy.stubbedFetchMovieCompletionResult = .failure(NSError(domain: "test", code: -1))
         
         let exp = expectation(description: "wait async failure")
@@ -78,18 +82,12 @@ final class MoviesInteractorTests: XCTestCase {
     }
         
     func test_favoriteMovie_shouldFavoriteMovieEntity() {
-        let movieDisplay = MovieDisplayModel.fixture(
-            id: 1,
-            posterImagePath: "\(Constants.TmdbAPI.tmdbImageURL)/poster.jpg",
-            title: "Interstellar",
-            ratingText: "8.5",
-            overview: "Space travel"
-        )
+        let movieDisplay = MovieDisplayModel.fixture()
         
         sut.favoriteMovie(movie: movieDisplay)
         
         XCTAssertEqual(favoriteMoviesRepositorySpy.favoriteCount, 1)
-        XCTAssertEqual(favoriteMoviesRepositorySpy.favoriteParameterFavoriteMovie, 1)
+        XCTAssertEqual(favoriteMoviesRepositorySpy.favoriteParameterFavoriteMovie, 99)
     }
         
     func test_unfavoriteMovie_shouldUnfavoriteMovieEntity() {

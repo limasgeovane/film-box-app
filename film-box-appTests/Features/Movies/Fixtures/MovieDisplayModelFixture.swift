@@ -3,7 +3,7 @@ import Foundation
 
 extension MovieDisplayModel {
     static func fixture(
-        id: Int = 1,
+        id: Int = 99,
         posterImagePath: String = "\(Constants.TmdbAPI.tmdbImageURL)/posterPath.jpg",
         title: String = "Movie Title",
         ratingText: String = "\(String(localized: "movieRating")): 8.5",

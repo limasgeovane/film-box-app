@@ -2,10 +2,10 @@ import XCTest
 @testable import film_box_app
 
 final class MovieDetailsRequestConfigurationTests: XCTestCase {
-    var sut = MovieDetailsRequestConfiguration(movieId: 123)
+    var sut = MovieDetailsRequestConfiguration(movieId: 99)
     
     func test_path_shouldBeMovieIdPath() {
-        XCTAssertEqual(sut.path, "/movie/123")
+        XCTAssertEqual(sut.path, "/movie/99")
     }
     
     func test_parameters_shouldContainLanguage() {

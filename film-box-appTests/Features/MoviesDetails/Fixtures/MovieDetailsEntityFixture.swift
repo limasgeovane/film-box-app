@@ -1,8 +1,8 @@
 @testable import film_box_app
 
-struct MovieDetailsEntityFixture {
-    static func make(
-        id: Int = 1,
+extension MovieDetailsEntity {
+    static func fixture(
+        id: Int = 99,
         backdropPath: String? = "/backdrop.jpg",
         originalTitle: String = "Original Title",
         title: String = "Movie Title",
@@ -10,8 +10,9 @@ struct MovieDetailsEntityFixture {
         releaseDate: String = "2025-12-25",
         budget: Int? = 1000000,
         revenue: Int? = 5000000,
-        voteAverage: Double? = 8.5
-    ) -> MovieDetailsEntity {
+        voteAverage: Double? = 8.5,
+        posterPath: String? = "/backdrop.jpg"
+    ) -> Self {
         .init(
             id: id,
             backdropPath: backdropPath,
@@ -21,7 +22,8 @@ struct MovieDetailsEntityFixture {
             releaseDate: releaseDate,
             budget: budget,
             revenue: revenue,
-            voteAverage: voteAverage
+            voteAverage: voteAverage,
+            posterPath: posterPath
         )
     }
 }

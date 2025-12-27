@@ -25,28 +25,27 @@ final class MoviesPresenterTests: XCTestCase {
     }
     
     func test_didSelectMovie_shouldOpenMovieDetails() {
-        sut.didSelectMovie(movieId: 42)
+        sut.didSelectMovie(movieId: 99)
         XCTAssertEqual(routerSpy.openMovieDetailsCount, 1)
-        XCTAssertEqual(routerSpy.openMovieDetailsParameterId, 42)
+        XCTAssertEqual(routerSpy.openMovieDetailsParameterId, 99)
     }
     
     func test_didTapFavorite_shouldCallInteractorFavoriteOrUnfavorite() {
-        let movie = MovieDisplayModel.fixture(id: 1, isFavorite: false)
-        sut.didSearchMovies(movies: [MovieEntityFixture.makeMovie(id: 1)], favoriteMovies: [])
+        sut.didSearchMovies(movies: [MovieEntity.fixture(id: 99)], favoriteMovies: [])
         
-        sut.didTapFavorite(movieId: 1, isFavorite: true)
+        sut.didTapFavorite(movieId: 99, isFavorite: true)
         XCTAssertEqual(interactorSpy.requestFavoriteMovieCount, 1)
         
-        sut.didTapFavorite(movieId: 1, isFavorite: false)
+        sut.didTapFavorite(movieId: 99, isFavorite: false)
         XCTAssertEqual(interactorSpy.requestUnfavoriteMovieCount, 1)
     }
     
     func test_didSearchMovies_shouldMapEntitiesAndDisplayContent() {
-        let entity = MovieEntityFixture.makeMovie(id: 1, title: "Matrix")
-        sut.didSearchMovies(movies: [entity], favoriteMovies: [1])
+        let entity = MovieEntity.fixture()
+        sut.didSearchMovies(movies: [entity], favoriteMovies: [99])
         
         XCTAssertEqual(viewControllerSpy.displayContentCount, 1)
-        XCTAssertEqual(viewControllerSpy.displayContentParameterMovies.first?.title, "Matrix")
+        XCTAssertEqual(viewControllerSpy.displayContentParameterMovies.first?.title, "Movie Title")
         XCTAssertTrue(viewControllerSpy.displayContentParameterMovies.first?.isFavorite ?? false)
     }
     

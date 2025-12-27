@@ -22,7 +22,6 @@ final class MoviesViewSpy: UIView, MoviesViewLogic {
     private(set) var moviesGetterCount = 0
     private(set) var invokedMovies: [MovieDisplayModel] = []
     var stubbedMovies: [MovieDisplayModel] = []
-    
     var movies: [MovieDisplayModel] {
         get {
             moviesGetterCount += 1

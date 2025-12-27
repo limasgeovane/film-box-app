@@ -11,15 +11,15 @@ final class MovieDetailsPresenterTests: XCTestCase {
     }()
     
     func test_requestMovieDetails_shouldDisplayLoadingAndCallInteractor() {
-        sut.requestMovieDetails(movieId: 7)
+        sut.requestMovieDetails(movieId: 99)
         
         XCTAssertEqual(viewControllerSpy.displayLoadingCount, 1)
         XCTAssertEqual(interactorSpy.requestMovieDetailsCount, 1)
-        XCTAssertEqual(interactorSpy.requestMovieDetailsParameterId, 7)
+        XCTAssertEqual(interactorSpy.requestMovieDetailsParameterId, 99)
     }
     
     func test_didRequestMovieDetails_shouldMapEntityAndDisplayContent() {
-        let entity = MovieDetailsEntityFixture.make(
+        let entity = MovieDetailsEntity.fixture(
             backdropPath: "/bd.jpg",
             overview: "Overview",
             budget: 1000000,

@@ -9,7 +9,7 @@ private struct DeserializationTestResponse: Codable, Equatable {
 final class NetworkDeserializationTests: XCTestCase {
     func test_decode_validData_shouldReturnDecodedObject() throws {
         let sut = makeSUT()
-        let expected = DeserializationTestResponse(name: "Matrix")
+        let expected = DeserializationTestResponse(name: "Movie Title")
         let data = try JSONEncoder().encode(expected)
         
         let decoded: DeserializationTestResponse = try sut.decode(data: data)

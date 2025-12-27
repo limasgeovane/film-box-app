@@ -24,7 +24,7 @@ final class MoviesRouterTests: XCTestCase {
     }
     
     func test_openMovieDetails_shouldPushMovieDetailsViewController() {
-        sut.openMovieDetails(movieId: 42)
+        sut.openMovieDetails(movieId: 99)
         
         XCTAssertEqual(navigationControllerSpy.pushViewControllerCount, 1)
         XCTAssertTrue(navigationControllerSpy.pushedViewController is MovieDetailsViewController)

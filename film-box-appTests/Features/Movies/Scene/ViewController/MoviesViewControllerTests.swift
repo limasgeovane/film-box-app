@@ -35,9 +35,9 @@ final class MoviesViewControllerTests: XCTestCase {
     }
     
     func test_didFavorite_shouldCallPresenter() {
-        sut.didFavorite(movieId: 5, isFavorite: true)
+        sut.didFavorite(movieId: 99, isFavorite: true)
         XCTAssertEqual(presenterSpy.didTapFavoriteCount, 1)
-        XCTAssertEqual(presenterSpy.didTapFavoriteParameterId, 5)
+        XCTAssertEqual(presenterSpy.didTapFavoriteParameterId, 99)
         XCTAssertEqual(presenterSpy.didTapFavoriteParameterIsFavorite, true)
     }
     
