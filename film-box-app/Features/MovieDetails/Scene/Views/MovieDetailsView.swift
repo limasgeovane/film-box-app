@@ -233,8 +233,16 @@ extension MovieDetailsView: MovieDetailsViewLogic {
 
 #if DEBUG
 extension MovieDetailsView {
-    var test_debug_MovieDetailsView_movieDetailsCardView: UIView { movieDetailsCardView }
-    var test_debug_MovieDetailsView_loadingView: LoadingView { loadingView }
-    var test_debug_MovieDetailsView_errorView: ErrorView { errorView }
+    var test_debug_movieDetailsCardView: UIView { movieDetailsCardView }
+    var test_debug_loadingView: LoadingView { loadingView }
+    var test_debug_errorView: ErrorView { errorView }
+    var test_debug_originalTitleLabel: UILabel { originalTitleLabel }
+    var test_debug_titleLabel: UILabel { titleLabel }
+    var test_debug_overviewLabel: UILabel { overviewLabel }
+    var test_debug_releaseDateLabel: UILabel { releaseDateLabel }
+    var test_debug_budgetLabel: UILabel { budgetLabel }
+    var test_debug_revenueLabel: UILabel { revenueLabel }
+    var test_debug_ratingLabel: UILabel { ratingLabel }
+    var test_debug_backdropPathImageView: UIImageView { backdropPathImageView }
 }
 #endif

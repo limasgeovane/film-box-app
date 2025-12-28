@@ -6,11 +6,18 @@ final class MoviesPresenterTests: XCTestCase {
     let interactorSpy = MoviesInteractorSpy()
     let routerSpy = MoviesRouterSpy()
     
-    lazy var sut: MoviesPresenter = {
-        let presenter = MoviesPresenter(interactor: interactorSpy, router: routerSpy)
-        presenter.viewController = viewControllerSpy
-        return presenter
-    }()
+    var sut: MoviesPresenter!
+    
+    override func setUp() {
+        super.setUp()
+        sut = MoviesPresenter(interactor: interactorSpy, router: routerSpy)
+        sut.viewController = viewControllerSpy
+    }
+    
+    override func tearDown() {
+        sut = nil
+        super.tearDown()
+    }
     
     func test_searchMovies_shouldDisplayLoadingAndCallInteractor() {
         sut.searchMovies()
@@ -21,11 +28,13 @@ final class MoviesPresenterTests: XCTestCase {
     
     func test_didTapSearch_shouldOpenSearchMovies() {
         sut.didTapSearch()
+        
         XCTAssertEqual(routerSpy.openSearchMoviesCount, 1)
     }
     
     func test_didSelectMovie_shouldOpenMovieDetails() {
         sut.didSelectMovie(movieId: 99)
+        
         XCTAssertEqual(routerSpy.openMovieDetailsCount, 1)
         XCTAssertEqual(routerSpy.openMovieDetailsParameterId, 99)
     }
@@ -35,24 +44,77 @@ final class MoviesPresenterTests: XCTestCase {
         
         sut.didTapFavorite(movieId: 99, isFavorite: true)
         XCTAssertEqual(interactorSpy.requestFavoriteMovieCount, 1)
+        XCTAssertEqual(interactorSpy.requestFavoriteMovieParameter, 99)
+        
+        sut.didTapFavorite(movieId: 99, isFavorite: false)
+        XCTAssertEqual(interactorSpy.requestUnfavoriteMovieCount, 1)
+        XCTAssertEqual(interactorSpy.requestUnfavoriteMovieParameterId, 99)
     }
     
-    func test_didSearchMovies_shouldMapEntitiesAndDisplayContent() {
+    func test_didSearchMovies_shouldTransformEntityIntoDisplayModel() {
         let movieEntity = MovieEntity.fixture()
+        let expectedDisplayModel = MovieDisplayModel.fixture(isFavorite: true)
+        
         sut.didSearchMovies(movies: [movieEntity], favoriteMovies: [99])
         
         XCTAssertEqual(viewControllerSpy.displayContentCount, 1)
-        XCTAssertEqual(viewControllerSpy.displayContentParameterMovies.first?.title, "Movie Title")
-        XCTAssertTrue(viewControllerSpy.displayContentParameterMovies.first?.isFavorite ?? false)
+        XCTAssertEqual(viewControllerSpy.displayContentParameterMovies, [expectedDisplayModel])
+    }
+    
+    func test_didSearchMovies_shouldMapPosterPathCorrectly() {
+        let movieEntity = MovieEntity.fixture(posterPath: "/poster.png")
+        
+        sut.didSearchMovies(movies: [movieEntity], favoriteMovies: [])
+        
+        let displayMovie = viewControllerSpy.displayContentParameterMovies.first
+        XCTAssertEqual(displayMovie?.posterImagePath, "\(Constants.TmdbAPI.tmdbImageURL)/poster.png")
+    }
+    
+    func test_didSearchMovies_withEmptyPosterPath_shouldReturnEmptyString() {
+        let movieEntity = MovieEntity.fixture(posterPath: "")
+        
+        sut.didSearchMovies(movies: [movieEntity], favoriteMovies: [])
+        
+        let displayMovie = viewControllerSpy.displayContentParameterMovies.first
+        XCTAssertEqual(displayMovie?.posterImagePath, "")
+    }
+    
+    func test_didSearchMovies_withValidRating_shouldFormatRatingText() {
+        let movieEntity = MovieEntity.fixture(voteAverage: 7.5)
+        
+        sut.didSearchMovies(movies: [movieEntity], favoriteMovies: [])
+        
+        let displayMovie = viewControllerSpy.displayContentParameterMovies.first
+        XCTAssertEqual(displayMovie?.ratingText, "\(String(localized: "movieRating")): 7.5")
+    }
+    
+    func test_didSearchMovies_withZeroRating_shouldReturnUnrated() {
+        let movieEntity = MovieEntity.fixture(voteAverage: 0)
+        
+        sut.didSearchMovies(movies: [movieEntity], favoriteMovies: [])
+        
+        let displayMovie = viewControllerSpy.displayContentParameterMovies.first
+        XCTAssertEqual(displayMovie?.ratingText, String(localized: "unrated"))
+    }
+    
+    func test_didSearchMovies_withEmptyOverview_shouldReturnNoOverviewAvailable() {
+        let movieEntity = MovieEntity.fixture(overview: "")
+        
+        sut.didSearchMovies(movies: [movieEntity], favoriteMovies: [])
+        
+        let displayMovie = viewControllerSpy.displayContentParameterMovies.first
+        XCTAssertEqual(displayMovie?.overview, String(localized: "noOverviewAvailable"))
     }
     
     func test_didSearchMoviesEmpty_shouldDisplayEmptyView() {
         sut.didSearchMoviesEmpty()
+        
         XCTAssertEqual(viewControllerSpy.displayEmptyViewCount, 1)
     }
     
     func test_didSearchMoviesError_shouldDisplayError() {
         sut.didSearchMoviesError()
+        
         XCTAssertEqual(viewControllerSpy.displayErrorCount, 1)
     }
 }

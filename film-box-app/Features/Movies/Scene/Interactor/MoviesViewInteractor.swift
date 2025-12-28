@@ -2,7 +2,7 @@ import Foundation
 
 protocol MoviesInteractorLogic {
     func requestSearchMovies()
-    func favoriteMovie(movie: MovieDisplayModel)
+    func favoriteMovie(movieId: Int)
     func unfavoriteMovie(movieId: Int)
 }
 
@@ -63,8 +63,8 @@ final class MoviesInteractor: MoviesInteractorLogic {
         }
     }
     
-    func favoriteMovie(movie: MovieDisplayModel) {
-        favoriteMoviesRepository.favorite(movieId: movie.id)
+    func favoriteMovie(movieId: Int) {
+        favoriteMoviesRepository.favorite(movieId: movieId)
     }
     
     func unfavoriteMovie(movieId: Int) {

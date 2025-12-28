@@ -3,11 +3,23 @@ import XCTest
 
 final class MoviesRepositoryTests: XCTestCase {
     let networkSpy = NetworkSpy()
-    lazy var sut = MoviesRepository(network: networkSpy)
+    
+    var sut: MoviesRepository!
+    
+    override func setUp() {
+        super.setUp()
+        sut = MoviesRepository(network: networkSpy)
+    }
+    
+    override func tearDown() {
+        sut = nil
+        super.tearDown()
+    }
     
     func test_fetchMovies_givenSuccess_shouldCompleteSuccess() {
-        let response = MoviesResponseEntity.fixture()
-        networkSpy.stubbedResponse = response
+        let moviesResponseEntity = MoviesResponseEntity.fixture()
+        
+        networkSpy.stubbedResponse = moviesResponseEntity
         networkSpy.errorToThrow = nil
         
         sut.fetchMovies(query: "Movie Title") { result in

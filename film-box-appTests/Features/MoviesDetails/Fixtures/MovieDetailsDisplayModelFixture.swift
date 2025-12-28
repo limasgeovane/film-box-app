@@ -1,3 +1,4 @@
+import Foundation
 @testable import film_box_app
 
 extension MovieDetailsDisplayModel {
@@ -7,11 +8,11 @@ extension MovieDetailsDisplayModel {
         originalTitle: String = "Original Title",
         title: String = "Movie Title",
         overview: String = "Movie overview",
-        releaseDate: String = "25 de dezembro de 2025",
-        budget: String = "Budget: $1,000,000",
-        revenue: String = "Revenue: $5,000,000",
-        ratingText: String = "Rating: 8.5",
-        isfavorite: Bool = false
+        releaseDate: String = "December 25th, 2025",
+        budget: String = "\(String(localized: "budget")): \(1_000_000.usdFormatter)",
+        revenue: String = "\(String(localized: "revenue")): \(5_000_000.usdFormatter)",
+        ratingText: String = "\(String(localized: "movieRating")): \(String(format: "%.1f", 8.5))",
+        isFavorite: Bool = false
     ) -> Self {
         .init(
             id: id,
@@ -23,9 +24,7 @@ extension MovieDetailsDisplayModel {
             budget: budget,
             revenue: revenue,
             ratingText: ratingText,
-            isFavorite: isfavorite
+            isFavorite: isFavorite
         )
     }
 }
-
-

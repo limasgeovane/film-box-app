@@ -2,7 +2,7 @@ import Foundation
 
 protocol MovieDetailsInteractorLogic {
     func requestMovieDetails(movieId: Int)
-    func favoriteMovie(movie: MovieDetailsDisplayModel)
+    func favoriteMovie(movieId: Int)
     func unfavoriteMovie(movieId: Int)
     func isMovieFavorite(movieId: Int) -> Bool
 }
@@ -42,8 +42,8 @@ extension MovieDetailsInteractor: MovieDetailsInteractorLogic {
         fetchMovieDetails(movieId: movieId)
     }
     
-    func favoriteMovie(movie: MovieDetailsDisplayModel) {
-        favoriteMoviesRepository.favorite(movieId: movie.id)
+    func favoriteMovie(movieId: Int) {
+        favoriteMoviesRepository.favorite(movieId: movieId)
     }
     
     func unfavoriteMovie(movieId: Int) {

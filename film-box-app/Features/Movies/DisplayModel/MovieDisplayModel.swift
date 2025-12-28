@@ -1,4 +1,4 @@
-struct MovieDisplayModel {
+struct MovieDisplayModel: Equatable {
     let id: Int
     let posterImagePath: String
     let title: String

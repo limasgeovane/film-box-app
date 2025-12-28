@@ -3,25 +3,32 @@ import XCTest
 
 final class MovieDetailsInteractorTests: XCTestCase {
     let presenterSpy = MovieDetailsPresenterSpy()
-    
     let repositorySpy = MovieDetailsRepositorySpy()
     let favoriteMoviesRepositorySpy = FavoriteMoviesRepositorySpy()
     
-    lazy var sut = MovieDetailsInteractor(
-        repository: repositorySpy,
-        favoriteMoviesRepository: favoriteMoviesRepositorySpy
-    )
+    var sut: MovieDetailsInteractor!
     
     override func setUp() {
         super.setUp()
+        sut = MovieDetailsInteractor(
+            repository: repositorySpy,
+            favoriteMoviesRepository: favoriteMoviesRepositorySpy
+        )
+        
         sut.presenter = presenterSpy
     }
     
+    override func tearDown() {
+        sut = nil
+        super.tearDown()
+    }
+    
     func test_requestMovieDetails_givenSuccess_shouldCallPresenterWithMovieDetails() {
-        let movieDetails = MovieDetailsEntity.fixture()
-        repositorySpy.stubbedFetchMovieDetailsResult = .success(movieDetails)
+        let movieDetailsEntity = MovieDetailsEntity.fixture()
+        repositorySpy.stubbedFetchMovieDetailsResult = .success(movieDetailsEntity)
         
         let exp = expectation(description: "wait async success")
+        
         DispatchQueue.main.async { exp.fulfill() }
         
         sut.requestMovieDetails(movieId: 99)
@@ -48,12 +55,12 @@ final class MovieDetailsInteractorTests: XCTestCase {
     }
     
     func test_favoriteMovie_shouldCallFavoriteMoviesRepository() {
-        let movie = MovieDetailsDisplayModel.fixture(id: 42)
+        let movieDetailsDisplayModel = MovieDetailsDisplayModel.fixture(id: 99)
         
-        sut.favoriteMovie(movie: movie)
+        sut.favoriteMovie(movieId: movieDetailsDisplayModel.id)
         
         XCTAssertEqual(favoriteMoviesRepositorySpy.favoriteCount, 1)
-        XCTAssertEqual(favoriteMoviesRepositorySpy.favoriteParameterFavoriteMovie, 42)
+        XCTAssertEqual(favoriteMoviesRepositorySpy.favoriteParameterFavoriteMovie, 99)
     }
     
     func test_unfavoriteMovie_shouldCallFavoriteMoviesRepository() {

@@ -10,10 +10,10 @@ final class MovieDetailsInteractorSpy: MovieDetailsInteractorLogic {
     }
     
     private(set) var favoriteMovieCount = 0
-    private(set) var favoriteMovieParameter: MovieDetailsDisplayModel?
-    func favoriteMovie(movie: MovieDetailsDisplayModel) {
+    private(set) var favoriteMovieParameter: Int?
+    func favoriteMovie(movieId: Int) {
         favoriteMovieCount += 1
-        favoriteMovieParameter = movie
+        favoriteMovieParameter = movieId
     }
     
     private(set) var unfavoriteMovieCount = 0

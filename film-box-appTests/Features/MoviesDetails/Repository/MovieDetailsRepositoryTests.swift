@@ -3,17 +3,28 @@ import XCTest
 
 final class MovieDetailsRepositoryTests: XCTestCase {
     let networkSpy = NetworkSpy()
-    lazy var sut = MovieDetailsRepository(network: networkSpy)
+    
+    var sut: MovieDetailsRepository!
+    
+    override func setUp() {
+        super.setUp()
+        sut = MovieDetailsRepository(network: networkSpy)
+    }
+    
+    override func tearDown() {
+        sut = nil
+        super.tearDown()
+    }
     
     func test_fetchMovieDetails_givenSuccess_shouldCompleteSuccess() {
-        let movieDetails = MovieDetailsEntity.fixture()
-        networkSpy.stubbedResponse = movieDetails
+        let movieDetailsEntity = MovieDetailsEntity.fixture()
+        networkSpy.stubbedResponse = movieDetailsEntity
         networkSpy.errorToThrow = nil
         
         sut.fetchMovieDetails(movieId: 99) { result in
             switch result {
             case .success(let response):
-                XCTAssertEqual(response.title, movieDetails.title)
+                XCTAssertEqual(response.title, movieDetailsEntity.title)
                 XCTAssertEqual(self.networkSpy.messages.count, 1)
             case .failure:
                 XCTFail("Should be a success")

@@ -10,12 +10,12 @@ final class NetworkRequesterSpy: NetworkRequester {
             headers: [String: String]?
         )
     }
-
+    
     private(set) var messages: [Message] = []
-
+    
     var stubbedData: Data?
     var errorToThrow: Error?
-
+    
     func request(
         url: String,
         method: NetworkMethod,
@@ -32,12 +32,12 @@ final class NetworkRequesterSpy: NetworkRequester {
                 headers: headers
             )
         )
-
+        
         if let errorToThrow {
             completion(.failure(errorToThrow))
             return
         }
-
+        
         completion(.success(stubbedData))
     }
 }

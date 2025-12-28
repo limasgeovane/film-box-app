@@ -45,10 +45,8 @@ extension MoviesPresenter: MoviesPresenterInputLogic {
     }
     
     func didTapFavorite(movieId: Int, isFavorite: Bool) {
-        guard let movie = displayModel.first(where: { $0.id == movieId }) else { return }
-        
         if isFavorite {
-            interactor.favoriteMovie(movie: movie)
+            interactor.favoriteMovie(movieId: movieId)
         } else {
             interactor.unfavoriteMovie(movieId: movieId)
         }

@@ -7,7 +7,7 @@ struct NetworkRequestConfiguratorSpy: Equatable {
     let method: NetworkMethod
     let parameters: [String: Any]
     let headers: [String: String]
-
+    
     init(from configurator: NetworkRequestConfigurator) {
         self.baseURL = configurator.baseURL
         self.path = configurator.path
@@ -15,18 +15,18 @@ struct NetworkRequestConfiguratorSpy: Equatable {
         self.parameters = configurator.parameters
         self.headers = configurator.headers
     }
-
+    
     static func == (lhs: Self, rhs: Self) -> Bool {
         let sameMethod: Bool = {
             switch (lhs.method, rhs.method) {
             case (.get, .get),
-                 (.post, .post):
+                (.post, .post):
                 return true
             default:
                 return false
             }
         }()
-
+        
         return lhs.baseURL == rhs.baseURL &&
         lhs.path == rhs.path &&
         sameMethod &&

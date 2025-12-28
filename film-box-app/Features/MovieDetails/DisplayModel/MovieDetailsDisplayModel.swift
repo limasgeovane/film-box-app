@@ -1,4 +1,4 @@
-struct MovieDetailsDisplayModel {
+struct MovieDetailsDisplayModel: Equatable {
     let id: Int
     let backdropPath: String
     let originalTitle : String

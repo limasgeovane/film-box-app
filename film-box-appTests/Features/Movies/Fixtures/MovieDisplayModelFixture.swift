@@ -6,7 +6,7 @@ extension MovieDisplayModel {
         id: Int = 99,
         posterImagePath: String = "https://image.tmdb.org/t/p/w780/posterPath.jpg",
         title: String = "Movie Title",
-        ratingText: String = "Rating: 8.5",
+        ratingText: String = "\(String(localized: "movieRating")): \(String(format: "%.1f", 8.5))",
         overview: String = "Movie overview",
         isFavorite: Bool = false
     ) -> Self {

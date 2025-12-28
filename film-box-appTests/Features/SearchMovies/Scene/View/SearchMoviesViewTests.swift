@@ -29,23 +29,25 @@ final class SearchMoviesViewTests: XCTestCase {
     }
     
     func test_searchButtonPressed_givenNonEmptyText_shouldCallDelegate() {
-        sut.test_debug_SearchMoviesView_TextField.text = "Movie Title"
-        sut.test_debug_SearchMoviesView_testButton.sendActions(for: .touchUpInside)
-
+        sut.test_debug_TextField.text = "Movie Title"
+        sut.test_debug_testButton.sendActions(for: .touchUpInside)
+        
         XCTAssertEqual(delegateSpy.searchPressedCount, 1)
         XCTAssertEqual(delegateSpy.searchPressedParameterQuery, "Movie Title")
     }
     
     func test_changeState_shouldToggleVisibilityForContent() {
         sut.changeState(state: .content)
-        XCTAssertTrue(sut.test_debug_SearchMoviesView_errorView.isHidden)
+        
+        XCTAssertTrue(sut.test_debug_errorView.isHidden)
     }
     
     func test_changeState_shouldToggleVisibilityForLoading() {
         sut.changeState(state: .error)
-        XCTAssertFalse(sut.test_debug_SearchMoviesView_errorView.isHidden)
+        
+        XCTAssertFalse(sut.test_debug_errorView.isHidden)
         XCTAssertEqual(
-            sut.test_debug_SearchMoviesView_errorView.test_debug_ErrorView_errorLabel,
+            sut.test_debug_errorView.test_debug_errorLabel,
             String(localized: "emptyFieldError")
         )
     }

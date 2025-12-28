@@ -2,7 +2,17 @@ import XCTest
 @testable import film_box_app
 
 final class MoviesRequestConfigurationTests: XCTestCase {
-    var sut = MoviesRequestConfiguration(query: "Movie Title")
+    var sut: MoviesRequestConfiguration!
+    
+    override func setUp() {
+        super.setUp()
+        sut = MoviesRequestConfiguration(query: "Movie Title")
+    }
+    
+    override func tearDown() {
+        sut = nil
+        super.tearDown()
+    }
     
     func test_path_shouldBeSearchMovie() {
         XCTAssertEqual(sut.path, "/search/movie")

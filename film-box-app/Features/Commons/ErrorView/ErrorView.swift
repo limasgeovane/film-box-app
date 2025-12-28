@@ -68,6 +68,6 @@ final class ErrorView: UIView {
 
 #if DEBUG
 extension ErrorView {
-    var test_debug_ErrorView_errorLabel: String? { errorLabel.text }
+    var test_debug_errorLabel: String? { errorLabel.text }
 }
 #endif

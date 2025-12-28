@@ -5,16 +5,28 @@ final class MoviesViewControllerTests: XCTestCase {
     let presenterSpy = MoviesPresenterSpy()
     let contentViewSpy = MoviesViewSpy()
     
-    lazy var sut = MoviesViewController(presenter: presenterSpy, contentView: contentViewSpy)
+    var sut: MoviesViewController!
+    
+    override func setUp() {
+        super.setUp()
+        sut = MoviesViewController(presenter: presenterSpy, contentView: contentViewSpy)
+    }
+    
+    override func tearDown() {
+        sut = nil
+        super.tearDown()
+    }
     
     func test_loadView_shouldSetViewAndDelegate() {
         sut.loadView()
+        
         XCTAssertTrue(sut.view is MoviesViewLogic)
         XCTAssertEqual(contentViewSpy.delegateSetterCount, 1)
     }
     
     func test_viewWillAppear_shouldCallSearchMovies() {
         sut.viewWillAppear(false)
+        
         XCTAssertEqual(presenterSpy.searchMoviesCount, 1)
     }
     
@@ -30,12 +42,14 @@ final class MoviesViewControllerTests: XCTestCase {
     
     func test_didSelectMovie_shouldCallPresenter() {
         sut.didSelectMovie(movieId: 99)
+        
         XCTAssertEqual(presenterSpy.didSelectMovieCount, 1)
         XCTAssertEqual(presenterSpy.didSelectMovieParameterId, 99)
     }
     
     func test_didFavorite_shouldCallPresenter() {
         sut.didFavorite(movieId: 99, isFavorite: true)
+        
         XCTAssertEqual(presenterSpy.didTapFavoriteCount, 1)
         XCTAssertEqual(presenterSpy.didTapFavoriteParameterId, 99)
         XCTAssertEqual(presenterSpy.didTapFavoriteParameterIsFavorite, true)
@@ -43,19 +57,22 @@ final class MoviesViewControllerTests: XCTestCase {
     
     func test_displayLoading_shouldChangeStateToLoading() {
         sut.displayLoading()
+        
         XCTAssertEqual(contentViewSpy.changeStateCount, 1)
         XCTAssertEqual(contentViewSpy.changeStateParameterState, .loading)
     }
     
     func test_displayEmptyView_shouldChangeStateToEmpty() {
         sut.displayEmptyView()
+        
         XCTAssertEqual(contentViewSpy.changeStateCount, 1)
         XCTAssertEqual(contentViewSpy.changeStateParameterState, .Empty)
     }
     
     func test_displayContent_shouldSetupMoviesAndChangeState() {
-        let movies = [MovieDisplayModel.fixture()]
-        sut.displayContent(movies: movies)
+        let moviesDisplayModel = [MovieDisplayModel.fixture()]
+        
+        sut.displayContent(movies: moviesDisplayModel)
         
         XCTAssertEqual(contentViewSpy.moviesSetterCount, 1)
         XCTAssertEqual(contentViewSpy.changeStateParameterState, .content)
@@ -63,6 +80,7 @@ final class MoviesViewControllerTests: XCTestCase {
     
     func test_displayError_shouldChangeStateToError() {
         sut.displayError()
+        
         XCTAssertEqual(contentViewSpy.changeStateCount, 1)
         XCTAssertEqual(contentViewSpy.changeStateParameterState, .error)
     }

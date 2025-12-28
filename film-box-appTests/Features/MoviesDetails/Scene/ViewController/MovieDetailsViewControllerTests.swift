@@ -5,11 +5,21 @@ final class MovieDetailsViewControllerTests: XCTestCase {
     let presenterSpy = MovieDetailsPresenterSpy()
     let contentViewSpy = MovieDetailsViewSpy()
     
-    lazy var sut = MovieDetailsViewController(
-        presenter: presenterSpy,
-        contentView: contentViewSpy,
-        movieId: 99
-    )
+    var sut: MovieDetailsViewController!
+    
+    override func setUp() {
+        super.setUp()
+        sut = MovieDetailsViewController(
+            presenter: presenterSpy,
+            contentView: contentViewSpy,
+            movieId: 99
+        )
+    }
+    
+    override func tearDown() {
+        sut = nil
+        super.tearDown()
+    }
     
     func test_loadView_shouldSetView() {
         sut.loadView()
@@ -25,7 +35,7 @@ final class MovieDetailsViewControllerTests: XCTestCase {
         XCTAssertEqual(presenterSpy.requestMovieDetailsParameterId, 99)
     }
     
-    func test_displayLoading_shouldHideFavoriteAndShowLoading() {
+    func test_displayLoading_shouldShowLoading() {
         sut.displayLoading()
         
         XCTAssertEqual(contentViewSpy.changeStateCount, 1)
@@ -33,13 +43,13 @@ final class MovieDetailsViewControllerTests: XCTestCase {
         XCTAssertNil(sut.navigationItem.rightBarButtonItem)
     }
     
-    func test_displayContent_shouldSetupAndShowContent() {
-        let displayModel = MovieDetailsDisplayModel.fixture()
+    func test_displayContent_shouldShowContent() {
+        let movieDetailsDisplayModel = MovieDetailsDisplayModel.fixture()
         
-        sut.displayContent(displayModel: displayModel)
+        sut.displayContent(displayModel: movieDetailsDisplayModel)
         
         XCTAssertEqual(contentViewSpy.setupContentCount, 1)
-        XCTAssertEqual(contentViewSpy.setupContentParameter?.title, displayModel.title)
+        XCTAssertEqual(contentViewSpy.setupContentParameter?.title, movieDetailsDisplayModel.title)
         XCTAssertEqual(contentViewSpy.changeStateCount, 1)
         XCTAssertEqual(contentViewSpy.changeStateParameterState, .content)
     }

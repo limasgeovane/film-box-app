@@ -209,3 +209,12 @@ extension MoviesView: MovieViewCollectionViewCellDelegate {
         delegate?.didFavorite(movieId: movieId, isFavorite: isFavorite)
     }
 }
+
+#if DEBUG
+extension MoviesView {
+    var test_debug_loadingView: LoadingView { loadingView }
+    var test_debug_moviesCollectionView: UIView { moviesCollectionView }
+    var test_debug_emptyStateView: EmptyStateView { emptyStateView }
+    var test_debug_errorView: ErrorView { errorView }
+}
+#endif
