@@ -23,9 +23,9 @@ final class SearchMoviesViewTests: XCTestCase {
     }
     
     override func tearDown() {
+        super.tearDown()
         sut = nil
         delegateSpy = nil
-        super.tearDown()
     }
     
     func test_searchButtonPressed_givenNonEmptyText_shouldCallDelegate() {

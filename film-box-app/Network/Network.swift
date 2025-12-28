@@ -9,11 +9,11 @@ protocol NetworkLogic {
 
 final class Network: NetworkLogic {
     private let networkRequest: NetworkRequester
-    private let networkDeserialization: NetworkDeserialization
+    private let networkDeserialization: NetworkDeserializable
     
     init(
         networkRequest: NetworkRequester = URLSessionNetworkRequest(),
-        networkDeserialization: NetworkDeserialization = NetworkDeserialization()
+        networkDeserialization: NetworkDeserializable = NetworkDeserialization()
     ) {
         self.networkRequest = networkRequest
         self.networkDeserialization = networkDeserialization
@@ -34,10 +34,10 @@ final class Network: NetworkLogic {
             switch result {
             case .success(let data):
                 do {
-                    let decodedData = try networkDeserialization.decode(data: data) as T
+                    let decodedData: T = try self.networkDeserialization.decode(data: data)
                     completion(.success(decodedData))
                 } catch {
-                    completion(.failure(error as Error))
+                    completion(.failure(error))
                 }
             case .failure(let error):
                 completion(.failure(error))

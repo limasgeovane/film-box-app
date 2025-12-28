@@ -14,8 +14,8 @@ final class MovieDetailsPresenterTests: XCTestCase {
     }
     
     override func tearDown() {
-        sut = nil
         super.tearDown()
+        sut = nil
     }
     
     func test_requestMovieDetails_shouldDisplayLoadingAndCallInteractor() {

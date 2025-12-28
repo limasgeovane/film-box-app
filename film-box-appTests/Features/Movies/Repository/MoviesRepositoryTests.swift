@@ -12,8 +12,8 @@ final class MoviesRepositoryTests: XCTestCase {
     }
     
     override func tearDown() {
-        sut = nil
         super.tearDown()
+        sut = nil
     }
     
     func test_fetchMovies_givenSuccess_shouldCompleteSuccess() {

@@ -13,8 +13,8 @@ final class MoviesViewControllerTests: XCTestCase {
     }
     
     override func tearDown() {
-        sut = nil
         super.tearDown()
+        sut = nil
     }
     
     func test_loadView_shouldSetViewAndDelegate() {

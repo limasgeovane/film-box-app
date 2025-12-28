@@ -10,8 +10,8 @@ final class MovieDetailsRequestConfigurationTests: XCTestCase {
     }
     
     override func tearDown() {
-        sut = nil
         super.tearDown()
+        sut = nil
     }
     
     func test_path_shouldBeMovieIdPath() {

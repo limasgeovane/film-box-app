@@ -10,8 +10,8 @@ final class MoviesViewTests: XCTestCase {
     }
     
     override func tearDown() {
-        sut = nil
         super.tearDown()
+        sut = nil
     }
     
     func test_changeState_shouldToggleVisibilityForLoading() {
