@@ -10,7 +10,6 @@ protocol FavoriteMoviesViewControllerLogic: AnyObject {
 final class FavoriteMoviesViewController: UIViewController {
     private let presenter: FavoriteMoviesPresenterInputLogic
     private let contentView: FavoriteMoviesViewLogic
-    private let router: MoviesRouterLogic = MoviesRouter()
     
     init(
         presenter: FavoriteMoviesPresenterInputLogic,

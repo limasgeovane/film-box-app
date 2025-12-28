@@ -9,6 +9,7 @@ final class MainTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        delegate = self
         setupTitles()
         setupTabBar()
         setupTabBarAppearance()
@@ -61,5 +62,13 @@ final class MainTabBarController: UITabBarController {
     
     private func setupViewControllers() {
         viewControllers = [moviesNavigationController, favoriteMoviesNavigationController]
+    }
+}
+
+extension MainTabBarController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if let navigationController = viewController as? UINavigationController {
+            navigationController.popToRootViewController(animated: false)
+        }
     }
 }
