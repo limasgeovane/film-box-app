@@ -1,14 +1,14 @@
 import XCTest
 @testable import film_box_app
 
-final class MoviesRouterTests: XCTestCase {
-    var sut: MoviesRouter!
+final class FavoriteMoviesRouterTests: XCTestCase {
+    var sut: FavoriteMoviesRouter!
     var navigationControllerSpy: NavigationControllerSpy!
     var rootViewController: UIViewController!
     
     override func setUp() {
         super.setUp()
-        sut = MoviesRouter()
+        sut = FavoriteMoviesRouter()
         navigationControllerSpy = NavigationControllerSpy()
         rootViewController = UIViewController()
         navigationControllerSpy.viewControllers = [rootViewController]
@@ -20,14 +20,6 @@ final class MoviesRouterTests: XCTestCase {
         navigationControllerSpy = nil
         rootViewController = nil
         super.tearDown()
-    }
-    
-    func test_openSearchMovies_shouldPushSearchMoviesViewController() {
-        sut.openSearchMovies()
-        
-        XCTAssertEqual(navigationControllerSpy.pushViewControllerCount, 1)
-        XCTAssertTrue(navigationControllerSpy.pushedViewController is SearchMoviesViewController)
-        XCTAssertEqual(navigationControllerSpy.pushViewControllerAnimated, true)
     }
     
     func test_openMovieDetails_shouldPushMovieDetailsViewController() {

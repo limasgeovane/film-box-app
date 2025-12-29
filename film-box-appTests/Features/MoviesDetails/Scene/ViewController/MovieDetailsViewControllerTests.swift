@@ -28,7 +28,7 @@ final class MovieDetailsViewControllerTests: XCTestCase {
     }
     
     func test_viewWillAppear_shouldRequestDetails() {
-        sut.loadViewIfNeeded()
+        sut.loadView()
         sut.viewWillAppear(false)
         
         XCTAssertEqual(presenterSpy.requestMovieDetailsCount, 1)

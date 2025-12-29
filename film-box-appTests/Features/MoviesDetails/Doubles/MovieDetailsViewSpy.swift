@@ -1,5 +1,5 @@
-@testable import film_box_app
 import UIKit
+@testable import film_box_app
 
 final class MovieDetailsViewSpy: UIView, MovieDetailsViewLogic {
     private(set) var setupContentCount = 0

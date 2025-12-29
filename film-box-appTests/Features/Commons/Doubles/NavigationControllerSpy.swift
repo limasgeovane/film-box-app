@@ -12,4 +12,15 @@ final class NavigationControllerSpy: UINavigationController {
         pushViewControllerAnimated = animated
         super.pushViewController(viewController, animated: animated)
     }
+    
+    private(set) var popViewControllerCount = 0
+    private(set) var popViewControllerAnimated: Bool?
+    private(set) var poppedViewController: UIViewController?
+    
+    override func popViewController(animated: Bool) -> UIViewController? {
+        popViewControllerCount += 1
+        popViewControllerAnimated = animated
+        poppedViewController = super.popViewController(animated: animated)
+        return poppedViewController
+    }
 }

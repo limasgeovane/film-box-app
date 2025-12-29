@@ -1,5 +1,5 @@
-@testable import film_box_app
 import UIKit
+@testable import film_box_app
 
 final class MoviesViewSpy: UIView, MoviesViewLogic {
     private(set) var delegateSetterCount = 0

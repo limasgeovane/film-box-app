@@ -4,7 +4,11 @@ protocol MovieViewCollectionViewCellDelegate: AnyObject {
     func didTapFavorite(movieId: Int, isFavorite: Bool)
 }
 
-final class MovieViewCollectionViewCell: UICollectionViewCell {
+protocol MovieViewCollectionViewCellLogic: UIView {
+    func configureCell(displayModel: MovieDisplayModel)
+}
+
+final class MovieViewCollectionViewCell: UICollectionViewCell, MovieViewCollectionViewCellLogic {
     static let identifier: String = "MovieViewCollectionViewCell"
     
     weak var delegate: MovieViewCollectionViewCellDelegate?
@@ -158,6 +162,12 @@ final class MovieViewCollectionViewCell: UICollectionViewCell {
         delegate?.didTapFavorite(movieId: movieId, isFavorite: !isFavorite)
     }
     
+    private func updateFavoriteButtonAppearance() {
+        let imageName = isFavorite ? "star.fill" : "star"
+        favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
+        favoriteButton.tintColor = isFavorite ? UIColor(named: "primaryAppColor") ?? .systemBlue : .systemGray
+    }
+    
     func configureCell(displayModel: MovieDisplayModel) {
         movieId = displayModel.id
         isFavorite = displayModel.isFavorite
@@ -166,12 +176,6 @@ final class MovieViewCollectionViewCell: UICollectionViewCell {
         overviewLabel.setHyphenatedText(displayModel.overview)
         posterImageView.loadTMDBImage(path: displayModel.posterImagePath)
         updateFavoriteButtonAppearance()
-    }
-    
-    private func updateFavoriteButtonAppearance() {
-        let imageName = isFavorite ? "star.fill" : "star"
-        favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
-        favoriteButton.tintColor = isFavorite ? UIColor(named: "primaryAppColor") ?? .systemBlue : .systemGray
     }
     
     func getCellHeight(forWidth width: CGFloat) -> CGFloat {
@@ -189,3 +193,14 @@ final class MovieViewCollectionViewCell: UICollectionViewCell {
         return ceil(size.height)
     }
 }
+
+#if DEBUG
+import UIKit
+
+extension MovieViewCollectionViewCell {
+    var test_debug_movieId: Int? { movieId }
+    var test_debug_titleLabel: UILabel { titleLabel }
+    var test_debug_ratingLabel: UILabel { ratingLabel }
+    var test_debug_overviewLabel: UILabel { overviewLabel }
+}
+#endif

@@ -4,7 +4,11 @@ protocol FavoriteMoviesViewCollectionViewCellDelegate: AnyObject {
     func didTapUnfavorite(movieId: Int)
 }
 
-final class FavoriteMoviesViewCollectionViewCell: UICollectionViewCell {
+protocol FavoriteMoviesViewCollectionViewCellLogic: UIView {
+    func configureCell(displayModel: FavoriteMoviesDisplayModel)
+}
+
+final class FavoriteMoviesViewCollectionViewCell: UICollectionViewCell, FavoriteMoviesViewCollectionViewCellLogic {
     static let identifier: String = "FavoriteMoviesViewCollectionViewCell"
     
     weak var delegate: FavoriteMoviesViewCollectionViewCellDelegate?
@@ -174,3 +178,14 @@ final class FavoriteMoviesViewCollectionViewCell: UICollectionViewCell {
         return ceil(size.height)
     }
 }
+
+#if DEBUG
+import UIKit
+
+extension FavoriteMoviesViewCollectionViewCell {
+    var test_debug_movieId: Int? { movieId }
+    var test_debug_titleLabel: UILabel { titleLabel }
+    var test_debug_ratingLabel: UILabel { ratingLabel }
+    var test_debug_overviewLabel: UILabel { overviewLabel }
+}
+#endif

@@ -201,3 +201,12 @@ extension FavoriteMoviesView: FavoriteMoviesViewCollectionViewCellDelegate {
         delegate?.didTapUnfavorite(movieId: movieId)
     }
 }
+
+#if DEBUG
+extension FavoriteMoviesView {
+    var test_debug_loadingView: LoadingView { loadingView }
+    var test_debug_favoriteMoviesCollectionView: UICollectionView { favoriteMoviesCollectionView }
+    var test_debug_emptyStateView: EmptyStateView { emptyStateView }
+    var test_debug_errorView: ErrorView { errorView }
+}
+#endif
