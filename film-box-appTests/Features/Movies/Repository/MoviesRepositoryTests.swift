@@ -25,7 +25,7 @@ final class MoviesRepositoryTests: XCTestCase {
         sut.fetchMovies(query: "Movie Title") { result in
             switch result {
             case .success(let moviesResponse):
-                XCTAssertEqual(moviesResponse.results.first?.title, "Movie Title")
+                XCTAssertEqual(moviesResponse.results.first?.originalTitle, "Movie Title")
                 XCTAssertEqual(self.networkSpy.messages.count, 1)
             case .failure:
                 XCTFail("Should be success")

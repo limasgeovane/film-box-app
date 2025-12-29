@@ -5,7 +5,7 @@ extension FavoriteMoviesDisplayModel {
     static func fixture(
         id: Int = 99,
         posterImagePath: String? = "\(Constants.TmdbAPI.tmdbImageURL)/posterPath.jpg",
-        title: String = "Movie Title",
+        title: String = "Original Title",
         ratingText: String = "\(String(localized: "movieRating")): \(String(format: "%.1f", 8.5))",
         overview: String = "Movie overview"
     ) -> Self {

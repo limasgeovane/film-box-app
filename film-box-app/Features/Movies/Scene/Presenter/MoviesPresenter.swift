@@ -65,7 +65,7 @@ extension MoviesPresenter: MoviesPresenterOutputLogic {
                         return ""
                     }
                 }(),
-                title: movie.title,
+                title: movie.originalTitle,
                 ratingText: {
                     if let rating = movie.voteAverage, rating > 0 {
                         return "\(String(localized: "movieRating")): \(String(format: "%.1f", rating))"
