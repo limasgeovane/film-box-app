@@ -1,4 +1,3 @@
-import Foundation
 @testable import film_box_app
 
 final class NetworkSpy: NetworkLogic {

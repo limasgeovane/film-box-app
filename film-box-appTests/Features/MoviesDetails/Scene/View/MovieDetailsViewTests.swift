@@ -2,9 +2,9 @@ import XCTest
 @testable import film_box_app
 
 final class MovieDetailsViewTests: XCTestCase {
-    let movieDetailsDisplayModel = MovieDetailsDisplayModel.fixture()
+    private let movieDetailsDisplayModel = MovieDetailsDisplayModel.fixture()
     
-    var sut: MovieDetailsView!
+    private var sut: MovieDetailsView!
     
     override func setUp() {
         super.setUp()

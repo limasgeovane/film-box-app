@@ -2,11 +2,11 @@ import XCTest
 @testable import film_box_app
 
 final class MoviesPresenterTests: XCTestCase {
-    let viewControllerSpy = MoviesViewControllerSpy()
-    let interactorSpy = MoviesInteractorSpy()
-    let routerSpy = MoviesRouterSpy()
+    private let viewControllerSpy = MoviesViewControllerSpy()
+    private let interactorSpy = MoviesInteractorSpy()
+    private let routerSpy = MoviesRouterSpy()
     
-    var sut: MoviesPresenter!
+    private var sut: MoviesPresenter!
     
     override func setUp() {
         super.setUp()

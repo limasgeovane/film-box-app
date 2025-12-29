@@ -5,7 +5,7 @@ final class FavoriteMoviesViewSpy: UIView, FavoriteMoviesViewLogic {
     private(set) var delegateSetterCount = 0
     private(set) var delegateGetterCount = 0
     private(set) var invokedDelegate: FavoriteMoviesViewDelegate?
-    var stubbedDelegate: FavoriteMoviesViewDelegate?
+    private var stubbedDelegate: FavoriteMoviesViewDelegate?
     
     var delegate: FavoriteMoviesViewDelegate? {
         get {
@@ -21,7 +21,7 @@ final class FavoriteMoviesViewSpy: UIView, FavoriteMoviesViewLogic {
     private(set) var favoriteMoviesSetterCount = 0
     private(set) var favoriteMoviesGetterCount = 0
     private(set) var invokedFavoriteMoviesMovies: [FavoriteMoviesDisplayModel] = []
-    var stubbedFavoriteMovies: [FavoriteMoviesDisplayModel] = []
+    private var stubbedFavoriteMovies: [FavoriteMoviesDisplayModel] = []
     var favoriteMovies: [FavoriteMoviesDisplayModel] {
         get {
             favoriteMoviesSetterCount += 1

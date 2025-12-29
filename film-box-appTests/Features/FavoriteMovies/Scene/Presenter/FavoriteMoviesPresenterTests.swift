@@ -2,11 +2,11 @@ import XCTest
 @testable import film_box_app
 
 final class FavoriteMoviesPresenterTests: XCTestCase {
-    let viewControllerSpy = FavoriteMoviesViewControllerSpy()
-    let interactorSpy = FavoriteMoviesInteractorSpy()
-    let routerSpy = FavoriteMoviesRouterSpy()
+    private let viewControllerSpy = FavoriteMoviesViewControllerSpy()
+    private let interactorSpy = FavoriteMoviesInteractorSpy()
+    private let routerSpy = FavoriteMoviesRouterSpy()
     
-    var sut: FavoriteMoviesPresenter!
+    private var sut: FavoriteMoviesPresenter!
     
     override func setUp() {
         super.setUp()

@@ -2,7 +2,7 @@ import XCTest
 @testable import film_box_app
 
 final class FavoriteMoviesViewCollectionViewCellTests: XCTestCase {
-    var sut: FavoriteMoviesViewCollectionViewCell!
+    private var sut: FavoriteMoviesViewCollectionViewCell!
     
     override func setUp() {
         super.setUp()

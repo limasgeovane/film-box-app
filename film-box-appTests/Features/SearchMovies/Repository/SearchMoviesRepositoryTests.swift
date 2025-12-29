@@ -2,7 +2,7 @@ import XCTest
 @testable import film_box_app
 
 final class SearchMoviesRepositoryTests: XCTestCase {
-    var sut: SearchMoviesRepository!
+    private var sut: SearchMoviesRepository!
     
     override func setUp() {
         super.setUp()

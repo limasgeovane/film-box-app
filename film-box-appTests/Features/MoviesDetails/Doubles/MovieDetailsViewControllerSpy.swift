@@ -1,4 +1,3 @@
-import UIKit
 @testable import film_box_app
 
 final class MovieDetailsViewControllerSpy: MovieDetailsViewControllerLogic {

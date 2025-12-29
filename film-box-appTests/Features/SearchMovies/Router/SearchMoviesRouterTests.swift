@@ -2,10 +2,10 @@ import XCTest
 @testable import film_box_app
 
 final class SearchMoviesRouterTests: XCTestCase {
-    var sut: SearchMoviesRouter!
-    var navigationControllerSpy: NavigationControllerSpy!
-    var rootViewController: UIViewController!
-    var pushedViewController: UIViewController!
+    private var sut: SearchMoviesRouter!
+    private var navigationControllerSpy: NavigationControllerSpy!
+    private var rootViewController: UIViewController!
+    private var pushedViewController: UIViewController!
     
     override func setUp() {
         super.setUp()

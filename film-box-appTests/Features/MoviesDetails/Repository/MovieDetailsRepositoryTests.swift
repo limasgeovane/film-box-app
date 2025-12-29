@@ -2,9 +2,9 @@ import XCTest
 @testable import film_box_app
 
 final class MovieDetailsRepositoryTests: XCTestCase {
-    let networkSpy = NetworkSpy()
+    private let networkSpy = NetworkSpy()
     
-    var sut: MovieDetailsRepository!
+    private var sut: MovieDetailsRepository!
     
     override func setUp() {
         super.setUp()

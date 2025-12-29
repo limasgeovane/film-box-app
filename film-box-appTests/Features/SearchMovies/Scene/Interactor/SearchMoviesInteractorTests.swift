@@ -2,8 +2,8 @@ import XCTest
 @testable import film_box_app
 
 final class SearchMoviesInteractorTests: XCTestCase {
-    var sut: SearchMoviesInteractor!
-    var repositorySpy: SearchMoviesRepositorySpy!
+    private var sut: SearchMoviesInteractor!
+    private var repositorySpy: SearchMoviesRepositorySpy!
     
     override func setUp() {
         super.setUp()

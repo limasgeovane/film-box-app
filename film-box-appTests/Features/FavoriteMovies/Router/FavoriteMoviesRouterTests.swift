@@ -2,9 +2,9 @@ import XCTest
 @testable import film_box_app
 
 final class FavoriteMoviesRouterTests: XCTestCase {
-    var sut: FavoriteMoviesRouter!
-    var navigationControllerSpy: NavigationControllerSpy!
-    var rootViewController: UIViewController!
+    private var sut: FavoriteMoviesRouter!
+    private var navigationControllerSpy: NavigationControllerSpy!
+    private var rootViewController: UIViewController!
     
     override func setUp() {
         super.setUp()

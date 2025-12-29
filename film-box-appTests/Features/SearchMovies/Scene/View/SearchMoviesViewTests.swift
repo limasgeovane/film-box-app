@@ -12,8 +12,8 @@ final class SearchMoviesViewTests: XCTestCase {
         }
     }
     
-    var sut: SearchMoviesView!
-    var delegateSpy: DelegateSpy!
+    private var sut: SearchMoviesView!
+    private var delegateSpy: DelegateSpy!
     
     override func setUp() {
         super.setUp()

@@ -2,7 +2,7 @@ import XCTest
 @testable import film_box_app
 
 final class MovieDetailsRequestConfigurationTests: XCTestCase {
-    var sut: MovieDetailsRequestConfiguration!
+    private var sut: MovieDetailsRequestConfiguration!
     
     override func setUp() {
         super.setUp()

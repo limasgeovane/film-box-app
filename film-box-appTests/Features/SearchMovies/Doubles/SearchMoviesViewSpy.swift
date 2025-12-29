@@ -5,7 +5,7 @@ final class SearchMoviesViewSpy: UIView, SearchMoviesViewLogic {
     private(set) var delegateSetterCount = 0
     private(set) var delegateGetterCount = 0
     private(set) var invokedDelegate: SearchMoviesViewDelegate?
-    var stubbedDelegate: SearchMoviesViewDelegate?
+    private var stubbedDelegate: SearchMoviesViewDelegate?
     
     var delegate: SearchMoviesViewDelegate? {
         get {

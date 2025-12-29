@@ -5,7 +5,7 @@ final class MoviesViewSpy: UIView, MoviesViewLogic {
     private(set) var delegateSetterCount = 0
     private(set) var delegateGetterCount = 0
     private(set) var invokedDelegate: MoviesViewDelegate?
-    var stubbedDelegate: MoviesViewDelegate?
+    private var stubbedDelegate: MoviesViewDelegate?
     
     var delegate: MoviesViewDelegate? {
         get {
@@ -21,7 +21,7 @@ final class MoviesViewSpy: UIView, MoviesViewLogic {
     private(set) var moviesSetterCount = 0
     private(set) var moviesGetterCount = 0
     private(set) var invokedMovies: [MovieDisplayModel] = []
-    var stubbedMovies: [MovieDisplayModel] = []
+    private var stubbedMovies: [MovieDisplayModel] = []
     var movies: [MovieDisplayModel] {
         get {
             moviesGetterCount += 1

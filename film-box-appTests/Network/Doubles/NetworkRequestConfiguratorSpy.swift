@@ -2,11 +2,11 @@ import Foundation
 @testable import film_box_app
 
 struct NetworkRequestConfiguratorSpy: Equatable {
-    let baseURL: NetworkBaseURL
-    let path: String
-    let method: NetworkMethod
-    let parameters: [String: Any]
-    let headers: [String: String]
+    private let baseURL: NetworkBaseURL
+    private let path: String
+    private let method: NetworkMethod
+    private let parameters: [String: Any]
+    private let headers: [String: String]
     
     init(from configurator: NetworkRequestConfigurator) {
         self.baseURL = configurator.baseURL
